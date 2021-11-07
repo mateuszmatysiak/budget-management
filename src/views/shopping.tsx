@@ -1,9 +1,9 @@
+/** @jsxFrag React.Fragment */
 /** @jsxRuntime classic */
-/** @jsx jsx */
-import { css, jsx } from "@emotion/react";
-import React, { useState, Fragment } from "react";
-import { Route, useRouteMatch } from "react-router-dom";
+import React, { useState } from "react";
+import { Route, Routes, useParams } from "react-router-dom";
 import ItemList from "../components/Layout/ItemList";
+import { Section } from "../components/Layout/Section";
 import { Shopping } from "../components/Shopping/Shopping";
 import { ShoppingListItem } from "../components/Shopping/ShoppingListItem";
 import { ShoppingData } from "../types/shopping";
@@ -22,7 +22,7 @@ const shoppingData: ShoppingData[] = [
 ];
 
 const ShoppingView = () => {
-  const { url, isExact } = useRouteMatch();
+  const params = useParams();
   const [shoppingItems, setShoppingItems] = useState(shoppingData);
 
   const handleSearch = (value: string) =>
@@ -33,33 +33,22 @@ const ShoppingView = () => {
     );
 
   return (
-    <Fragment>
+    <>
       <ItemList itemType="SHOPPING" onSearch={handleSearch}>
-        {shoppingItems.map(({ id, name, date }) => (
-          <ShoppingListItem
-            key={id}
-            to={`${url}/${id}`}
-            name={name}
-            date={date}
-          />
+        {shoppingItems.map((props, index) => (
+          <ShoppingListItem key={index} {...props} />
         ))}
       </ItemList>
 
-      {isExact ? (
-        <section
-          aria-label="Pusta sekcja"
-          css={css`
-            flex: 2 2;
-          `}
+      {!Object.values(params)[0]?.length ? <Section /> : null}
+
+      <Routes>
+        <Route
+          path="/:shoppingId"
+          element={<Shopping shoppingItems={shoppingData} />}
         />
-      ) : (
-        <React.Fragment>
-          <Route path={`${url}/:shoppingId`}>
-            <Shopping shoppingItems={shoppingData} />
-          </Route>
-        </React.Fragment>
-      )}
-    </Fragment>
+      </Routes>
+    </>
   );
 };
 

@@ -1,3 +1,6 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { css, jsx } from "@emotion/react";
 import React from "react";
 import { CloseIcon } from "../../icons/close";
 import { Button } from "../Button/Button";
@@ -26,7 +29,12 @@ function RemoveDialog({ itemType, isOpen, close }: RemoveDialogProps) {
     >
       <StyledDialogHeader>
         <span>Usunięcie {itemType === "PRODUCT" ? "produktu" : "zakupu"}</span>
-        <ButtonIcon onClick={close}>
+        <ButtonIcon
+          css={css`
+            padding: 8px;
+          `}
+          onClick={close}
+        >
           <CloseIcon />
         </ButtonIcon>
       </StyledDialogHeader>

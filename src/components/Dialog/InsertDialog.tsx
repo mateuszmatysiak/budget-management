@@ -29,7 +29,12 @@ function InsertDialog({ isOpen, close, itemType }: InsertDialogProps) {
     >
       <StyledDialogHeader>
         <span>Dodanie {itemType === "PRODUCT" ? "produktu" : "zakupów"}</span>
-        <ButtonIcon onClick={close}>
+        <ButtonIcon
+          css={css`
+            padding: 8px;
+          `}
+          onClick={close}
+        >
           <CloseIcon />
         </ButtonIcon>
       </StyledDialogHeader>

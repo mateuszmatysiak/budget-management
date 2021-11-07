@@ -5,9 +5,11 @@ const ButtonIcon = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: unset;
   border: unset;
+  border-radius: ${({ theme }) => theme.borderRadius.secondary};
+  background-color: unset;
   cursor: pointer;
+  z-index: 1;
 
   &:hover:before {
     content: "";
@@ -16,8 +18,9 @@ const ButtonIcon = styled.button`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
+    border-radius: ${({ theme }) => theme.borderRadius.secondary};
+    background-color: ${({ theme }) => theme.color.iconHover};
+    z-index: -1;
   }
 `;
 

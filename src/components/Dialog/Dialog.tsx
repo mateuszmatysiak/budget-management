@@ -8,32 +8,29 @@ export interface DialogProps {
 }
 
 const StyledDialog = styled(Dialog)`
-  color: #fff;
   width: 500px;
-  border-radius: 15px;
-  background-color: #262626;
-  border: 1px solid rgba(229, 229, 229, 0.15);
   padding: 0;
+  border: ${({ theme }) => `1px solid ${theme.borderColor.secondary}`};
+  border-radius: ${({ theme }) => theme.borderRadius.tertiary};
+  color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.backgroundColor.tertiary};
 `;
 
 const StyledDialogHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  border-bottom: 1px solid rgba(229, 229, 229, 0.15);
+  padding: 12px 16px;
+  border-bottom: ${({ theme }) => `1px solid ${theme.borderColor.secondary}`};
   font-size: 14px;
 `;
 
 const StyledDialogContent = styled.div`
   padding: 16px;
-
-  > p {
-    color: rgba(212, 212, 212, 1);
-    letter-spacing: 0.5px;
-    font-size: 14px;
-    line-height: 1.75;
-  }
+  color: ${({ theme }) => theme.color.tertiary};
+  letter-spacing: 0.5px;
+  font-size: 14px;
+  line-height: 1.75;
 `;
 
 const StyledDialogFooter = styled.footer`

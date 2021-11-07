@@ -8,7 +8,7 @@ const NavLink = styled(ReactRouterNavLink)`
   padding: 8px;
   border-radius: 5px;
   margin-bottom: 4px;
-  color: #e5e5e5;
+  color: ${({ theme }) => theme.color.primary};
   text-decoration: none;
   transition: background-color 0.25s;
   letter-spacing: 0.3px;
@@ -18,11 +18,11 @@ const NavLink = styled(ReactRouterNavLink)`
   }
 
   &:hover {
-    background-color: rgba(64, 64, 64, 1);
+    background-color: ${({ theme }) => theme.backgroundColor.linkHover};
   }
 
   &.active {
-    background-color: rgba(64, 64, 64, 1);
+    background-color: ${({ theme }) => theme.backgroundColor.linkHover};
   }
 `;
 

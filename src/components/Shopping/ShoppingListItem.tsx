@@ -4,15 +4,15 @@ import { css, jsx } from "@emotion/react";
 import { NavLink } from "../Link/NavLink";
 
 interface ShoppingListItemProps {
+  id: string;
   name: string;
   date: string;
-  to: string;
 }
 
-const ShoppingListItem = ({ name, date, to }: ShoppingListItemProps) => {
+const ShoppingListItem = ({ name, date, id }: ShoppingListItemProps) => {
   return (
     <li>
-      <NavLink to={to}>
+      <NavLink to={`/zakupy/${id}`}>
         <div
           css={css`
             display: flex;
@@ -24,6 +24,9 @@ const ShoppingListItem = ({ name, date, to }: ShoppingListItemProps) => {
             css={css`
               line-height: 1.5;
               margin-bottom: 8px;
+              color: #e5e5e5;
+              letter-spacing: 0.3px;
+              font-size: 14px;
             `}
           >
             {name}
@@ -31,6 +34,8 @@ const ShoppingListItem = ({ name, date, to }: ShoppingListItemProps) => {
           <span
             css={css`
               color: rgba(255, 255, 255, 0.4);
+              font-weight: 300;
+              font-size: 14px;
             `}
           >
             {date}

@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 import React from "react";
 import { useParams } from "react-router-dom";
 import { FormIcon } from "../../icons/form";
@@ -12,7 +13,7 @@ interface ShoppingProps {
 }
 
 const Shopping = ({ shoppingItems }: ShoppingProps) => {
-  const { shoppingId } = useParams<{ shoppingId?: string }>();
+  const { shoppingId } = useParams();
   const shoppingItem = shoppingItems.find((item) => item.id === shoppingId);
 
   return (

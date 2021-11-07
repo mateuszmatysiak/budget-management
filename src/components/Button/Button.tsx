@@ -5,25 +5,25 @@ interface ButtonProps {
 }
 
 const Button = styled.button<ButtonProps>`
+  width: ${({ fullWidth }) => (fullWidth ? "100%" : "unset")};
   padding: 12px;
   border: 0;
-  border-radius: 5px;
-  background-color: #3c81f6;
-  color: #fff;
-  cursor: pointer;
+  border-radius: ${({ theme }) => theme.borderRadius.primary};
+  background-color: ${({ theme }) => theme.color.secondary};
+  color: ${({ theme }) => theme.color.white};
   transition: background-color 0.5s;
-  width: ${({ fullWidth }) => (fullWidth ? "100%" : "unset")};
+  cursor: pointer;
 
   &:hover {
-    background-color: #244ee7;
+    background-color: ${({ theme }) => theme.color.secondaryHover};
   }
 
   & > a {
     display: block;
-    color: #fff;
-    text-decoration: none;
     height: 100%;
     padding: 8px;
+    color: ${({ theme }) => theme.color.white};
+    text-decoration: none;
   }
 `;
 

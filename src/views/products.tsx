@@ -1,9 +1,9 @@
+/** @jsxFrag React.Fragment */
 /** @jsxRuntime classic */
-/** @jsx jsx */
-import { css, jsx } from "@emotion/react";
-import React, { useState, Fragment } from "react";
-import { Route, useRouteMatch } from "react-router-dom";
+import React, { useState } from "react";
+import { Route, Routes, useParams } from "react-router-dom";
 import ItemList from "../components/Layout/ItemList";
+import { Section } from "../components/Layout/Section";
 import { Product } from "../components/Products/Product";
 import { ProductListItem } from "../components/Products/ProductListItem";
 import { FoodIcon } from "../icons/food";
@@ -25,7 +25,7 @@ export const productData: ProductData[] = [
 ];
 
 const ProductsView = () => {
-  const { url, isExact } = useRouteMatch();
+  const params = useParams();
   const [products, setProducts] = useState(productData);
 
   const handleSearch = (value: string) =>
@@ -36,34 +36,22 @@ const ProductsView = () => {
     );
 
   return (
-    <Fragment>
+    <>
       <ItemList itemType="PRODUCT" onSearch={handleSearch}>
-        {products.map(({ id, name, cost }) => (
-          <ProductListItem
-            key={id}
-            to={`${url}/${id}`}
-            icon={<FoodIcon />}
-            name={name}
-            cost={cost}
-          />
+        {products.map((props, index) => (
+          <ProductListItem key={index} icon={<FoodIcon />} {...props} />
         ))}
       </ItemList>
 
-      {isExact ? (
-        <section
-          aria-label="Pusta sekcja"
-          css={css`
-            flex: 2 2;
-          `}
+      {!Object.values(params)[0]?.length ? <Section /> : null}
+
+      <Routes>
+        <Route
+          path="/:productId"
+          element={<Product products={productData} />}
         />
-      ) : (
-        <React.Fragment>
-          <Route path={`${url}/:productId`}>
-            <Product products={productData} />
-          </Route>
-        </React.Fragment>
-      )}
-    </Fragment>
+      </Routes>
+    </>
   );
 };
 

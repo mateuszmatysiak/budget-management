@@ -64,7 +64,6 @@ const ItemListHeader = ({ itemType, onSearch }: ItemListProps) => {
           css={css`
             width: 40px;
             height: 40px;
-            border-radius: 10px;
 
             & > svg {
               width: 20px;

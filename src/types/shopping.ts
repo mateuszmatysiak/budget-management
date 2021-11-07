@@ -1,5 +1,5 @@
 export interface ShoppingData {
-  id?: string;
+  id: string;
   name: string;
   date: string;
 }

@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 import React from "react";
 import { useParams } from "react-router-dom";
 import { FormIcon } from "../../icons/form";
@@ -14,7 +15,7 @@ interface ProductProps {
 }
 
 const Product = ({ products }: ProductProps) => {
-  const { productId } = useParams<{ productId?: string }>();
+  const { productId } = useParams();
   const product = products.find((item) => item.id === productId);
 
   return (

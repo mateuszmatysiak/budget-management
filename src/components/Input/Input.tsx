@@ -12,22 +12,27 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   icon?: ReactNode;
 }
 
-const inputStyles = {
-  width: "100%",
-  color: "#e5e5e5",
-  backgroundColor: "#232323",
-  border: "1px solid rgba(229, 229, 229, 0.2)",
-  borderRadius: "5px",
-  padding: "16px 42px",
-  fontSize: "16px",
-};
+const inputStyles = `
+  width: 100%;
+  border: 1px solid rgba(229, 229, 229, 0.2);
+  border-radius: 5px;
+  padding: 16px 42px;
+  background-color: #232323;
+  color: #e5e5e5;
+  outline: none;
+
+  &:focus,
+  &:hover {
+    box-shadow: 0 0 0 2px #3c81f6;
+  }
+`;
 
 const searchInputStyles = {
-  borderRadius: 0,
+  padding: "16px 16px 16px 42px",
   border: 0,
+  borderRadius: 0,
   backgroundColor: "#171717",
   fontSize: "14px",
-  padding: "16px 16px 16px 42px",
 };
 
 const selectArrowStyles = `
@@ -52,26 +57,27 @@ const StyledLabel = styled.label`
     top: 50%;
     transform: translateY(-50%);
     margin-left: 8px;
-    fill: rgba(229, 229, 229, 0.5);
+    fill: ${({ theme }) => theme.color.search};
   }
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<InputProps>`
   ${inputStyles}
   ${({ type }) => (type === "search" ? searchInputStyles : {})};
+  ${({ icon }) => (!icon ? { padding: "16px" } : {})};
 `;
 
-const StyledSelect = styled.select`
+const StyledSelect = styled.select<SelectProps>`
   ${inputStyles}
   ${selectArrowStyles}
 `;
 
-const StyledCheckbox = styled.input`
+const StyledCheckbox = styled.input<InputProps>`
   position: relative;
   -webkit-appearance: none;
   width: 20px;
   height: 20px;
-  border: 1px solid rgba(229, 229, 229, 0.2);
+  border: ${({ theme }) => `1px solid ${theme.borderColor.tertiary}`};
   border-radius: 1px;
   vertical-align: sub;
   outline: none;
@@ -79,12 +85,12 @@ const StyledCheckbox = styled.input`
 
   &:focus,
   &:hover {
-    box-shadow: 0 0 0 2px rgba(229, 229, 229, 0.5);
+    box-shadow: ${({ theme }) => `0 0 0 2px ${theme.color.secondary}`};
   }
 
   &:checked {
-    background-color: #171717;
-    border-color: rgba(229, 229, 229, 0.5);
+    background-color: ${({ theme }) => theme.backgroundColor.secondary};
+    border-color: ${({ theme }) => theme.borderColor.tertiary};
 
     &:after {
       content: "";
@@ -101,11 +107,11 @@ const StyledCheckbox = styled.input`
   }
 `;
 
-const Input = ({ icon, ...inputProps }: InputProps) => {
+const Input = (inputProps: InputProps) => {
   return (
     <StyledLabel htmlFor={inputProps.id}>
-      {icon}
-      <StyledInput {...inputProps} />
+      {inputProps.icon}
+      <StyledInput type="text" {...inputProps} />
     </StyledLabel>
   );
 };

@@ -63,7 +63,6 @@ const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
         css={css`
           width: 40px;
           height: 40px;
-          border-radius: 10px;
         `}
       >
         <DeleteIcon />
