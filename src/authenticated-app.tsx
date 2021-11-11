@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { Navigation } from "./components/Layout/Navigation";
-import { NotFoundScreen } from "./components/Layout/NotFoundScreen";
+import { Sidebar } from "./components/Sidebar";
 import CalendarView from "./views/calendar";
+import NotFoundView from "./views/not-found";
 import ProductsView from "./views/products";
 import ShoppingView from "./views/shopping";
 import StatisticsView from "./views/statistics";
@@ -25,7 +25,7 @@ const Content = styled.section`
 function AuthenticatedApp() {
   return (
     <StyledMain>
-      <Navigation />
+      <Sidebar />
 
       <Content>
         <Routes>
@@ -33,7 +33,7 @@ function AuthenticatedApp() {
           <Route path="statystyki" element={<StatisticsView />} />
           <Route path="zakupy/*" element={<ShoppingView />} />
           <Route path="produkty/*" element={<ProductsView />} />
-          <Route path="*" element={<NotFoundScreen />} />
+          <Route path="*" element={<NotFoundView />} />
         </Routes>
       </Content>
     </StyledMain>

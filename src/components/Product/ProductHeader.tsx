@@ -3,10 +3,10 @@
 import { css, jsx } from "@emotion/react";
 import { useDialogHandler } from "../../hooks/useDialogHandler";
 import { DeleteIcon } from "../../icons/delete";
-import { FoodIcon } from "../../icons/food";
 import { ProductData } from "../../types/product";
 import { ButtonIcon } from "../Button/ButtonIcon";
 import { RemoveDialog } from "../Dialog/RemoveDialog";
+import { getProductColor, getProductIcon } from "./utils";
 
 interface ProductHeaderProps {
   product?: ProductData;
@@ -34,7 +34,7 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
+            background-image: ${getProductColor(product?.category)};
             padding: 16px;
             border-radius: 12px;
             margin-right: 32px;
@@ -47,7 +47,7 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
             }
           `}
         >
-          <FoodIcon />
+          {getProductIcon(product?.category)}
         </div>
         <div
           css={css`
@@ -73,7 +73,7 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
               font-weight: 300;
             `}
           >
-            {product?.cost} zł
+            {product?.price} zł
           </span>
         </div>
       </div>

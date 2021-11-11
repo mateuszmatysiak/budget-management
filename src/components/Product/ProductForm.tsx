@@ -1,34 +1,36 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { CategoryIcon } from "../../icons/category";
-import { CostIcon } from "../../icons/cost";
+import { PriceIcon } from "../../icons/price";
 import { TitleIcon } from "../../icons/title";
 import { ProductCategoryType, ProductData } from "../../types/product";
 import { Button } from "../Button/Button";
-import { Input, Select } from "../Input/Input";
+import { Input, Select } from "../Input";
 
-interface StyledProductFormProps {
-  noPadding?: boolean;
-}
-
-interface ProductFormProps extends StyledProductFormProps {
+interface ProductFormProps {
   product?: ProductData;
+  noPadding?: boolean;
+  formType?: string;
 }
 
 const DEFAULT_PRODUCT = {
   name: "",
-  cost: "",
+  price: "",
   category: "ECONOMIC",
 };
 
-const StyledProductForm = styled.form<StyledProductFormProps>`
+const StyledProductForm = styled.form<ProductFormProps>`
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
   padding: ${({ noPadding }) => (noPadding ? 0 : "32px 112px")};
 `;
 
-const ProductForm = ({ product, noPadding }: ProductFormProps) => {
+const ProductForm = ({
+  product,
+  noPadding,
+  formType = "ADD",
+}: ProductFormProps) => {
   const [data, setData] = React.useState(product ?? DEFAULT_PRODUCT);
 
   React.useEffect(() => {
@@ -36,10 +38,10 @@ const ProductForm = ({ product, noPadding }: ProductFormProps) => {
   }, [product]);
 
   return (
-    <StyledProductForm noPadding={noPadding}>
+    <StyledProductForm noPadding={noPadding} aria-label="Formularz produktu">
       <Select
-        id="category"
-        name="category"
+        id={`${formType}-category`}
+        name={`${formType}-category`}
         placeholder="Kategoria produktu"
         value={data?.category}
         onChange={(event) => {
@@ -55,8 +57,8 @@ const ProductForm = ({ product, noPadding }: ProductFormProps) => {
       </Select>
 
       <Input
-        id="name"
-        name="name"
+        id={`${formType}-name`}
+        name={`${formType}-name`}
         placeholder="Nazwa produktu"
         value={data?.name}
         onChange={(event) => setData({ ...data, name: event.target.value })}
@@ -66,12 +68,12 @@ const ProductForm = ({ product, noPadding }: ProductFormProps) => {
 
       <Input
         type="number"
-        id="cost"
-        name="cost"
+        id={`${formType}-price`}
+        name={`${formType}-price`}
         placeholder="Cena produktu"
-        value={data?.cost}
-        onChange={(event) => setData({ ...data, cost: event.target.value })}
-        icon={<CostIcon />}
+        value={data?.price}
+        onChange={(event) => setData({ ...data, price: event.target.value })}
+        icon={<PriceIcon />}
         required
       />
 

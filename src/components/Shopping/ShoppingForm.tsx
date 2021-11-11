@@ -3,21 +3,18 @@
 import { css, jsx } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { FoodIcon } from "../../icons/food";
 import { SearchIcon } from "../../icons/search";
 import { TitleIcon } from "../../icons/title";
 import { ShoppingData } from "../../types/shopping";
 import { productData } from "../../views/products";
 import { Button } from "../Button/Button";
-import { Input } from "../Input/Input";
-import { ProductCheckboxItem } from "../Products/ProductListItem";
+import { Input } from "../Input";
+import { ProductCheckboxItem } from "../Product/ProductListItem";
 
-interface StyledShoppingFormProps {
-  noPadding?: boolean;
-}
-
-interface ShoppingFormProps extends StyledShoppingFormProps {
+interface ShoppingFormProps {
   shoppingItem?: ShoppingData;
+  noPadding?: boolean;
+  formType?: string;
 }
 
 const DEFAULT_SHOPPING_ITEM = {
@@ -25,14 +22,18 @@ const DEFAULT_SHOPPING_ITEM = {
   date: new Date().toLocaleString(),
 };
 
-const StyledShoppingForm = styled.form<StyledShoppingFormProps>`
+const StyledShoppingForm = styled.form<ShoppingFormProps>`
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
   padding: ${({ noPadding }) => (noPadding ? 0 : "32px 112px")};
 `;
 
-const ShoppingForm = ({ shoppingItem, noPadding }: ShoppingFormProps) => {
+const ShoppingForm = ({
+  shoppingItem,
+  noPadding,
+  formType = "ADD",
+}: ShoppingFormProps) => {
   const [data, setData] = useState(shoppingItem ?? DEFAULT_SHOPPING_ITEM);
   const [products, setProducts] = useState(productData);
 
@@ -50,8 +51,8 @@ const ShoppingForm = ({ shoppingItem, noPadding }: ShoppingFormProps) => {
   return (
     <StyledShoppingForm noPadding={noPadding}>
       <Input
-        id="name"
-        name="name"
+        id={`${formType}-name`}
+        name={`${formType}-name`}
         placeholder="Nazwa zakupów"
         value={data?.name}
         onChange={(event) => setData({ ...data, name: event.target.value })}
@@ -97,13 +98,8 @@ const ShoppingForm = ({ shoppingItem, noPadding }: ShoppingFormProps) => {
           `}
         >
           {products.length ? (
-            products.map(({ id, name, cost }) => (
-              <ProductCheckboxItem
-                key={id}
-                icon={<FoodIcon />}
-                name={name}
-                cost={cost}
-              />
+            products.map((props, index) => (
+              <ProductCheckboxItem key={index} {...props} />
             ))
           ) : (
             <p

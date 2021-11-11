@@ -29,4 +29,28 @@ export const handlers = [
       })
     );
   }),
+  rest.get("/products", (req, res, ctx) => {
+    return res(
+      ctx.json([
+        {
+          id: "1",
+          name: "Kotlet schabowy",
+          price: "15.21",
+          category: "ECONOMIC",
+        },
+        {
+          id: "2",
+          name: "Telewizor",
+          price: "4999.99",
+          category: "ELECTRONIC",
+        },
+        {
+          id: "3",
+          name: "Płyn do mycia naczyń",
+          price: "9.99",
+          category: "HOMEMADE",
+        },
+      ])
+    );
+  }),
 ];

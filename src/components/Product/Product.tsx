@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom";
 import { FormIcon } from "../../icons/form";
 import { HistoryIcon } from "../../icons/history";
 import { ProductData } from "../../types/product";
-import { Divider } from "../Layout/Divider";
-import { Section } from "../Layout/Section";
+import { Divider } from "../Divider";
+import { Section } from "../Section";
 import { ProductForm } from "./ProductForm";
 import { ProductHeader } from "./ProductHeader";
 import { ProductHistory } from "./ProductHistory";
@@ -16,7 +16,7 @@ interface ProductProps {
 
 const Product = ({ products }: ProductProps) => {
   const { productId } = useParams();
-  const product = products.find((item) => item.id === productId);
+  const product = products.find((item) => item.id === Number(productId));
 
   return (
     <Section aria-label="Sekcja wybranego produktu">
@@ -24,7 +24,7 @@ const Product = ({ products }: ProductProps) => {
 
       <Divider icon={<FormIcon />} />
 
-      <ProductForm product={product} />
+      <ProductForm formType="EDIT" product={product} />
 
       <Divider icon={<HistoryIcon />} />
 

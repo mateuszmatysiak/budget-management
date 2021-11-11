@@ -1,5 +1,3 @@
-import * as authClient from "../utils/auth-client";
-
 const localStorageKey = "__budgetApp_token__";
 
 async function client(
@@ -26,7 +24,7 @@ async function client(
     .fetch(`${process.env.REACT_APP_API_URL}/${endpoint}`, config)
     .then(async (r) => {
       if (r.status === 401) {
-        await authClient.logout();
+        // logout
 
         window.location.assign("/");
         return Promise.reject({

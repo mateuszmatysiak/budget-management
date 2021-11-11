@@ -1,11 +1,11 @@
 import React from "react";
 import { IconProps } from "../types/icon";
 
-const CostIcon = ({
+const PriceIcon = ({
   width = "24px",
   height = "24px",
   fill = "#fff",
-  ariaLabelledyBy = "Cost icon",
+  ariaLabelledyBy = "Price icon",
 }: IconProps) => {
   return (
     <svg
@@ -21,4 +21,4 @@ const CostIcon = ({
   );
 };
 
-export { CostIcon };
+export { PriceIcon };

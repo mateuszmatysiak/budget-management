@@ -1,8 +1,8 @@
 export type ProductCategoryType = "ECONOMIC" | "ELECTRONIC" | "HOMEMADE";
 
 export interface ProductData {
-  id: string;
+  id: number;
   name: string;
-  cost: string;
+  price: string;
   category: ProductCategoryType;
 }

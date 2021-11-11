@@ -2,8 +2,8 @@
 /** @jsxRuntime classic */
 import React, { useState } from "react";
 import { Route, Routes, useParams } from "react-router-dom";
-import ItemList from "../components/Layout/ItemList";
-import { Section } from "../components/Layout/Section";
+import ItemList from "../components/ItemList";
+import { Section } from "../components/Section";
 import { Shopping } from "../components/Shopping/Shopping";
 import { ShoppingListItem } from "../components/Shopping/ShoppingListItem";
 import { ShoppingData } from "../types/shopping";

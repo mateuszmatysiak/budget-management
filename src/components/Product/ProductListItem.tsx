@@ -2,32 +2,24 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
-import React, { ReactNode } from "react";
-import { Checkbox } from "../Input/Input";
-import { NavLink } from "../Link/NavLink";
+import React from "react";
+import { ProductData } from "../../types/product";
+import { Checkbox } from "../Input";
+import { NavLink } from "../NavLink";
+import { getProductColor, getProductIcon } from "./utils";
 
-interface ProductItemProps {
-  icon: ReactNode;
-  name: string;
-  cost: string;
-}
-
-interface ProductListItemProps extends ProductItemProps {
-  id: string;
-}
-
-const ProductItem = ({ icon, name, cost }: ProductItemProps) => {
+const ProductItem = ({ category, name, price }: ProductData) => {
   return (
     <>
       <div
         css={css`
-          background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
+          background-image: ${getProductColor(category)};
           padding: 10px;
           border-radius: 12px;
           margin-right: 8px;
         `}
       >
-        {icon}
+        {getProductIcon(category)}
       </div>
       <div
         css={css`
@@ -53,14 +45,14 @@ const ProductItem = ({ icon, name, cost }: ProductItemProps) => {
             font-size: 14px;
           `}
         >
-          {cost} zł
+          {price} zł
         </span>
       </div>
     </>
   );
 };
 
-const ProductCheckboxItem = (props: ProductItemProps) => {
+const ProductCheckboxItem = (props: ProductData) => {
   return (
     <div
       css={css`
@@ -83,7 +75,7 @@ const ProductCheckboxItem = (props: ProductItemProps) => {
   );
 };
 
-const ProductListItem = (props: ProductListItemProps) => {
+const ProductListItem = (props: ProductData) => {
   return (
     <li>
       <NavLink to={`/produkty/${props.id}`}>

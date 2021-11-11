@@ -3,8 +3,8 @@
 import { css, jsx } from "@emotion/react";
 import { CloseIcon } from "../../icons/close";
 import { ButtonIcon } from "../Button/ButtonIcon";
-import { ItemType } from "../Layout/ItemList";
-import { ProductForm } from "../Products/ProductForm";
+import { ItemType } from "../ItemList";
+import { ProductForm } from "../Product/ProductForm";
 import { ShoppingForm } from "../Shopping/ShoppingForm";
 import {
   DialogProps,

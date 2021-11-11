@@ -27,7 +27,7 @@ const StyledTextSecondary = styled.span`
   font-weight: 300;
 `;
 
-const NotFoundScreen = () => {
+const NotFoundView = () => {
   return (
     <StyledWrapper>
       <StyledTextPrimary>404</StyledTextPrimary>
@@ -36,4 +36,4 @@ const NotFoundScreen = () => {
   );
 };
 
-export { NotFoundScreen };
+export default NotFoundView;

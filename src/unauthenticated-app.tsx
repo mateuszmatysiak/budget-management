@@ -1,11 +1,9 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from "@emotion/react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useState } from "react";
 import { Button } from "./components/Button/Button";
-import { Input } from "./components/Input/Input";
-import { useAuth } from "./context/auth-provider";
 
 const StyledMain = styled.main`
   height: 100vh;
@@ -18,8 +16,8 @@ const StyledMain = styled.main`
   color: ${({ theme }) => theme.color.tertiary};
 `;
 
-const StyledForm = styled.form`
-  width: 400px;
+const StyledWrapper = styled.div`
+  width: 450px;
   border: ${({ theme }) => `1px solid ${theme.borderColor.primary}`};
   background-color: ${({ theme }) => theme.backgroundColor.secondary};
   border-radius: ${({ theme }) => theme.borderRadius.primary};
@@ -44,82 +42,19 @@ const StyledContent = styled.div`
   line-height: 1.75;
 `;
 
-const StyledSubTextWrapper = styled.div`
-  text-align: right;
-  margin-bottom: 16px;
-`;
-
-const StyledSubTextButton = styled.button`
-  font-size: 12px;
-  border: unset;
-  background-color: unset;
-  color: ${({ theme }) => theme.color.tertiary};
-  cursor: pointer;
-  border-radius: ${({ theme }) => theme.borderRadius.primary};
-
-  &:hover {
-    color: ${({ theme }) => theme.color.secondary};
-  }
-`;
-
 const UnauthenticatedApp = () => {
-  const [state, setState] = useState("login");
-  const { login, register } = useAuth();
-
-  const handleSubmit = (event: React.SyntheticEvent) => {
-    event.preventDefault();
-
-    const target = event.target as typeof event.target & {
-      username: { value: string };
-      password: { value: string };
-    };
-
-    const func = state === "login" ? login : register;
-
-    func?.({
-      username: target.username.value,
-      password: target.password.value,
-    });
-  };
+  const { loginWithRedirect } = useAuth0();
 
   return (
     <StyledMain>
-      <StyledForm onSubmit={handleSubmit}>
-        <StyledHeader>
-          {state === "login" ? "Logowanie" : "Rejestracja"}
-        </StyledHeader>
+      <StyledWrapper>
+        <StyledHeader>Aplikacja do zarządzania budżetem domowym</StyledHeader>
         <StyledContent>
-          <Input
-            name="username"
-            placeholder="Nazwa użytkownika"
-            required
-            autoFocus
-            css={css`
-              margin-bottom: 16px;
-            `}
-          />
-          <Input
-            name="password"
-            type="password"
-            placeholder="Hasło użytkownika"
-            required
-            css={css`
-              margin-bottom: 4px;
-            `}
-          />
-          <StyledSubTextWrapper>
-            <StyledSubTextButton
-              type="button"
-              onClick={() => setState(state === "login" ? "register" : "login")}
-            >
-              {state === "login" ? "Utwórz konto" : "Zaloguj się"}
-            </StyledSubTextButton>
-          </StyledSubTextWrapper>
-          <Button type="submit">
-            {state === "login" ? "Zaloguj się" : "Zarejestruj się"}
+          <Button onClick={() => loginWithRedirect()}>
+            Przejdź do panelu logowania
           </Button>
         </StyledContent>
-      </StyledForm>
+      </StyledWrapper>
     </StyledMain>
   );
 };

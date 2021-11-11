@@ -3,8 +3,8 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { FormIcon } from "../../icons/form";
 import { ShoppingData } from "../../types/shopping";
-import { Divider } from "../Layout/Divider";
-import { Section } from "../Layout/Section";
+import { Divider } from "../Divider";
+import { Section } from "../Section";
 import { ShoppingForm } from "./ShoppingForm";
 import { ShoppingHeader } from "./ShoppingHeader";
 
@@ -22,7 +22,7 @@ const Shopping = ({ shoppingItems }: ShoppingProps) => {
 
       <Divider icon={<FormIcon />} />
 
-      <ShoppingForm shoppingItem={shoppingItem} />
+      <ShoppingForm formType="EDIT" shoppingItem={shoppingItem} />
     </Section>
   );
 };

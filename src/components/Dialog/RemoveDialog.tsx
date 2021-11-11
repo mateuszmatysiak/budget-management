@@ -5,7 +5,7 @@ import React from "react";
 import { CloseIcon } from "../../icons/close";
 import { Button } from "../Button/Button";
 import { ButtonIcon } from "../Button/ButtonIcon";
-import { ItemType } from "../Layout/ItemList";
+import { ItemType } from "../ItemList";
 import {
   DialogProps,
   StyledDialog,

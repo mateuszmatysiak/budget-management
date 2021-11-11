@@ -1,7 +1,11 @@
 import styled from "@emotion/styled";
 import { NavLink as ReactRouterNavLink } from "react-router-dom";
 
-const NavLink = styled(ReactRouterNavLink)`
+interface NavLinkProps {
+  withoutHighliting?: boolean;
+}
+
+const NavLink = styled(ReactRouterNavLink)<NavLinkProps>`
   position: relative;
   display: flex;
   align-items: center;
@@ -22,7 +26,8 @@ const NavLink = styled(ReactRouterNavLink)`
   }
 
   &.active {
-    background-color: ${({ theme }) => theme.backgroundColor.linkHover};
+    background-color: ${({ theme, withoutHighliting }) =>
+      !withoutHighliting ? theme.backgroundColor.linkHover : ""};
   }
 `;
 

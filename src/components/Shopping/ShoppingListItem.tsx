@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
-import { NavLink } from "../Link/NavLink";
+import { NavLink } from "../NavLink";
 
 interface ShoppingListItemProps {
   id: string;
