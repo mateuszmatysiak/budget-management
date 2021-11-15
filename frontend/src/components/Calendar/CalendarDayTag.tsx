@@ -10,7 +10,7 @@ const StyledDayTag = styled.div`
   margin-top: 16px;
   padding: 8px;
   border: ${({ theme }) => `1px solid ${theme.borderColor.secondary}`};
-  border-radius: ${({ theme }) => theme.borderRadius.secondary};
+  border-radius: ${({ theme }) => theme.borderRadius.primary};
   background-color: ${({ theme }) => theme.backgroundColor.quatenary};
 
   > div {

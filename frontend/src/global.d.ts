@@ -16,9 +16,7 @@ declare module "@emotion/react" {
       tertiary: "#d4d4d4";
       search: "rgba(229, 229, 229, 0.85)";
       white: "#fff";
-
       secondaryHover: "#244ee7";
-      iconHover: "rgba(64, 64, 64, 0.5)";
     };
     borderRadius: {
       primary: "5px";

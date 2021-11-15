@@ -27,4 +27,19 @@ const Button = styled.button<ButtonProps>`
   }
 `;
 
-export { Button };
+const UserButton = styled.button`
+  width: 100%;
+  padding: 8px;
+  background-color: unset;
+  border: none;
+  border-radius: ${({ theme }) => theme.borderRadius.primary};
+  color: ${({ theme }) => theme.color.white};
+  cursor: pointer;
+  text-align: left;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.backgroundColor.linkHover};
+  }
+`;
+
+export { Button, UserButton };

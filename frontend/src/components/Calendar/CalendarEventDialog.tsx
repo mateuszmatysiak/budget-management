@@ -51,13 +51,7 @@ const CalendarEventDialog = (props: CalendarEventDialogProps) => {
     >
       <DialogHeader>
         <StyledDialogHeaderWrapper>
-          <span
-            css={css`
-              font-size: 18px;
-            `}
-          >
-            Zbiór list zakupowych
-          </span>
+          <span>Zbiór list zakupowych</span>
           <span
             css={css`
               font-size: 14px;

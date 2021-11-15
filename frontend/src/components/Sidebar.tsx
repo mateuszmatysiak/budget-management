@@ -1,11 +1,15 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { useAuth0 } from "@auth0/auth0-react";
-import { jsx } from "@emotion/react";
+import { css, jsx } from "@emotion/react";
 import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
+import { useDialogHandler } from "../hooks/useDialogHandler";
+import { CloseIcon } from "../icons/close";
 import { LogoutIcon } from "../icons/logout";
+import { UserButton } from "./Button";
 import { ButtonIcon } from "./ButtonIcon";
+import { Dialog, DialogContent, DialogHeader } from "./Dialog";
 import { Navigation } from "./Navigation";
 
 const StyledSidebar = styled.div`
@@ -31,14 +35,14 @@ const StyledAppTitle = styled.div`
     letter-spacing: 0.3px;
     text-decoration: none;
     padding: 12px;
-    border-radius: ${({ theme }) => theme.borderRadius.secondary};
+    border-radius: ${({ theme }) => theme.borderRadius.primary};
     width: 100%;
   }
 `;
 
 const StyledUserPanel = styled.div`
-  position: relative;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   border-top: ${({ theme }) => `1px solid ${theme.borderColor.primary}`};
   height: 50px;
@@ -47,18 +51,21 @@ const StyledUserPanel = styled.div`
   font-weight: 300;
   letter-spacing: 0.3px;
   padding: 0 22px;
+`;
 
-  > button {
-    position: absolute;
-    top: 50%;
-    right: 5%;
-    transform: translateY(-50%);
-    padding: 8px;
+const StyledDialogContentWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  :not(:last-of-type) {
+    border-bottom: ${({ theme }) => `1px solid ${theme.borderColor.secondary}`};
   }
 `;
 
 const Sidebar = () => {
   const { logout, user } = useAuth0();
+
+  const { isOpen, close, open } = useDialogHandler();
 
   return (
     <StyledSidebar>
@@ -69,8 +76,48 @@ const Sidebar = () => {
       <Navigation />
 
       <StyledUserPanel>
-        <span>{user?.nickname ?? ""}</span>
+        <UserButton onClick={open}>{user?.nickname}</UserButton>
+        <Dialog
+          ariaLabel="Dialog przedstawiający informacje o zalogowanym użytkowniku"
+          isOpen={isOpen}
+          onDismiss={close}
+        >
+          <DialogHeader>
+            <span>Moje konto</span>
+            <ButtonIcon
+              onClick={close}
+              css={css`
+                padding: 8px;
+              `}
+            >
+              <CloseIcon />
+            </ButtonIcon>
+          </DialogHeader>
+          <DialogContent>
+            <StyledDialogContentWrapper>
+              <span>Nazwa</span>
+              <span>{user?.nickname}</span>
+            </StyledDialogContentWrapper>
+            <StyledDialogContentWrapper>
+              <span>E-mail</span>
+              <span>{user?.email}</span>
+            </StyledDialogContentWrapper>
+            <StyledDialogContentWrapper>
+              <span>Data utworzenia</span>
+              <span>
+                {user?.updated_at
+                  ? new Date(user?.updated_at).toLocaleString()
+                  : "-"}
+              </span>
+            </StyledDialogContentWrapper>
+          </DialogContent>
+        </Dialog>
+
         <ButtonIcon
+          css={css`
+            padding: 8px;
+            margin-left: 16px;
+          `}
           onClick={() =>
             logout({
               returnTo: window.location.origin,
