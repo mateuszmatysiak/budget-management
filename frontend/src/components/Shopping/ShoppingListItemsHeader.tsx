@@ -11,11 +11,7 @@ import { SearchIcon } from "../../icons/search";
 import { IShopping } from "../../types/shopping";
 import { client } from "../../utils/api-client";
 import { ButtonIcon } from "../ButtonIcon";
-import {
-  StyledDialog,
-  StyledDialogContent,
-  StyledDialogHeader,
-} from "../Dialog";
+import { Dialog, DialogContent, DialogHeader } from "../Dialog";
 import { Input } from "../Input";
 import { ShoppingForm } from "./ShoppingForm";
 import { formatShoppingData } from "./utils";
@@ -50,6 +46,7 @@ const ShoppingListItemsHeader = ({
         background-color: rgba(23, 23, 23, 0.85);
         box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px;
         backdrop-filter: saturate(180%) blur(20px);
+        z-index: 1;
       `}
     >
       <Input
@@ -94,15 +91,13 @@ const ShoppingListItemsHeader = ({
           <AddIcon />
         </ButtonIcon>
 
-        <StyledDialog
-          aria-label="Dialog pozwalający na dodanie listy zakupowej"
+        <Dialog
+          ariaLabel="Dialog pozwalający na dodanie listy zakupowej"
           isOpen={isOpen}
           onDismiss={close}
-          css={css`
-            width: 800px;
-          `}
+          width="800px"
         >
-          <StyledDialogHeader>
+          <DialogHeader>
             <span>Dodanie listy zakupowej</span>
             <ButtonIcon
               css={css`
@@ -112,11 +107,11 @@ const ShoppingListItemsHeader = ({
             >
               <CloseIcon />
             </ButtonIcon>
-          </StyledDialogHeader>
-          <StyledDialogContent>
+          </DialogHeader>
+          <DialogContent>
             <ShoppingForm noPadding onSubmit={createShoppingItem} />
-          </StyledDialogContent>
-        </StyledDialog>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

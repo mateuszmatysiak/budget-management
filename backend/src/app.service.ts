@@ -7,13 +7,13 @@ export class AppService {
 
   async getLastItems() {
     const lastProductsPromise = this.prisma.product.findMany({
-      take: 3,
+      take: 5,
       orderBy: {
         createdAt: "desc",
       },
     });
     const lastShoppingItemsPromise = this.prisma.shopping.findMany({
-      take: 3,
+      take: 5,
       orderBy: {
         createdAt: "desc",
       },
@@ -23,7 +23,6 @@ export class AppService {
   }
 
   getMe(username: string) {
-    console.log(username);
     if (username) {
       return this.prisma.user.findUnique({
         where: {

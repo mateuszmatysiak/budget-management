@@ -2,7 +2,7 @@ import { IProduct } from "./product";
 import { IUser } from "./user";
 
 export interface IShopping {
-  id?: string;
+  id?: number;
   name: string;
   products: IProduct[];
   createdAt?: string;

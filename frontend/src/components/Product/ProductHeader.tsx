@@ -11,12 +11,7 @@ import { IProduct } from "../../types/product";
 import { client } from "../../utils/api-client";
 import { Button } from "../Button";
 import { ButtonIcon } from "../ButtonIcon";
-import {
-  StyledDialog,
-  StyledDialogContent,
-  StyledDialogFooter,
-  StyledDialogHeader,
-} from "../Dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader } from "../Dialog";
 import { getProductColor, getProductIcon } from "./utils";
 
 interface ProductHeaderProps {
@@ -113,12 +108,12 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
         <DeleteIcon />
       </ButtonIcon>
 
-      <StyledDialog
-        aria-label="Dialog pozwalający na usunięcie produktu"
+      <Dialog
+        ariaLabel="Dialog pozwalający na usunięcie produktu"
         isOpen={isOpen}
         onDismiss={close}
       >
-        <StyledDialogHeader>
+        <DialogHeader>
           <span>Usunięcie produktu</span>
           <ButtonIcon
             onClick={close}
@@ -128,17 +123,16 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
           >
             <CloseIcon />
           </ButtonIcon>
-        </StyledDialogHeader>
-
-        <StyledDialogContent>
+        </DialogHeader>
+        <DialogContent>
           Czy na pewno chcesz usunąć wybrany produkt?
-        </StyledDialogContent>
-        <StyledDialogFooter>
+        </DialogContent>
+        <DialogFooter>
           <Button fullWidth onClick={removeProduct}>
             Usuń
           </Button>
-        </StyledDialogFooter>
-      </StyledDialog>
+        </DialogFooter>
+      </Dialog>
     </header>
   );
 };

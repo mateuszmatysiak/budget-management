@@ -11,11 +11,7 @@ import { SearchIcon } from "../../icons/search";
 import { IProduct } from "../../types/product";
 import { client } from "../../utils/api-client";
 import { ButtonIcon } from "../ButtonIcon";
-import {
-  StyledDialog,
-  StyledDialogContent,
-  StyledDialogHeader,
-} from "../Dialog";
+import { Dialog, DialogContent, DialogHeader } from "../Dialog";
 import { Input } from "../Input";
 import { ProductForm } from "./ProductForm";
 
@@ -46,6 +42,7 @@ const ProductListItemsHeader = ({ onSearch }: ProductListItemsHeaderProps) => {
         background-color: rgba(23, 23, 23, 0.85);
         box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px;
         backdrop-filter: saturate(180%) blur(20px);
+        z-index: 1;
       `}
     >
       <Input
@@ -90,15 +87,13 @@ const ProductListItemsHeader = ({ onSearch }: ProductListItemsHeaderProps) => {
           <AddIcon />
         </ButtonIcon>
 
-        <StyledDialog
-          aria-label="Dialog pozwalający na dodanie produktu"
+        <Dialog
+          ariaLabel="Dialog pozwalający na dodanie produktu"
           isOpen={isOpen}
           onDismiss={close}
-          css={css`
-            width: 600px;
-          `}
+          width="600px"
         >
-          <StyledDialogHeader>
+          <DialogHeader>
             <span>Dodanie produktu</span>
             <ButtonIcon
               css={css`
@@ -108,11 +103,11 @@ const ProductListItemsHeader = ({ onSearch }: ProductListItemsHeaderProps) => {
             >
               <CloseIcon />
             </ButtonIcon>
-          </StyledDialogHeader>
-          <StyledDialogContent>
+          </DialogHeader>
+          <DialogContent>
             <ProductForm noPadding onSubmit={createProduct} />
-          </StyledDialogContent>
-        </StyledDialog>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

@@ -46,6 +46,22 @@ const StyledLoaderWrapper = styled.div`
   text-align: center;
 `;
 
+const StyledCalendarLoader = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: hsla(0, 0%, 0%, 0.33);
+
+  > span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+`;
+
 const Loader = ({ width, height }: { width?: string; height?: string }) => {
   return (
     <StyledLoaderWrapper>
@@ -67,4 +83,4 @@ const FullPageLoader = () => {
   );
 };
 
-export { FullPageLoader, Loader };
+export { FullPageLoader, Loader, StyledSpinner, StyledCalendarLoader };

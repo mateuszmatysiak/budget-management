@@ -7,11 +7,18 @@ import { IProduct } from "../../types/product";
 import { NavLink } from "../NavLink";
 import { getProductColor, getProductIcon } from "./utils";
 
+const calendarListStlyes = `
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+`;
+
 interface ProductItemProps {
   product: IProduct;
+  isCalendarList?: boolean;
 }
 
-const ProductItem = ({ product }: ProductItemProps) => {
+const ProductItem = ({ product, isCalendarList }: ProductItemProps) => {
   return (
     <>
       <div
@@ -31,6 +38,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
           flex-direction: column;
           justify-content: space-between;
           height: 40px;
+          ${isCalendarList ? calendarListStlyes : {}}
         `}
       >
         <span

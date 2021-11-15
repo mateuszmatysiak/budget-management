@@ -49,7 +49,6 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
       <Select
         id={`${preId}-category`}
         name={`${preId}-category`}
-        placeholder="Kategoria produktu"
         value={data?.category}
         onChange={(event) => {
           const value = event.target.value as ProductCategoryType;

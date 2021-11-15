@@ -3,12 +3,10 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
-import { ChartIcon } from "../../icons/chart";
 import { FormIcon } from "../../icons/form";
 import { HistoryIcon } from "../../icons/history";
 import { LineChartIcon } from "../../icons/linechart";
 import { IProduct } from "../../types/product";
-
 import { client } from "../../utils/api-client";
 import { Divider } from "../Divider";
 import { Section } from "../Section";

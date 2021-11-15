@@ -11,12 +11,7 @@ import { IShopping } from "../../types/shopping";
 import { client } from "../../utils/api-client";
 import { Button } from "../Button";
 import { ButtonIcon } from "../ButtonIcon";
-import {
-  StyledDialog,
-  StyledDialogContent,
-  StyledDialogFooter,
-  StyledDialogHeader,
-} from "../Dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader } from "../Dialog";
 import { dateFormatDistance } from "./utils";
 
 interface ShoppingHeaderProps {
@@ -96,12 +91,12 @@ const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
         <DeleteIcon />
       </ButtonIcon>
 
-      <StyledDialog
-        aria-label="Dialog pozwalający na usunięcie listy zakupowej"
+      <Dialog
+        ariaLabel="Dialog pozwalający na usunięcie listy zakupowej"
         isOpen={isOpen}
         onDismiss={close}
       >
-        <StyledDialogHeader>
+        <DialogHeader>
           <span>Usunięcie listy zakupowej</span>
           <ButtonIcon
             onClick={close}
@@ -111,17 +106,17 @@ const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
           >
             <CloseIcon />
           </ButtonIcon>
-        </StyledDialogHeader>
+        </DialogHeader>
 
-        <StyledDialogContent>
+        <DialogContent>
           Czy na pewno chcesz usunąć wybraną listę zakupów?
-        </StyledDialogContent>
-        <StyledDialogFooter>
+        </DialogContent>
+        <DialogFooter>
           <Button fullWidth onClick={removeShoppingItem}>
             Usuń
           </Button>
-        </StyledDialogFooter>
-      </StyledDialog>
+        </DialogFooter>
+      </Dialog>
     </header>
   );
 };
