@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { CreateProductDto } from "./dto/create-product.dto";
-import { UpdateProductDto } from "./dto/update-product.dto";
 
 @Injectable()
 export class ProductsService {
@@ -16,6 +15,13 @@ export class ProductsService {
       orderBy: {
         createdAt: "desc",
       },
+      include: {
+        history: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+      },
     });
   }
 
@@ -24,15 +30,40 @@ export class ProductsService {
       where: {
         id,
       },
+      include: {
+        history: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+      },
     });
   }
 
-  update(id: number, data: UpdateProductDto) {
-    return this.prisma.product.update({
+  async update(id: number, data: CreateProductDto) {
+    const { price, createdAt } = await this.findOne(id);
+
+    return await this.prisma.product.update({
       where: {
         id,
       },
-      data,
+      data: {
+        ...data,
+        createdAt: new Date(),
+        history: {
+          create: {
+            price,
+            createdAt,
+          },
+        },
+      },
+      include: {
+        history: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+      },
     });
   }
 

@@ -12,6 +12,16 @@ CREATE TABLE "Product" (
 );
 
 -- CreateTable
+CREATE TABLE "ProductHistory" (
+    "id" SERIAL NOT NULL,
+    "price" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL,
+    "productId" INTEGER,
+
+    CONSTRAINT "ProductHistory_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Shopping" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
@@ -47,6 +57,9 @@ CREATE INDEX "_ProductToShopping_B_index" ON "_ProductToShopping"("B");
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ProductHistory" ADD CONSTRAINT "ProductHistory_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Shopping" ADD CONSTRAINT "Shopping_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
