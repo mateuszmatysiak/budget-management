@@ -3,6 +3,7 @@
 import { css, jsx } from "@emotion/react";
 import { Line } from "react-chartjs-2";
 import { IProductHistory } from "../../types/product";
+import { EmptyState } from "../EmptyState";
 import { getProductChartData, productChartOptions } from "./utils";
 
 interface ProductChartProps {
@@ -23,6 +24,7 @@ const ProductChart = ({ history }: ProductChartProps) => {
           border-radius: 5px;
           border: 1px solid rgba(229, 229, 229, 0.2);
           color: rgba(245, 245, 245, 1);
+          background-color: #232323;
         `}
       >
         <div
@@ -35,19 +37,21 @@ const ProductChart = ({ history }: ProductChartProps) => {
             font-size: 14px;
             letter-spacing: 0.5px;
             font-weight: 300;
-            background-color: #232323;
           `}
         >
           Ceny produktu
         </div>
-        <div
-          css={css`
-            padding: 16px;
-            background-color: #232323;
-          `}
-        >
-          <Line data={data} options={productChartOptions} />
-        </div>
+        {history?.length ? (
+          <div
+            css={css`
+              padding: 16px;
+            `}
+          >
+            <Line data={data} options={productChartOptions} />
+          </div>
+        ) : (
+          <EmptyState>Brak historii produktu</EmptyState>
+        )}
       </div>
     </div>
   );

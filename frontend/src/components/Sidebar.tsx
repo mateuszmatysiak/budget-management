@@ -102,14 +102,6 @@ const Sidebar = () => {
               <span>E-mail</span>
               <span>{user?.email}</span>
             </StyledDialogContentWrapper>
-            <StyledDialogContentWrapper>
-              <span>Data utworzenia</span>
-              <span>
-                {user?.updated_at
-                  ? new Date(user?.updated_at).toLocaleString()
-                  : "-"}
-              </span>
-            </StyledDialogContentWrapper>
           </DialogContent>
         </Dialog>
 

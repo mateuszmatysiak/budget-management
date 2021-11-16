@@ -34,7 +34,6 @@ const StyledDay = styled.div<StyledDayProps>`
     isEmptyDay ? "" : `1px solid ${theme.borderColor.secondary}`};
   padding: 10px;
   cursor: ${({ isEmptyDay }) => (isEmptyDay ? "default" : "pointer")};
-  transition: border 0.4s;
   border-radius: ${({ theme }) => theme.borderRadius.primary};
 
   &:hover {
