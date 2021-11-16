@@ -45,11 +45,11 @@ const Product = ({ products }: ProductProps) => {
 
       <Divider icon={<HistoryIcon />} />
 
-      <ProductHistory />
+      <ProductHistory history={product?.history} />
 
       <Divider icon={<LineChartIcon />} />
 
-      <ProductChart />
+      <ProductChart history={product?.history} />
     </Section>
   );
 };

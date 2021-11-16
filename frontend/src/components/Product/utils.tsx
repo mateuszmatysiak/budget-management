@@ -1,8 +1,9 @@
 import React from "react";
+import { ChartProps } from "react-chartjs-2";
 import { CableIcon } from "../../icons/cable";
 import { FoodIcon } from "../../icons/food";
 import { HomeIcon } from "../../icons/home";
-import { ProductCategoryType } from "../../types/product";
+import { IProductHistory, ProductCategoryType } from "../../types/product";
 
 function getProductIcon(category?: ProductCategoryType) {
   switch (category) {
@@ -30,4 +31,55 @@ function getProductColor(category?: ProductCategoryType) {
   }
 }
 
-export { getProductIcon, getProductColor };
+const getProductChartData = (
+  history: IProductHistory[] = []
+): ChartProps<"line">["data"] => {
+  const values = history?.map(({ price }) => Number(price));
+  const labels = history?.map(({ createdAt }) =>
+    createdAt ? new Date(createdAt).toLocaleDateString() : "-"
+  );
+
+  return {
+    labels,
+    datasets: [
+      {
+        label: "W złotówkach",
+        data: values,
+        borderColor: "rgb(124, 94, 19)",
+        pointBackgroundColor: "rgba(255, 206, 86, 1)",
+        pointBorderColor: "rgba(255, 206, 86, 1)",
+      },
+    ],
+  };
+};
+
+const productChartOptions: ChartProps<"line">["options"] = {
+  responsive: true,
+  scales: {
+    xAxes: {
+      grid: {
+        color: "rgba(229, 229, 229, 0.2)",
+      },
+    },
+    yAxes: {
+      grid: {
+        color: "rgba(229, 229, 229, 0.2)",
+      },
+    },
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+    title: {
+      display: false,
+    },
+  },
+};
+
+export {
+  getProductIcon,
+  getProductColor,
+  getProductChartData,
+  productChartOptions,
+};
