@@ -34,8 +34,10 @@ function getProductColor(category?: ProductCategoryType) {
 const getProductChartData = (
   history: IProductHistory[] = []
 ): ChartProps<"line">["data"] => {
-  const values = history?.map(({ price }) => Number(price));
-  const labels = history?.map(({ createdAt }) =>
+  const reverseHistory = [...history].reverse();
+
+  const values = reverseHistory.map(({ price }) => Number(price));
+  const labels = reverseHistory.map(({ createdAt }) =>
     createdAt ? new Date(createdAt).toLocaleDateString() : "-"
   );
 

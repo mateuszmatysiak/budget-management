@@ -8,6 +8,7 @@ const StyledMain = styled.main`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100%;
   background-color: ${({ theme }) => theme.backgroundColor.primary};
   background-image: radial-gradient(rgba(38, 38, 38, 0.75) 1px, transparent 0);
   background-size: 16px 16px;

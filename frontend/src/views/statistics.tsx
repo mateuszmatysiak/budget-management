@@ -1,188 +1,25 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
-import type { ChartProps } from "react-chartjs-2";
-import { Bar } from "react-chartjs-2";
-
-const barData1: ChartProps<"bar">["data"] = {
-  labels: [
-    "Poniedziałek",
-    "Wtorek",
-    "Środa",
-    "Czwartek",
-    "Piątek",
-    "Sobota",
-    "Niedziela",
-  ],
-  datasets: [
-    {
-      label: "Wydatki w złotówkach",
-      data: [21, 33, 73, 5, 0, 250, 41],
-      barThickness: 50,
-      hoverBackgroundColor: [
-        "rgba(255, 99, 133, 0.726)",
-        "rgba(54, 163, 235, 0.712)",
-        "rgba(255, 207, 86, 0.76)",
-        "rgba(75, 192, 192, 0.781)",
-        "rgba(153, 102, 255, 0.795)",
-        "rgba(255, 160, 64, 0.753)",
-        "rgba(64, 255, 175, 0.801)",
-      ],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 0.2)",
-        "rgba(75, 192, 192, 0.2)",
-        "rgba(153, 102, 255, 0.2)",
-        "rgba(255, 159, 64, 0.2)",
-        "rgba(64, 255, 175, 0.2)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-        "rgba(75, 192, 192, 1)",
-        "rgba(153, 102, 255, 1)",
-        "rgba(255, 159, 64, 1)",
-        "rgba(140, 255, 64, 1)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
-
-const barOptions1: ChartProps<"bar">["options"] = {
-  indexAxis: "x",
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: false,
-    },
-  },
-};
-
-const barData2: ChartProps<"bar">["data"] = {
-  labels: ["Wrzesień", "Październik", "Listopad"],
-  datasets: [
-    {
-      barThickness: 100,
-      label: "Wydatki w złotówkach",
-      data: [2315, 1905, 4980],
-      hoverBackgroundColor: [
-        "rgba(255, 99, 133, 0.726)",
-        "rgba(54, 163, 235, 0.712)",
-        "rgba(255, 207, 86, 0.76)",
-      ],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 0.2)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
-
-const barOptions2: ChartProps<"bar">["options"] = {
-  indexAxis: "x",
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: false,
-    },
-  },
-};
-
-const barData3: ChartProps<"bar">["data"] = {
-  labels: ["Sobota"],
-  datasets: [
-    {
-      barThickness: 150,
-      label: "Wydatki w złotówkach",
-      data: [250],
-      hoverBackgroundColor: ["rgba(255, 160, 64, 0.753)"],
-      backgroundColor: ["rgba(255, 159, 64, 0.2)"],
-      borderColor: ["rgba(255, 159, 64, 1)"],
-      borderWidth: 1,
-    },
-  ],
-};
-
-const barOptions3: ChartProps<"bar">["options"] = {
-  indexAxis: "x",
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: false,
-    },
-  },
-};
-
-const barData4: ChartProps<"bar">["data"] = {
-  labels: ["2019", "2020", "2021"],
-  datasets: [
-    {
-      barThickness: 100,
-      label: "Wydatki w złotówkach",
-      data: [230301, 390500, 89000],
-      hoverBackgroundColor: [
-        "rgba(255, 99, 133, 0.726)",
-        "rgba(54, 163, 235, 0.712)",
-        "rgba(255, 207, 86, 0.76)",
-      ],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 0.2)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
-
-const barOptions4: ChartProps<"bar">["options"] = {
-  indexAxis: "x",
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: false,
-    },
-  },
-};
+import React from "react";
+import { Bar, Doughnut } from "react-chartjs-2";
+import useSWR from "swr";
+import { FullPageLoader } from "../components/FullPageLoader";
+import { client } from "../utils/api-client";
+import {
+  getCategoryData,
+  getProductsAndShoppingData,
+  getTodayWeekMonthData,
+  getWeekdaysData,
+  options,
+} from "../utils/chart";
 
 const StyledWrapper = styled.div`
   display: grid;
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
-  height: 100vh;
   width: 100%;
   padding: 72px 96px;
   color: ${({ theme }) => theme.color.primary};
-  overflow-y: scroll;
 `;
 
 const StyledChartContainer = styled.div`
@@ -212,37 +49,58 @@ const StyledChartContent = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 0 16px;
+  padding: 16px;
 `;
 
 const StatisticsView = () => {
+  const { data: statistics, error } = useSWR("statistics", () =>
+    client("statistics")
+  );
+
+  const { todayWeekMonth, allWeekdays, categories, productsAndShopping } =
+    statistics ?? {};
+
+  if (!statistics && !error) return <FullPageLoader />;
+
   return (
     <StyledWrapper>
       <StyledChartContainer>
-        <StyledChartHeader>Dzisiaj</StyledChartHeader>
+        <StyledChartHeader>
+          Wydatki dzisiejsze, tygodniowe, miesięczne
+        </StyledChartHeader>
         <StyledChartContent>
-          <Bar data={barData3} options={barOptions3} />
+          <Bar data={getTodayWeekMonthData(todayWeekMonth)} options={options} />
         </StyledChartContent>
       </StyledChartContainer>
 
       <StyledChartContainer>
-        <StyledChartHeader>Ostatni tydzień</StyledChartHeader>
+        <StyledChartHeader>Wydatki w każdym dniu tygodnia</StyledChartHeader>
         <StyledChartContent>
-          <Bar data={barData1} options={barOptions1} />
+          <Bar data={getWeekdaysData(allWeekdays)} options={options} />
         </StyledChartContent>
       </StyledChartContainer>
 
       <StyledChartContainer>
-        <StyledChartHeader>Ostatnie trzy miesiące</StyledChartHeader>
+        <StyledChartHeader>Wydatki dla kategorii</StyledChartHeader>
         <StyledChartContent>
-          <Bar data={barData2} options={barOptions2} />
+          <Bar data={getCategoryData(categories)} options={options} />
         </StyledChartContent>
       </StyledChartContainer>
 
       <StyledChartContainer>
-        <StyledChartHeader>Ostatnie trzy lata</StyledChartHeader>
+        <StyledChartHeader>Utworzone produkty oraz zakupy</StyledChartHeader>
         <StyledChartContent>
-          <Bar data={barData4} options={barOptions4} />
+          <Doughnut
+            data={getProductsAndShoppingData(productsAndShopping)}
+            options={{
+              plugins: {
+                title: {
+                  display: false,
+                },
+              },
+              maintainAspectRatio: false,
+            }}
+          />
         </StyledChartContent>
       </StyledChartContainer>
     </StyledWrapper>

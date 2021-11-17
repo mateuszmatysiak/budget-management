@@ -19,12 +19,6 @@ interface CalendarEventDialogProps {
   openCalendarDay: (calendarDayId: number | null) => void;
 }
 
-const StyledDialogHeaderWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
 const CalendarEventDialog = (props: CalendarEventDialogProps) => {
   const { days, calendarDayId, openCalendarDay } = props ?? {};
   const day = days?.find((day) => day.value === calendarDayId);
@@ -50,18 +44,7 @@ const CalendarEventDialog = (props: CalendarEventDialogProps) => {
       width="800px"
     >
       <DialogHeader>
-        <StyledDialogHeaderWrapper>
-          <span>Zbiór list zakupowych</span>
-          <span
-            css={css`
-              font-size: 14px;
-              margin-top: 8px;
-            `}
-          >
-            Dzień {day?.date}
-          </span>
-        </StyledDialogHeaderWrapper>
-
+        Dzień {day?.date ?? "-"}
         <ButtonIcon
           css={css`
             padding: 8px;
