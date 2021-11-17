@@ -14,4 +14,9 @@ export class AppController {
   getMe(@Param("username") username: string) {
     return this.appService.getMe(username);
   }
+
+  @Get("/statistics")
+  getStatistics() {
+    return this.appService.getStatistics();
+  }
 }

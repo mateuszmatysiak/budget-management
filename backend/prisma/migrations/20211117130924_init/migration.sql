@@ -47,6 +47,9 @@ CREATE TABLE "_ProductToShopping" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Product_name_key" ON "Product"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- CreateIndex
