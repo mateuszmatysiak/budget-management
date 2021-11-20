@@ -1,7 +1,15 @@
 import styled from "@emotion/styled";
+import { ReactNode } from "react";
+import React from "react";
+import { Loader } from "./Loader";
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
+  children: ReactNode;
+}
+
+interface LoadingButtonProps extends ButtonProps {
+  loading: boolean;
 }
 
 const Button = styled.button<ButtonProps>`
@@ -32,6 +40,18 @@ const Button = styled.button<ButtonProps>`
   }
 `;
 
+const LoadingButton = ({ children, loading, ...props }: LoadingButtonProps) => {
+  return (
+    <Button {...props} disabled={loading}>
+      {!loading ? (
+        children
+      ) : (
+        <Loader width="16px" height="16px" borderWidth="2px" />
+      )}
+    </Button>
+  );
+};
+
 const UserButton = styled.button`
   width: 100%;
   padding: 8px;
@@ -47,4 +67,4 @@ const UserButton = styled.button`
   }
 `;
 
-export { Button, UserButton };
+export { Button, LoadingButton, UserButton };

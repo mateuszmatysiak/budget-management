@@ -96,7 +96,7 @@ const ShoppingListItemsHeader = ({
           ariaLabel="Dialog pozwalający na dodanie listy zakupowej"
           isOpen={isOpen}
           onDismiss={close}
-          width="800px"
+          width="700px"
         >
           <DialogHeader>
             <span>Dodanie listy zakupowej</span>

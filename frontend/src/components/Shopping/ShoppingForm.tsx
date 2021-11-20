@@ -8,7 +8,7 @@ import { SearchIcon } from "../../icons/search";
 import { TitleIcon } from "../../icons/title";
 import { IProduct } from "../../types/product";
 import { IShopping } from "../../types/shopping";
-import { Button } from "../Button";
+import { LoadingButton } from "../Button";
 import { EmptyState } from "../EmptyState";
 import { FullPageError } from "../Error";
 import { Input } from "../Input";
@@ -142,14 +142,9 @@ const ShoppingForm = ({
           )}
         </div>
       </div>
-
-      <Button type="submit" disabled={loading} fullWidth>
-        {!loading ? (
-          "Zapisz"
-        ) : (
-          <Loader width="12px" height="12px" borderWidth="2px" />
-        )}
-      </Button>
+      <LoadingButton type="submit" fullWidth loading={loading}>
+        Zapisz
+      </LoadingButton>
     </form>
   );
 };

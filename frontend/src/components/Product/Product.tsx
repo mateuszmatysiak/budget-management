@@ -11,7 +11,6 @@ import { LineChartIcon } from "../../icons/linechart";
 import { IProduct } from "../../types/product";
 import { Divider } from "../Divider";
 import { FullPageError } from "../Error";
-import { FullPageLoader } from "../Loader";
 import { Section } from "../Section";
 import { ProductChart } from "./ProductChart";
 import { ProductForm } from "./ProductForm";
@@ -43,8 +42,6 @@ const Product = ({ products }: ProductProps) => {
 
   return (
     <Section aria-label="Sekcja wybranego produktu">
-      {!product && !products ? <FullPageLoader /> : null}
-
       {product ? (
         <>
           <ProductHeader product={product} />

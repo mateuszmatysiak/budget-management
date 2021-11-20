@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
@@ -9,7 +10,7 @@ import { useDialogHandler } from "../../hooks/useDialogHandler";
 import { CloseIcon } from "../../icons/close";
 import { DeleteIcon } from "../../icons/delete";
 import { IShopping } from "../../types/shopping";
-import { Button } from "../Button";
+import { LoadingButton } from "../Button";
 import { ButtonIcon } from "../ButtonIcon";
 import { Dialog, DialogContent, DialogFooter, DialogHeader } from "../Dialog";
 import { dateFormatDistance } from "./utils";
@@ -23,9 +24,13 @@ const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
   const authClient = useClient();
   const navigate = useNavigate();
 
+  const [loading, setLoading] = React.useState(false);
+
   const { isOpen, open, close } = useDialogHandler();
 
   const removeShoppingItem = async () => {
+    setLoading(true);
+
     return await authClient(`shopping/${shoppingId}`, {
       method: "DELETE",
     })
@@ -36,7 +41,8 @@ const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
         navigate("/zakupy");
         toast.success("Usunięto liste zakupową");
       })
-      .catch((err) => toast.error(err?.error));
+      .catch((err) => toast.error(err?.error))
+      .then(() => setLoading(false));
   };
 
   return (
@@ -99,6 +105,7 @@ const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
         ariaLabel="Dialog pozwalający na usunięcie listy zakupowej"
         isOpen={isOpen}
         onDismiss={close}
+        width="500px"
       >
         <DialogHeader>
           <span>Usunięcie listy zakupowej</span>
@@ -116,9 +123,13 @@ const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
           Czy na pewno chcesz usunąć wybraną listę zakupów?
         </DialogContent>
         <DialogFooter>
-          <Button fullWidth onClick={removeShoppingItem}>
+          <LoadingButton
+            fullWidth
+            loading={loading}
+            onClick={removeShoppingItem}
+          >
             Usuń
-          </Button>
+          </LoadingButton>
         </DialogFooter>
       </Dialog>
     </header>

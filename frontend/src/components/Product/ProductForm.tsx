@@ -13,10 +13,9 @@ import {
   ProductCategoryType,
   ProductType,
 } from "../../types/product";
-import { Button } from "../Button";
+import { LoadingButton } from "../Button";
 import { FullPageError } from "../Error";
 import { Input, Select } from "../Input";
-import { Loader } from "../Loader";
 
 const DEFAULT_PRODUCT: IProduct = {
   name: "",
@@ -39,7 +38,7 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
     if (product) setData(product);
   }, [product]);
 
-  const { data: items, error } = useApi<IProductCategoriesAndTypes>(
+  const { data: productItems, error } = useApi<IProductCategoriesAndTypes>(
     "products/categoriesAndTypes"
   );
 
@@ -74,9 +73,10 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
           setData({ ...data, category: value });
         }}
         icon={<CategoryIcon />}
+        loading={!productItems}
         required
       >
-        {items?.categories?.map(({ name, label }) => (
+        {productItems?.categories?.map(({ name, label }) => (
           <option key={name} value={name}>
             {label}
           </option>
@@ -102,9 +102,10 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
           setData({ ...data, type: value });
         }}
         icon={<TypeIcon />}
+        loading={!productItems}
         required
       >
-        {items?.types?.map(({ name, label }) => (
+        {productItems?.types?.map(({ name, label }) => (
           <option key={name} value={name}>
             {label}
           </option>
@@ -127,13 +128,9 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
         required
       />
 
-      <Button type="submit" disabled={loading} fullWidth>
-        {!loading ? (
-          "Zapisz"
-        ) : (
-          <Loader width="12px" height="12px" borderWidth="2px" />
-        )}
-      </Button>
+      <LoadingButton type="submit" fullWidth loading={loading || !productItems}>
+        Zapisz
+      </LoadingButton>
     </form>
   );
 };

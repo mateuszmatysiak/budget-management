@@ -30,12 +30,13 @@ const DialogHeader = styled.header`
 
 const StyledDialog = styled(ReachDialogContent)`
   width: 500px;
-  padding: 0;
+  padding: 0 !important;
   margin: 10vh auto;
   border: ${({ theme }) => `1px solid ${theme.borderColor.secondary}`};
   border-radius: ${({ theme }) => theme.borderRadius.tertiary};
   color: ${({ theme }) => theme.color.white};
-  background-color: ${({ theme }) => theme.backgroundColor.tertiary};
+  background-color: ${({ theme }) =>
+    `${theme.backgroundColor.tertiary} !important`};
 `;
 
 const DialogContent = styled.div`
@@ -53,7 +54,7 @@ const DialogFooter = styled.footer`
 const Dialog = ({
   children,
   ariaLabel,
-  width,
+  width = "600px",
   height,
   ...props
 }: DialogProps) => {
@@ -62,8 +63,8 @@ const Dialog = ({
       <StyledDialog
         aria-label={ariaLabel}
         css={css`
-          width: ${width};
-          height: ${height};
+          width: ${width} !important;
+          height: ${height} !important;
         `}
       >
         {children}

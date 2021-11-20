@@ -1,5 +1,4 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React from "react";
 import useSWR from "swr";
 import { client } from "../utils/api-client";
 
@@ -26,17 +25,14 @@ function useApi<T>(
 function useClient() {
   const { getAccessTokenSilently, logout } = useAuth0();
 
-  return React.useCallback(
-    async (
-      endpoint: string,
-      config: { body?: unknown; method?: string } = {}
-    ) => {
-      const accessToken = await getAccessTokenSilently();
+  return async (
+    endpoint: string,
+    config: { body?: unknown; method?: string } = {}
+  ) => {
+    const accessToken = await getAccessTokenSilently();
 
-      return await client(endpoint, { ...config, token: accessToken, logout });
-    },
-    []
-  );
+    return await client(endpoint, { ...config, token: accessToken, logout });
+  };
 }
 
 export { useApi, useClient };

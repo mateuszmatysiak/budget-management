@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
@@ -9,7 +10,7 @@ import { useDialogHandler } from "../../hooks/useDialogHandler";
 import { CloseIcon } from "../../icons/close";
 import { DeleteIcon } from "../../icons/delete";
 import { IProduct } from "../../types/product";
-import { Button } from "../Button";
+import { LoadingButton } from "../Button";
 import { ButtonIcon } from "../ButtonIcon";
 import { Dialog, DialogContent, DialogFooter, DialogHeader } from "../Dialog";
 import { getProductColor, getProductIcon } from "./utils";
@@ -23,9 +24,12 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
   const authClient = useClient();
   const navigate = useNavigate();
 
+  const [loading, setLoading] = React.useState(false);
+
   const { isOpen, open, close } = useDialogHandler();
 
   const removeProduct = async () => {
+    setLoading(true);
     return await authClient(`products/${productId}`, {
       method: "DELETE",
     })
@@ -36,7 +40,8 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
         navigate("/produkty");
         toast.success("Usunięto produkt");
       })
-      .catch((err) => toast.error(err?.error));
+      .catch((err) => toast.error(err?.error))
+      .then(() => setLoading(false));
   };
 
   return (
@@ -116,6 +121,7 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
         ariaLabel="Dialog pozwalający na usunięcie produktu"
         isOpen={isOpen}
         onDismiss={close}
+        width="500px"
       >
         <DialogHeader>
           <span>Usunięcie produktu</span>
@@ -132,9 +138,9 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
           Czy na pewno chcesz usunąć wybrany produkt?
         </DialogContent>
         <DialogFooter>
-          <Button fullWidth onClick={removeProduct}>
+          <LoadingButton fullWidth loading={loading} onClick={removeProduct}>
             Usuń
-          </Button>
+          </LoadingButton>
         </DialogFooter>
       </Dialog>
     </header>

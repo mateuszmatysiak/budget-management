@@ -69,7 +69,7 @@ const ProductHistory = ({ history }: ProductHistory) => {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
                 overflow-y: scroll;
-                max-height: 400px;
+                max-height: 375px;
 
                 > span {
                   padding: 16px;

@@ -3,6 +3,7 @@
 import React from "react";
 import { Route, Routes, useParams } from "react-router-dom";
 import { FullPageError } from "../components/Error";
+import { FullPageLoader } from "../components/Loader";
 import { Section } from "../components/Section";
 import { Shopping } from "../components/Shopping/Shopping";
 import { ShoppingListItems } from "../components/Shopping/ShoppingListItems";
@@ -18,9 +19,11 @@ const ShoppingView = () => {
 
   if (error) return <FullPageError error={error} />;
 
+  if (!shopping) return <FullPageLoader />;
+
   return (
     <>
-      <ShoppingListItems shopping={shopping} isLoading={!shopping} />
+      <ShoppingListItems shopping={shopping} />
 
       {!isParamExist ? (
         <Section />

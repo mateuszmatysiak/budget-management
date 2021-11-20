@@ -5,6 +5,7 @@ import { jsx } from "@emotion/react";
 import React from "react";
 import { Route, Routes, useParams } from "react-router-dom";
 import { FullPageError } from "../components/Error";
+import { FullPageLoader } from "../components/Loader";
 import { Product } from "../components/Product/Product";
 import { ProductListItems } from "../components/Product/ProductListItems";
 import { Section } from "../components/Section";
@@ -20,9 +21,11 @@ const ProductsView = () => {
 
   if (error) return <FullPageError error={error} />;
 
+  if (!products) return <FullPageLoader />;
+
   return (
     <>
-      <ProductListItems products={products} isLoading={!products} />
+      <ProductListItems products={products} />
 
       {!isParamExist ? (
         <Section />

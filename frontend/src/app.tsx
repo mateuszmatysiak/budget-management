@@ -1,15 +1,25 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
-import AuthenticatedApp from "./authenticated-app";
+import { FullPageError } from "./components/Error";
 import { FullPageLoader } from "./components/Loader";
-import UnauthenticatedApp from "./unauthenticated-app";
+
+const AuthenticatedApp = React.lazy(
+  () => import(/* webpackPrefetch: true */ "./authenticated-app")
+);
+const UnauthenticatedApp = React.lazy(() => import("./unauthenticated-app"));
 
 function App() {
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading, error } = useAuth0();
 
   if (isLoading) return <FullPageLoader />;
 
-  return isAuthenticated ? <AuthenticatedApp /> : <UnauthenticatedApp />;
+  if (error) return <FullPageError error={error} />;
+
+  return (
+    <React.Suspense fallback={<FullPageLoader />}>
+      {isAuthenticated ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+    </React.Suspense>
+  );
 }
 
 export default App;

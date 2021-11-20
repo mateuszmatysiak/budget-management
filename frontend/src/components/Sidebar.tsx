@@ -81,6 +81,7 @@ const Sidebar = () => {
           ariaLabel="Dialog przedstawiający informacje o zalogowanym użytkowniku"
           isOpen={isOpen}
           onDismiss={close}
+          width="500px"
         >
           <DialogHeader>
             <span>Moje konto</span>

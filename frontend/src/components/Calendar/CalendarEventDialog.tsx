@@ -41,7 +41,7 @@ const CalendarEventDialog = (props: CalendarEventDialogProps) => {
       ariaLabel="Dialog pozwalający na wyświetlenie eventu"
       isOpen={!!calendarDayId}
       onDismiss={() => openCalendarDay(null)}
-      width="800px"
+      width="700px"
     >
       <DialogHeader>
         Dzień {day?.date ?? "-"}

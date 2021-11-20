@@ -4,19 +4,14 @@ import { css, jsx } from "@emotion/react";
 import { useSearchHandler } from "../../hooks/useSearchHandler";
 import { IProduct } from "../../types/product";
 import { EmptyState } from "../EmptyState";
-import { Loader } from "../Loader";
 import { ProductListItem } from "./ProductListItem";
 import { ProductListItemsHeader } from "./ProductListItemsHeader";
 
 interface ProductListItemsProps {
   products?: IProduct[];
-  isLoading: boolean;
 }
 
-const ProductListItems = ({
-  products = [],
-  isLoading,
-}: ProductListItemsProps) => {
+const ProductListItems = ({ products = [] }: ProductListItemsProps) => {
   const { searchData, handleSearch } = useSearchHandler(products);
 
   return (
@@ -40,16 +35,12 @@ const ProductListItems = ({
           height: 100%;
         `}
       >
-        {!isLoading ? (
-          searchData.length ? (
-            searchData.map((props, index) => (
-              <ProductListItem key={index} {...props} />
-            ))
-          ) : (
-            <EmptyState>Nie znaleziono produktu</EmptyState>
-          )
+        {searchData.length ? (
+          searchData.map((props, index) => (
+            <ProductListItem key={index} {...props} />
+          ))
         ) : (
-          <Loader />
+          <EmptyState>Nie znaleziono produktu</EmptyState>
         )}
       </ul>
     </div>

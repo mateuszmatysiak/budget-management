@@ -3,6 +3,7 @@
 import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
 import { InputHTMLAttributes, ReactNode, SelectHTMLAttributes } from "react";
+import { Loader } from "./Loader";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   icon?: ReactNode;
@@ -10,6 +11,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   icon?: ReactNode;
+  loading?: boolean;
 }
 
 const inputStyles = `
@@ -28,7 +30,7 @@ const inputStyles = `
 `;
 
 const searchInputStyles = {
-  padding: "16px 16px 16px 42px",
+  padding: "16px 24px 16px 42px",
   border: 0,
   borderRadius: 0,
   backgroundColor: "#171717",
@@ -52,12 +54,17 @@ const StyledLabel = styled.label`
   position: relative;
   cursor: pointer;
 
-  & > svg {
+  & > svg,
+  div {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     margin-left: 8px;
     fill: ${({ theme }) => theme.color.search};
+  }
+
+  & > div {
+    margin-left: 12px;
   }
 `;
 
@@ -116,11 +123,11 @@ const Input = (inputProps: InputProps) => {
   );
 };
 
-const Select = ({ icon, children, ...selectProps }: SelectProps) => {
+const Select = ({ icon, loading, ...selectProps }: SelectProps) => {
   return (
     <StyledLabel htmlFor={selectProps.id}>
-      {icon}
-      <StyledSelect {...selectProps}>{children}</StyledSelect>
+      {loading ? <Loader width="16px" height="16px" borderWidth="2px" /> : icon}
+      <StyledSelect {...selectProps} />
     </StyledLabel>
   );
 };

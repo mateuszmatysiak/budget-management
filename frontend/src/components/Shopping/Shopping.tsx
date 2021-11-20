@@ -9,7 +9,6 @@ import { FormIcon } from "../../icons/form";
 import { IShopping } from "../../types/shopping";
 import { Divider } from "../Divider";
 import { FullPageError } from "../Error";
-import { FullPageLoader } from "../Loader";
 import { Section } from "../Section";
 import { ShoppingForm } from "./ShoppingForm";
 import { ShoppingHeader } from "./ShoppingHeader";
@@ -40,8 +39,6 @@ const Shopping = ({ shopping }: ShoppingProps) => {
 
   return (
     <Section aria-label="Sekcja wybranych zakupów">
-      {!shoppingItem && !shopping ? <FullPageLoader /> : null}
-
       {shoppingItem ? (
         <>
           <ShoppingHeader shoppingItem={shoppingItem} />

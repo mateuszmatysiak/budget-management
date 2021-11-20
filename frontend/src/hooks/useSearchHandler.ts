@@ -7,15 +7,12 @@ function useSearchHandler<T extends { name: string }>(data: T[] = []) {
     if (data) setSearchData(data);
   }, [data]);
 
-  const handleSearch = React.useCallback(
-    (value: string) =>
-      setSearchData(
-        data.filter((item) =>
-          item.name.toLowerCase().includes(value.toLowerCase())
-        )
-      ),
-    [data]
-  );
+  const handleSearch = (value: string) =>
+    setSearchData(
+      data.filter((item) =>
+        item.name.toLowerCase().includes(value.toLowerCase())
+      )
+    );
 
   return {
     searchData,
