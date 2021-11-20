@@ -23,6 +23,26 @@ CREATE TABLE "ProductHistory" (
 );
 
 -- CreateTable
+CREATE TABLE "ProductCategory" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "label" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "ProductCategory_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ProductType" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "label" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "ProductType_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Shopping" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,

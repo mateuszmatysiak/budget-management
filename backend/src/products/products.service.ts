@@ -77,4 +77,44 @@ export class ProductsService {
       },
     });
   }
+
+  async createCategoriesAndTypes() {
+    await this.prisma.productCategory.createMany({
+      data: [
+        { name: "ECONOMIC", label: "Gospodarcze" },
+        { name: "ELECTRONIC", label: "Elektroniczne" },
+        { name: "HOMEMADE", label: "Domowe" },
+      ],
+    });
+
+    await this.prisma.productType.createMany({
+      data: [
+        { name: "KG", label: "Kg" },
+        { name: "PIECE", label: "Sztuka" },
+      ],
+    });
+  }
+
+  getCategories() {
+    return this.prisma.productCategory.findMany();
+  }
+  getTypes() {
+    return this.prisma.productType.findMany();
+  }
+
+  async findAllCategoryAndTypes() {
+    const categories = await this.getCategories();
+    const types = await this.getTypes();
+
+    if (!categories.length && !types.length) {
+      await this.createCategoriesAndTypes();
+      const categories = await this.getCategories();
+      const types = await this.getTypes();
+
+      return {
+        categories,
+        types,
+      };
+    } else return { categories, types };
+  }
 }

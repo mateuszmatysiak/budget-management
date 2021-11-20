@@ -17,6 +17,16 @@ import { ProductsService } from "./products.service";
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @Get("/categoriesAndTypes")
+  findAllCategoriesAndTypes() {
+    return this.productsService.findAllCategoryAndTypes();
+  }
+
+  @Post("/categoriesAndTypes")
+  createCategoriesAndTypes() {
+    return this.productsService.createCategoriesAndTypes();
+  }
+
   @Post()
   async create(@Body() createdProduct: CreateProductDto, @Response() res) {
     const product = await this.productsService.create({

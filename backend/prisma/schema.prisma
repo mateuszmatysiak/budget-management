@@ -32,6 +32,20 @@ model ProductHistory {
   productId Int?
 }
 
+model ProductCategory {
+  id        Int      @id @default(autoincrement())
+  name      String
+  label     String
+  createdAt DateTime @default(now())
+}
+
+model ProductType {
+  id        Int      @id @default(autoincrement())
+  name      String
+  label     String
+  createdAt DateTime @default(now())
+}
+
 model Shopping {
   id           Int       @id @default(autoincrement())
   name         String    @unique
