@@ -10,8 +10,11 @@ export class ProductsService {
     return this.prisma.product.create({ data });
   }
 
-  findAll() {
+  findAll(username: string) {
     return this.prisma.product.findMany({
+      where: {
+        userUsername: username,
+      },
       orderBy: {
         createdAt: "desc",
       },

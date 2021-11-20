@@ -1,4 +1,6 @@
-import { PartialType } from "@nestjs/mapped-types";
-import { CreateShoppingDto } from "./create-shopping.dto";
+import { Product } from "@prisma/client";
 
-export class UpdateShoppingDto extends PartialType(CreateShoppingDto) {}
+export class UpdateShoppingDto {
+  name: string;
+  products: Product[];
+}

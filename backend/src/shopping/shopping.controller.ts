@@ -3,9 +3,11 @@ import {
   Controller,
   Delete,
   Get,
+  HttpStatus,
   Param,
   Patch,
   Post,
+  Response,
 } from "@nestjs/common";
 import { CreateShoppingDto } from "./dto/create-shopping.dto";
 import { UpdateShoppingDto } from "./dto/update-shopping.dto";
@@ -16,13 +18,20 @@ export class ShoppingController {
   constructor(private readonly shoppingService: ShoppingService) {}
 
   @Post()
-  create(@Body() shoppingCreateInput: CreateShoppingDto) {
-    return this.shoppingService.create(shoppingCreateInput);
+  async create(@Body() createdShopping: CreateShoppingDto, @Response() res) {
+    const shopping = await this.shoppingService.create({
+      ...createdShopping,
+      User: {
+        username: res.locals.username,
+      },
+    });
+    return res.status(HttpStatus.OK).json(shopping);
   }
 
   @Get()
-  findAll() {
-    return this.shoppingService.findAll();
+  async findAll(@Response() res) {
+    const shopping = await this.shoppingService.findAll(res.locals.username);
+    return res.status(HttpStatus.OK).json(shopping);
   }
 
   @Get(":id")

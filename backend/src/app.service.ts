@@ -1,27 +1,41 @@
-import { Injectable } from "@nestjs/common";
+import { CACHE_MANAGER, Inject, Injectable } from "@nestjs/common";
 import { lastDayOfMonth, startOfMonth } from "date-fns";
 import { PrismaService } from "./prisma.service";
 import { CreateShoppingDto } from "./shopping/dto/create-shopping.dto";
+import { Cache } from "cache-manager";
 
 @Injectable()
 export class AppService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache
+  ) {}
 
-  async getLastItems() {
-    const lastProductsPromise = this.prisma.product.findMany({
+  async getLastItems(username: string) {
+    const products = await this.prisma.product.findMany({
       take: 5,
+      where: {
+        User: {
+          username,
+        },
+      },
       orderBy: {
         createdAt: "desc",
       },
     });
-    const lastShoppingItemsPromise = this.prisma.shopping.findMany({
+    const shopping = await this.prisma.shopping.findMany({
       take: 5,
+      where: {
+        User: {
+          username,
+        },
+      },
       orderBy: {
         createdAt: "desc",
       },
     });
 
-    return await Promise.all([lastProductsPromise, lastShoppingItemsPromise]);
+    return { products, shopping };
   }
 
   sumProductsOfShopping(arr: CreateShoppingDto[]) {
@@ -41,26 +55,23 @@ export class AppService {
     return date.toLocaleDateString().split(".").reverse().join("-");
   }
 
-  getFromTo(from: string, to?: string) {
+  getFromTo({
+    from,
+    to,
+    username,
+  }: {
+    from: string;
+    to?: string;
+    username: string;
+  }) {
     return {
       where: {
         createdAt: {
           gt: `${from}T00:00:00.001Z`,
           lt: `${to ?? from}T23:59:59.591Z`,
         },
-      },
-      include: {
-        products: true,
-      },
-    };
-  }
-
-  getByCategory(from: string, to?: string) {
-    return {
-      where: {
-        createdAt: {
-          gt: `${from}T00:00:00.001Z`,
-          lt: `${to ?? from}T23:59:59.591Z`,
+        User: {
+          username,
         },
       },
       include: {
@@ -87,33 +98,62 @@ export class AppService {
     return [`${year}-${month}-0${day}`, end];
   }
 
-  async getStatistics() {
+  async getStatistics(username: string) {
     const date = new Date();
 
     const allShopping = await this.prisma.shopping.findMany({
+      where: {
+        User: {
+          username,
+        },
+      },
       include: {
         products: true,
       },
     });
-    const allProducts = await this.prisma.product.findMany({});
+    const allProducts = await this.prisma.product.findMany({
+      where: {
+        User: {
+          username,
+        },
+      },
+    });
 
     const current = this.formatDate(date);
     const [mo, tu, we, th, fr, sa, su] = this.getAllWeekDays(date);
     const [start, end] = this.getCurrentMonth(date);
 
-    const today = await this.prisma.shopping.findMany(this.getFromTo(current));
-    const week = await this.prisma.shopping.findMany(this.getFromTo(mo, su));
+    const today = await this.prisma.shopping.findMany(
+      this.getFromTo({ from: current, username })
+    );
+    const week = await this.prisma.shopping.findMany(
+      this.getFromTo({ from: mo, to: su, username })
+    );
     const month = await this.prisma.shopping.findMany(
-      this.getFromTo(start, end)
+      this.getFromTo({ from: start, to: end, username })
     );
 
-    const monday = await this.prisma.shopping.findMany(this.getFromTo(mo));
-    const tuesday = await this.prisma.shopping.findMany(this.getFromTo(tu));
-    const wednesday = await this.prisma.shopping.findMany(this.getFromTo(we));
-    const thuesday = await this.prisma.shopping.findMany(this.getFromTo(th));
-    const friday = await this.prisma.shopping.findMany(this.getFromTo(fr));
-    const saturday = await this.prisma.shopping.findMany(this.getFromTo(sa));
-    const sunday = await this.prisma.shopping.findMany(this.getFromTo(su));
+    const monday = await this.prisma.shopping.findMany(
+      this.getFromTo({ from: mo, username })
+    );
+    const tuesday = await this.prisma.shopping.findMany(
+      this.getFromTo({ from: tu, username })
+    );
+    const wednesday = await this.prisma.shopping.findMany(
+      this.getFromTo({ from: we, username })
+    );
+    const thuesday = await this.prisma.shopping.findMany(
+      this.getFromTo({ from: th, username })
+    );
+    const friday = await this.prisma.shopping.findMany(
+      this.getFromTo({ from: fr, username })
+    );
+    const saturday = await this.prisma.shopping.findMany(
+      this.getFromTo({ from: sa, username })
+    );
+    const sunday = await this.prisma.shopping.findMany(
+      this.getFromTo({ from: su, username })
+    );
 
     return {
       todayWeekMonth: [
@@ -139,13 +179,11 @@ export class AppService {
     };
   }
 
-  getMe(username: string) {
-    if (username) {
-      return this.prisma.user.findUnique({
-        where: {
-          username,
-        },
-      });
-    }
+  async getUserFromMemoryCache() {
+    return this.cacheManager.get("username");
+  }
+
+  async setUserInMemoryCache(username: string) {
+    return this.cacheManager.set("username", username, { ttl: 0 });
   }
 }

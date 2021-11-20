@@ -1,3 +1,4 @@
+import { Shopping } from ".prisma/client";
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { CreateShoppingDto } from "./dto/create-shopping.dto";
@@ -7,12 +8,15 @@ import { UpdateShoppingDto } from "./dto/update-shopping.dto";
 export class ShoppingService {
   constructor(private prisma: PrismaService) {}
 
-  create(shoppingCreateInput: CreateShoppingDto) {
+  create(createdShopping: CreateShoppingDto) {
     return this.prisma.shopping.create({
       data: {
-        name: shoppingCreateInput.name,
+        name: createdShopping.name,
         products: {
-          connect: shoppingCreateInput.products,
+          connect: createdShopping.products,
+        },
+        User: {
+          connect: createdShopping.User,
         },
       },
       include: {
@@ -21,8 +25,13 @@ export class ShoppingService {
     });
   }
 
-  findAll() {
+  findAll(username: string) {
     return this.prisma.shopping.findMany({
+      where: {
+        User: {
+          username,
+        },
+      },
       orderBy: {
         createdAt: "desc",
       },
