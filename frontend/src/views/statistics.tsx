@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { Bar, Doughnut } from "react-chartjs-2";
-import useSWR from "swr";
-import { FullPageLoader } from "../components/FullPageLoader";
-import { client } from "../utils/api-client";
+import { FullPageError } from "../components/Error";
+import { FullPageLoader } from "../components/Loader";
+import { useApi } from "../hooks/useApi";
+import { IStatistics } from "../types/statistics";
 import {
   getCategoryData,
   getProductsAndShoppingData,
@@ -53,14 +54,11 @@ const StyledChartContent = styled.div`
 `;
 
 const StatisticsView = () => {
-  const { data: statistics, error } = useSWR("statistics", () =>
-    client("statistics")
-  );
+  const { data: statistics, error } = useApi<IStatistics>("statistics");
 
-  const { todayWeekMonth, allWeekdays, categories, productsAndShopping } =
-    statistics ?? {};
+  if (!statistics) return <FullPageLoader />;
 
-  if (!statistics && !error) return <FullPageLoader />;
+  if (error) return <FullPageError error={error} />;
 
   return (
     <StyledWrapper>
@@ -69,21 +67,30 @@ const StatisticsView = () => {
           Wydatki dzisiejsze, tygodniowe, miesięczne
         </StyledChartHeader>
         <StyledChartContent>
-          <Bar data={getTodayWeekMonthData(todayWeekMonth)} options={options} />
+          <Bar
+            data={getTodayWeekMonthData(statistics.todayWeekMonth)}
+            options={options}
+          />
         </StyledChartContent>
       </StyledChartContainer>
 
       <StyledChartContainer>
         <StyledChartHeader>Wydatki w każdym dniu tygodnia</StyledChartHeader>
         <StyledChartContent>
-          <Bar data={getWeekdaysData(allWeekdays)} options={options} />
+          <Bar
+            data={getWeekdaysData(statistics.allWeekdays)}
+            options={options}
+          />
         </StyledChartContent>
       </StyledChartContainer>
 
       <StyledChartContainer>
         <StyledChartHeader>Wydatki dla kategorii</StyledChartHeader>
         <StyledChartContent>
-          <Bar data={getCategoryData(categories)} options={options} />
+          <Bar
+            data={getCategoryData(statistics.categories)}
+            options={options}
+          />
         </StyledChartContent>
       </StyledChartContainer>
 
@@ -91,7 +98,7 @@ const StatisticsView = () => {
         <StyledChartHeader>Utworzone produkty oraz zakupy</StyledChartHeader>
         <StyledChartContent>
           <Doughnut
-            data={getProductsAndShoppingData(productsAndShopping)}
+            data={getProductsAndShoppingData(statistics.productsAndShopping)}
             options={{
               plugins: {
                 title: {

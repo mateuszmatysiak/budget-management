@@ -4,10 +4,11 @@
 import { css, jsx } from "@emotion/react";
 import React from "react";
 import { IProduct } from "../../types/product";
+import { round } from "../../utils/number";
 import { NavLink } from "../NavLink";
 import { getProductColor, getProductIcon } from "./utils";
 
-const calendarListStlyes = `
+const calendarListStyles = `
   flex-direction: row;
   align-items: center;
   width: 100%;
@@ -30,7 +31,7 @@ const ProductItem = ({ product, isCalendarList }: ProductItemProps) => {
           margin-right: 8px;
         `}
       >
-        {getProductIcon(product?.category)}
+        {getProductIcon(product.category)}
       </div>
       <div
         css={css`
@@ -38,7 +39,7 @@ const ProductItem = ({ product, isCalendarList }: ProductItemProps) => {
           flex-direction: column;
           justify-content: space-between;
           height: 40px;
-          ${isCalendarList ? calendarListStlyes : {}}
+          ${isCalendarList ? calendarListStyles : {}}
         `}
       >
         <span
@@ -48,7 +49,7 @@ const ProductItem = ({ product, isCalendarList }: ProductItemProps) => {
             font-size: 14px;
           `}
         >
-          {product?.name}
+          {product.name}
         </span>
         <span
           css={css`
@@ -57,7 +58,7 @@ const ProductItem = ({ product, isCalendarList }: ProductItemProps) => {
             font-size: 14px;
           `}
         >
-          {product?.price} zł
+          {round(product.price)} zł
         </span>
       </div>
     </>

@@ -5,13 +5,19 @@ import React from "react";
 import { CategoryIcon } from "../../icons/category";
 import { PriceIcon } from "../../icons/price";
 import { TitleIcon } from "../../icons/title";
-import { IProduct, ProductCategoryType } from "../../types/product";
+import { TypeIcon } from "../../icons/type";
+import {
+  IProduct,
+  ProductCategoryType,
+  ProductType,
+} from "../../types/product";
 import { Button } from "../Button";
 import { Input, Select } from "../Input";
 
 const DEFAULT_PRODUCT: IProduct = {
   name: "",
   price: "",
+  type: "KG",
   category: "ECONOMIC",
 };
 
@@ -49,7 +55,7 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
       <Select
         id={`${preId}-category`}
         name={`${preId}-category`}
-        value={data?.category}
+        value={data.category}
         onChange={(event) => {
           const value = event.target.value as ProductCategoryType;
           setData({ ...data, category: value });
@@ -66,19 +72,36 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
         id={`${preId}-name`}
         name={`${preId}-name`}
         placeholder="Nazwa produktu"
-        value={data?.name}
+        value={data.name}
         onChange={(event) => setData({ ...data, name: event.target.value })}
         icon={<TitleIcon />}
         required
       />
+
+      <Select
+        id={`${preId}-type`}
+        name={`${preId}-type`}
+        value={data.type}
+        onChange={(event) => {
+          const value = event.target.value as ProductType;
+          setData({ ...data, type: value });
+        }}
+        icon={<TypeIcon />}
+        required
+      >
+        <option value="KG">Kg</option>
+        <option value="PIECE">Sztuka</option>
+      </Select>
 
       <Input
         type="number"
         id={`${preId}-price`}
         name={`${preId}-price`}
         placeholder="Cena produktu"
-        value={data?.price}
-        onChange={(event) => setData({ ...data, price: event.target.value })}
+        value={data.price}
+        onChange={(event) =>
+          setData({ ...data, price: Number(event.target.value).toFixed(2) })
+        }
         icon={<PriceIcon />}
         required
       />

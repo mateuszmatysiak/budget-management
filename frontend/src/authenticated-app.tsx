@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import React from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { Route, Routes } from "react-router-dom";
+import { ErrorMessage, FullPageError } from "./components/Error";
 import { Sidebar } from "./components/Sidebar";
 import CalendarView from "./views/calendar";
 import NotFoundView from "./views/not-found";
@@ -24,19 +26,23 @@ const StyledContent = styled.section`
 
 function AuthenticatedApp() {
   return (
-    <StyledMain>
-      <Sidebar />
+    <ErrorBoundary FallbackComponent={FullPageError}>
+      <StyledMain>
+        <Sidebar />
 
-      <StyledContent>
-        <Routes>
-          <Route path="kalendarz" element={<CalendarView />} />
-          <Route path="statystyki" element={<StatisticsView />} />
-          <Route path="zakupy/*" element={<ShoppingView />} />
-          <Route path="produkty/*" element={<ProductsView />} />
-          <Route path="*" element={<NotFoundView />} />
-        </Routes>
-      </StyledContent>
-    </StyledMain>
+        <StyledContent>
+          <ErrorBoundary FallbackComponent={ErrorMessage}>
+            <Routes>
+              <Route path="kalendarz" element={<CalendarView />} />
+              <Route path="statystyki" element={<StatisticsView />} />
+              <Route path="zakupy/*" element={<ShoppingView />} />
+              <Route path="produkty/*" element={<ProductsView />} />
+              <Route path="*" element={<NotFoundView />} />
+            </Routes>
+          </ErrorBoundary>
+        </StyledContent>
+      </StyledMain>
+    </ErrorBoundary>
   );
 }
 

@@ -3,23 +3,21 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
 import React from "react";
-import useSWR from "swr";
+import { useApi } from "../hooks/useApi";
 import { CalendarIcon } from "../icons/calendar";
 import { ChartIcon } from "../icons/chart";
 import { ProductIcon } from "../icons/product";
 import { ShoppingIcon } from "../icons/shopping";
+import { ILast } from "../types/last";
 import { IProduct } from "../types/product";
 import { IShopping } from "../types/shopping";
-import { client } from "../utils/api-client";
-import { Loader } from "./FullPageLoader";
+import { Loader } from "./Loader";
 import { NavLink } from "./NavLink";
 
 const Navigation = () => {
-  const { data: last, error } = useSWR("last", () => client("last"));
+  const { data: last, error } = useApi<ILast>("last");
 
-  const [products, shopping] = last ?? [];
-
-  const isLoading = !error && !last;
+  const isLoading = !last;
 
   return (
     <nav
@@ -61,61 +59,63 @@ const Navigation = () => {
           </NavLink>
         </li>
 
-        {!isLoading ? (
-          <>
-            {products?.length ? (
-              <li
-                css={css`
-                  padding: 24px 0;
-                  color: rgba(255, 255, 255, 0.4);
-                  font-size: 12px;
-                  letter-spacing: 0.5px;
-                `}
-              >
-                Produkty
-              </li>
-            ) : null}
+        {!error ? (
+          !isLoading ? (
+            <>
+              {last.products.length ? (
+                <li
+                  css={css`
+                    padding: 24px 0;
+                    color: rgba(255, 255, 255, 0.4);
+                    font-size: 12px;
+                    letter-spacing: 0.5px;
+                  `}
+                >
+                  Produkty
+                </li>
+              ) : null}
 
-            {products?.map((product: IProduct) => (
-              <li key={product.id}>
-                <NavLink withoutHighliting to={`/produkty/${product.id}`}>
-                  <ProductIcon />
-                  {product.name}
-                </NavLink>
-              </li>
-            ))}
+              {last.products?.map((product: IProduct) => (
+                <li key={product.id}>
+                  <NavLink withoutHighliting to={`/produkty/${product.id}`}>
+                    <ProductIcon />
+                    {product.name}
+                  </NavLink>
+                </li>
+              ))}
 
-            {shopping?.length ? (
-              <li
-                css={css`
-                  padding: 24px 0 16px 0;
-                  color: rgba(255, 255, 255, 0.4);
-                  font-size: 12px;
-                  letter-spacing: 0.5px;
-                `}
-              >
-                Zakupy
-              </li>
-            ) : null}
+              {last.shopping.length ? (
+                <li
+                  css={css`
+                    padding: 24px 0 16px 0;
+                    color: rgba(255, 255, 255, 0.4);
+                    font-size: 12px;
+                    letter-spacing: 0.5px;
+                  `}
+                >
+                  Zakupy
+                </li>
+              ) : null}
 
-            {shopping?.map((shoppingItem: IShopping) => (
-              <li key={shoppingItem.id}>
-                <NavLink withoutHighliting to={`/zakupy/${shoppingItem.id}`}>
-                  <ShoppingIcon />
-                  {shoppingItem.name}
-                </NavLink>
-              </li>
-            ))}
-          </>
-        ) : (
-          <div
-            css={css`
-              padding: 32px 16px;
-            `}
-          >
-            <Loader />
-          </div>
-        )}
+              {last.shopping.map((shoppingItem: IShopping) => (
+                <li key={shoppingItem.id}>
+                  <NavLink withoutHighliting to={`/zakupy/${shoppingItem.id}`}>
+                    <ShoppingIcon />
+                    {shoppingItem.name}
+                  </NavLink>
+                </li>
+              ))}
+            </>
+          ) : (
+            <div
+              css={css`
+                padding: 32px 16px;
+              `}
+            >
+              <Loader />
+            </div>
+          )
+        ) : null}
       </ul>
     </nav>
   );

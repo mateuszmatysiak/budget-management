@@ -2,16 +2,15 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
 import React from "react";
-import useSWR from "swr";
+import { useApi } from "../../hooks/useApi";
 import { useSearchHandler } from "../../hooks/useSearchHandler";
 import { SearchIcon } from "../../icons/search";
 import { TitleIcon } from "../../icons/title";
 import { IProduct } from "../../types/product";
 import { IShopping } from "../../types/shopping";
-import { client } from "../../utils/api-client";
 import { Button } from "../Button";
 import { EmptyState } from "../EmptyState";
-import { Loader } from "../FullPageLoader";
+import { Loader } from "../Loader";
 import { Input } from "../Input";
 import { ProductListCheckboxItem } from "../Product/ProductListCheckboxItem";
 
@@ -31,9 +30,7 @@ const ShoppingForm = ({
   noPadding,
   onSubmit,
 }: ShoppingFormProps) => {
-  const { data: products, error } = useSWR<IProduct[]>("products", () =>
-    client("products")
-  );
+  const { data: products, error } = useApi<IProduct[]>("products");
 
   const isLoading = !error && !products;
 

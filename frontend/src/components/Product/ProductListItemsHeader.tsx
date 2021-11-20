@@ -4,12 +4,12 @@ import { css, jsx } from "@emotion/react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
+import { useClient } from "../../hooks/useApi";
 import { useDialogHandler } from "../../hooks/useDialogHandler";
 import { AddIcon } from "../../icons/add";
 import { CloseIcon } from "../../icons/close";
 import { SearchIcon } from "../../icons/search";
 import { IProduct } from "../../types/product";
-import { client } from "../../utils/api-client";
 import { ButtonIcon } from "../ButtonIcon";
 import { Dialog, DialogContent, DialogHeader } from "../Dialog";
 import { Input } from "../Input";
@@ -21,10 +21,11 @@ interface ProductListItemsHeaderProps {
 
 const ProductListItemsHeader = ({ onSearch }: ProductListItemsHeaderProps) => {
   const navigate = useNavigate();
+  const authClient = useClient();
   const { isOpen, open, close } = useDialogHandler();
 
-  const createProduct = (data: IProduct) =>
-    client("products", { body: data })
+  const createProduct = async (data: IProduct) => {
+    return await authClient("products", { body: data })
       .then(({ id }: IProduct) => {
         mutate("products");
         mutate("last");
@@ -32,7 +33,8 @@ const ProductListItemsHeader = ({ onSearch }: ProductListItemsHeaderProps) => {
         close();
         toast.success("Utworzono produkt");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err?.error));
+  };
 
   return (
     <div

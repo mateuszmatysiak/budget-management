@@ -4,11 +4,11 @@ import { css, jsx } from "@emotion/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
+import { useClient } from "../../hooks/useApi";
 import { useDialogHandler } from "../../hooks/useDialogHandler";
 import { CloseIcon } from "../../icons/close";
 import { DeleteIcon } from "../../icons/delete";
 import { IShopping } from "../../types/shopping";
-import { client } from "../../utils/api-client";
 import { Button } from "../Button";
 import { ButtonIcon } from "../ButtonIcon";
 import { Dialog, DialogContent, DialogFooter, DialogHeader } from "../Dialog";
@@ -20,20 +20,24 @@ interface ShoppingHeaderProps {
 
 const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
   const { shoppingId } = useParams();
+  const authClient = useClient();
   const navigate = useNavigate();
 
   const { isOpen, open, close } = useDialogHandler();
 
-  const removeShoppingItem = () =>
-    client(`shopping/${shoppingId}`, {
-      customConfig: { method: "DELETE" },
-    }).then(() => {
-      close();
-      mutate("shopping");
-      mutate("last");
-      navigate("/zakupy");
-      toast.success("Usunięto liste zakupową");
-    });
+  const removeShoppingItem = async () => {
+    return await authClient(`shopping/${shoppingId}`, {
+      method: "DELETE",
+    })
+      .then(() => {
+        close();
+        mutate("shopping");
+        mutate("last");
+        navigate("/zakupy");
+        toast.success("Usunięto liste zakupową");
+      })
+      .catch((err) => toast.error(err?.error));
+  };
 
   return (
     <header

@@ -1,21 +1,23 @@
 import { IUser } from "./user";
 
 export type ProductCategoryType = "ECONOMIC" | "ELECTRONIC" | "HOMEMADE";
+export type ProductType = "KG" | "PIECE";
 
 export interface IProductHistory {
   id?: string;
   price: string;
-  createdAt?: string;
   productId: string;
+  createdAt?: string;
 }
 export interface IProduct {
   id?: string;
   name: string;
   price: string;
   category: ProductCategoryType;
+  type: ProductType;
   createdAt?: string;
   updatedAt?: string;
   User?: IUser;
-  userId?: number;
+  userUsername?: number;
   history?: IProductHistory[];
 }

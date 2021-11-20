@@ -4,12 +4,12 @@ import { css, jsx } from "@emotion/react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
+import { useClient } from "../../hooks/useApi";
 import { useDialogHandler } from "../../hooks/useDialogHandler";
 import { AddIcon } from "../../icons/add";
 import { CloseIcon } from "../../icons/close";
 import { SearchIcon } from "../../icons/search";
 import { IShopping } from "../../types/shopping";
-import { client } from "../../utils/api-client";
 import { ButtonIcon } from "../ButtonIcon";
 import { Dialog, DialogContent, DialogHeader } from "../Dialog";
 import { Input } from "../Input";
@@ -24,10 +24,11 @@ const ShoppingListItemsHeader = ({
   onSearch,
 }: ShoppingListItemsHeaderProps) => {
   const navigate = useNavigate();
+  const authClient = useClient();
   const { isOpen, open, close } = useDialogHandler();
 
-  const createShoppingItem = (data: IShopping) => {
-    client("shopping", { body: formatShoppingData(data) })
+  const createShoppingItem = async (data: IShopping) => {
+    return await authClient("shopping", { body: formatShoppingData(data) })
       .then(({ id }: IShopping) => {
         mutate("shopping");
         mutate("last");
@@ -35,7 +36,7 @@ const ShoppingListItemsHeader = ({
         close();
         toast.success("Utworzono liste zakupową");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err?.error));
   };
 
   return (

@@ -1,13 +1,16 @@
-const localStorageKey = "__budgetApp_token__";
+import { LogoutOptions } from "@auth0/auth0-react";
 
-async function client(
+interface ClientConfigProps {
+  body?: unknown;
+  method?: string;
+  token?: string;
+  logout?: (options?: LogoutOptions) => void;
+}
+
+function client(
   endpoint: string,
-  {
-    body,
-    customConfig,
-  }: { body?: unknown; customConfig?: { method: string } } = {}
+  { token, logout, body, ...customConfig }: ClientConfigProps
 ) {
-  const token = window.localStorage.getItem(localStorageKey);
   const headers: HeadersInit = { "content-type": "application/json" };
   if (token) {
     headers.Authorization = `Bearer ${token}`;
@@ -25,17 +28,15 @@ async function client(
 
   return window
     .fetch(`${process.env.REACT_APP_API_URL}/${endpoint}`, config)
-    .then(async (r) => {
-      if (r.status === 401) {
-        // logout
-
-        window.location.assign("/");
-        return Promise.reject({
-          message: "Wymagane ponowne uwierzytelnienie.",
+    .then(async (res) => {
+      if (res.status === 401) {
+        logout?.({
+          returnTo: window.location.origin,
         });
       }
-      const data = await r.json();
-      if (r.ok) {
+
+      const data = await res.json();
+      if (res.ok) {
         return data;
       } else {
         return Promise.reject(data);
@@ -43,4 +44,4 @@ async function client(
     });
 }
 
-export { client, localStorageKey };
+export { client };

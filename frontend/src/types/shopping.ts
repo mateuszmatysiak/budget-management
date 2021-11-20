@@ -8,5 +8,5 @@ export interface IShopping {
   createdAt?: string;
   updatedAt?: string;
   User?: IUser;
-  userId?: number;
+  userUsername?: number;
 }

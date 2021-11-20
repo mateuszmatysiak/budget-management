@@ -4,11 +4,11 @@ import { css, jsx } from "@emotion/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
+import { useClient } from "../../hooks/useApi";
 import { useDialogHandler } from "../../hooks/useDialogHandler";
 import { CloseIcon } from "../../icons/close";
 import { DeleteIcon } from "../../icons/delete";
 import { IProduct } from "../../types/product";
-import { client } from "../../utils/api-client";
 import { Button } from "../Button";
 import { ButtonIcon } from "../ButtonIcon";
 import { Dialog, DialogContent, DialogFooter, DialogHeader } from "../Dialog";
@@ -20,20 +20,24 @@ interface ProductHeaderProps {
 
 const ProductHeader = ({ product }: ProductHeaderProps) => {
   const { productId } = useParams();
+  const authClient = useClient();
   const navigate = useNavigate();
 
   const { isOpen, open, close } = useDialogHandler();
 
-  const removeProduct = () =>
-    client(`products/${productId}`, {
-      customConfig: { method: "DELETE" },
-    }).then(() => {
-      close();
-      mutate("products");
-      mutate("last");
-      navigate("/produkty");
-      toast.success("Usunięto produkt");
-    });
+  const removeProduct = async () => {
+    return await authClient(`products/${productId}`, {
+      method: "DELETE",
+    })
+      .then(() => {
+        close();
+        mutate("products");
+        mutate("last");
+        navigate("/produkty");
+        toast.success("Usunięto produkt");
+      })
+      .catch((err) => toast.error(err?.error));
+  };
 
   return (
     <header

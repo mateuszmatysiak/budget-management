@@ -2,11 +2,11 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
-import styled from "@emotion/styled";
 import React from "react";
 import { CloseIcon } from "../../icons/close";
-import { TaskIcon } from "../../icons/task";
+import { ShoppingIcon } from "../../icons/shopping";
 import { IDay } from "../../types/day";
+import { round } from "../../utils/number";
 import { ButtonIcon } from "../ButtonIcon";
 import { Dialog, DialogContent, DialogFooter, DialogHeader } from "../Dialog";
 import { EmptyState } from "../EmptyState";
@@ -71,7 +71,7 @@ const CalendarEventDialog = (props: CalendarEventDialogProps) => {
                 name="event"
                 onChange={(event) => setShoppingId(Number(event.target.value))}
                 value={shoppingId}
-                icon={<TaskIcon width="22px" height="22px" />}
+                icon={<ShoppingIcon width="22px" height="22px" />}
                 required
               >
                 {day?.events?.map((event) => (
@@ -132,7 +132,7 @@ const CalendarEventDialog = (props: CalendarEventDialogProps) => {
             `}
           >
             <span>Podsumowanie</span>
-            <span>{shoppingAmount} zł</span>
+            <span>{shoppingAmount ? round(shoppingAmount) : "-"} zł</span>
           </DialogFooter>
         </>
       ) : (

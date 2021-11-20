@@ -4,7 +4,7 @@ import { css, jsx } from "@emotion/react";
 import { useSearchHandler } from "../../hooks/useSearchHandler";
 import { IShopping } from "../../types/shopping";
 import { EmptyState } from "../EmptyState";
-import { Loader } from "../FullPageLoader";
+import { Loader } from "../Loader";
 import { ShoppingListItem } from "./ShoppingListItem";
 import { ShoppingListItemsHeader } from "./ShoppingListItemsHeader";
 

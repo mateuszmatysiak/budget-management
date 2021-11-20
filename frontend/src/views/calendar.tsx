@@ -3,22 +3,19 @@
 import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
 import React from "react";
-import useSWR from "swr";
 import { CalendarDays } from "../components/Calendar/CalendarDays";
 import { CalendarEventDialog } from "../components/Calendar/CalendarEventDialog";
 import { CalendarHeader } from "../components/Calendar/CalendarHeader";
 import { CalendarHeaderWeekdays } from "../components/Calendar/CalendarHeaderWeekdays";
-import { useCalendarDate } from "../components/Calendar/useCalendarDate";
 import {
   formatShoppingData,
   getEventsForDay,
 } from "../components/Calendar/utils";
-import {
-  StyledCalendarLoader,
-  StyledSpinner,
-} from "../components/FullPageLoader";
+import { FullPageError } from "../components/Error";
+import { StyledCalendarLoader, StyledSpinner } from "../components/Loader";
+import { useApi } from "../hooks/useApi";
+import { useCalendarDate } from "../hooks/useCalendarDate";
 import { IShopping } from "../types/shopping";
-import { client } from "../utils/api-client";
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -34,11 +31,9 @@ const CalendarView = () => {
   const [navId, setNavId] = React.useState(0);
   const [calendarDayId, setCalendarDayId] = React.useState<number | null>(null);
 
-  const { data: shopping, error } = useSWR<IShopping[]>("shopping", () =>
-    client("shopping")
-  );
+  const { data: shopping, error } = useApi<IShopping[]>("shopping");
 
-  const isLoading = !shopping && !error;
+  const isLoading = !shopping;
 
   const { days, dateDisplay } = useCalendarDate(navId);
 
@@ -46,6 +41,8 @@ const CalendarView = () => {
     ...day,
     events: getEventsForDay(formatShoppingData(shopping), day),
   }));
+
+  if (error) return <FullPageError error={error} />;
 
   return (
     <StyledWrapper>

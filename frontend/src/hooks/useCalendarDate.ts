@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IDay } from "../../types/day";
+import { IDay } from "../types/day";
 
 export const useCalendarDate = (navId: number) => {
   const [dateDisplay, setDateDisplay] = useState("");

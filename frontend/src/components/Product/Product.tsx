@@ -1,13 +1,14 @@
 /** @jsxRuntime classic */
-import React from "react";
+/** @jsx jsx */
+import { jsx } from "@emotion/react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
+import { useClient } from "../../hooks/useApi";
 import { FormIcon } from "../../icons/form";
 import { HistoryIcon } from "../../icons/history";
 import { LineChartIcon } from "../../icons/linechart";
 import { IProduct } from "../../types/product";
-import { client } from "../../utils/api-client";
 import { Divider } from "../Divider";
 import { Section } from "../Section";
 import { ProductChart } from "./ProductChart";
@@ -21,11 +22,13 @@ interface ProductProps {
 
 const Product = ({ products }: ProductProps) => {
   const { productId } = useParams();
+  const authClient = useClient();
+
   const product = products?.find((item) => String(item.id) === productId);
 
-  const editProduct = (data: IProduct) =>
-    client(`products/${productId}`, {
-      customConfig: { method: "PATCH" },
+  const editProduct = async (data: IProduct) => {
+    return await authClient(`products/${productId}`, {
+      method: "PATCH",
       body: data,
     })
       .then(() => {
@@ -33,7 +36,8 @@ const Product = ({ products }: ProductProps) => {
         mutate("last");
         toast.success("Edytowano produkt");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err?.error));
+  };
 
   return (
     <Section aria-label="Sekcja wybranego produktu">

@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 import AuthenticatedApp from "./authenticated-app";
-import { FullPageLoader } from "./components/FullPageLoader";
+import { FullPageLoader } from "./components/Loader";
 import UnauthenticatedApp from "./unauthenticated-app";
 
 function App() {

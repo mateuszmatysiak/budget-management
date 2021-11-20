@@ -3,9 +3,9 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
+import { useClient } from "../../hooks/useApi";
 import { FormIcon } from "../../icons/form";
 import { IShopping } from "../../types/shopping";
-import { client } from "../../utils/api-client";
 import { Divider } from "../Divider";
 import { Section } from "../Section";
 import { ShoppingForm } from "./ShoppingForm";
@@ -18,11 +18,12 @@ interface ShoppingProps {
 
 const Shopping = ({ shopping }: ShoppingProps) => {
   const { shoppingId } = useParams();
+  const authClient = useClient();
   const shoppingItem = shopping?.find((item) => String(item.id) === shoppingId);
 
-  const editShopping = (data: IShopping) =>
-    client(`shopping/${shoppingId}`, {
-      customConfig: { method: "PATCH" },
+  const editShopping = async (data: IShopping) => {
+    return await authClient(`shopping/${shoppingId}`, {
+      method: "PATCH",
       body: formatShoppingData(data),
     })
       .then(() => {
@@ -31,6 +32,7 @@ const Shopping = ({ shopping }: ShoppingProps) => {
         toast.success("Edytowano liste zakupową");
       })
       .catch((err) => toast.error(err.error));
+  };
 
   return (
     <Section aria-label="Sekcja wybranych zakupów">

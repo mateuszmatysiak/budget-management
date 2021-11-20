@@ -1,13 +1,14 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { TaskIcon } from "../../icons/task";
+import { ShoppingIcon } from "../../icons/shopping";
 import { IShopping } from "../../types/shopping";
 
 const StyledDayTag = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 16px;
+  width: 100%;
+  margin-top: 8px;
   padding: 8px;
   border: ${({ theme }) => `1px solid ${theme.borderColor.secondary}`};
   border-radius: ${({ theme }) => theme.borderRadius.primary};
@@ -34,7 +35,7 @@ const CalendarDayTag = ({ events }: CalendarDayTagProps) => {
   return (
     <StyledDayTag>
       <div>
-        <TaskIcon />
+        <ShoppingIcon />
         <StyledDayText>Zakupy</StyledDayText>
       </div>
 
