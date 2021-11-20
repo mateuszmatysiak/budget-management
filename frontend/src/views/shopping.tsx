@@ -14,13 +14,15 @@ const ShoppingView = () => {
 
   const { data: shopping, error } = useApi<IShopping[]>("shopping");
 
+  const isParamExist = Object.values(params)[0]?.length;
+
   if (error) return <FullPageError error={error} />;
 
   return (
     <>
       <ShoppingListItems shopping={shopping} isLoading={!shopping} />
 
-      {!Object.values(params)[0]?.length ? (
+      {!isParamExist ? (
         <Section />
       ) : (
         <Routes>

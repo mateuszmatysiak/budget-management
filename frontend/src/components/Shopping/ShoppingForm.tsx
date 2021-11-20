@@ -10,8 +10,9 @@ import { IProduct } from "../../types/product";
 import { IShopping } from "../../types/shopping";
 import { Button } from "../Button";
 import { EmptyState } from "../EmptyState";
-import { Loader } from "../Loader";
+import { FullPageError } from "../Error";
 import { Input } from "../Input";
+import { Loader } from "../Loader";
 import { ProductListCheckboxItem } from "../Product/ProductListCheckboxItem";
 
 const DEFAULT_SHOPPING_ITEM: IShopping = {
@@ -21,7 +22,7 @@ const DEFAULT_SHOPPING_ITEM: IShopping = {
 
 interface ShoppingFormProps {
   shoppingItem?: IShopping;
-  onSubmit: (data: IShopping) => void;
+  onSubmit: (data: IShopping) => Promise<any>;
   noPadding?: boolean;
 }
 
@@ -31,8 +32,7 @@ const ShoppingForm = ({
   onSubmit,
 }: ShoppingFormProps) => {
   const { data: products, error } = useApi<IProduct[]>("products");
-
-  const isLoading = !error && !products;
+  const [loading, setLoading] = React.useState(false);
 
   const [formData, setFormData] = React.useState<IShopping>(
     () => shoppingItem ?? DEFAULT_SHOPPING_ITEM
@@ -54,10 +54,14 @@ const ShoppingForm = ({
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit?.(formData);
+
+    setLoading(true);
+    onSubmit?.(formData).then(() => setLoading(false));
   };
 
   const preId = shoppingItem?.id ? "edit" : "new";
+
+  if (error) return <FullPageError error={error} />;
 
   return (
     <form
@@ -120,7 +124,7 @@ const ShoppingForm = ({
             max-height: 400px;
           `}
         >
-          {!isLoading ? (
+          {products ? (
             searchData.length ? (
               searchData.map((productData, index) => (
                 <ProductListCheckboxItem
@@ -139,8 +143,12 @@ const ShoppingForm = ({
         </div>
       </div>
 
-      <Button type="submit" fullWidth>
-        Zapisz
+      <Button type="submit" disabled={loading} fullWidth>
+        {!loading ? (
+          "Zapisz"
+        ) : (
+          <Loader width="12px" height="12px" borderWidth="2px" />
+        )}
       </Button>
     </form>
   );

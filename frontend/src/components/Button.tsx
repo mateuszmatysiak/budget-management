@@ -18,6 +18,11 @@ const Button = styled.button<ButtonProps>`
     background-color: ${({ theme }) => theme.color.secondaryHover};
   }
 
+  &:disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+  }
+
   & > a {
     display: block;
     height: 100%;

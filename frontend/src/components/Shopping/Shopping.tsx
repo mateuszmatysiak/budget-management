@@ -1,3 +1,4 @@
+/** @jsxFrag React.Fragment */
 /** @jsxRuntime classic */
 import React from "react";
 import { useParams } from "react-router-dom";
@@ -7,6 +8,8 @@ import { useClient } from "../../hooks/useApi";
 import { FormIcon } from "../../icons/form";
 import { IShopping } from "../../types/shopping";
 import { Divider } from "../Divider";
+import { FullPageError } from "../Error";
+import { FullPageLoader } from "../Loader";
 import { Section } from "../Section";
 import { ShoppingForm } from "./ShoppingForm";
 import { ShoppingHeader } from "./ShoppingHeader";
@@ -19,10 +22,11 @@ interface ShoppingProps {
 const Shopping = ({ shopping }: ShoppingProps) => {
   const { shoppingId } = useParams();
   const authClient = useClient();
+
   const shoppingItem = shopping?.find((item) => String(item.id) === shoppingId);
 
-  const editShopping = async (data: IShopping) => {
-    return await authClient(`shopping/${shoppingId}`, {
+  const editShopping = (data: IShopping) => {
+    return authClient(`shopping/${shoppingId}`, {
       method: "PATCH",
       body: formatShoppingData(data),
     })
@@ -36,11 +40,19 @@ const Shopping = ({ shopping }: ShoppingProps) => {
 
   return (
     <Section aria-label="Sekcja wybranych zakupów">
-      <ShoppingHeader shoppingItem={shoppingItem} />
+      {!shoppingItem && !shopping ? <FullPageLoader /> : null}
 
-      <Divider icon={<FormIcon />} />
+      {shoppingItem ? (
+        <>
+          <ShoppingHeader shoppingItem={shoppingItem} />
 
-      <ShoppingForm shoppingItem={shoppingItem} onSubmit={editShopping} />
+          <Divider icon={<FormIcon />} />
+
+          <ShoppingForm shoppingItem={shoppingItem} onSubmit={editShopping} />
+        </>
+      ) : (
+        <FullPageError error={`Nie znaleziono zakupów o id: ${shoppingId}`} />
+      )}
     </Section>
   );
 };

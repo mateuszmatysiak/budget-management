@@ -24,8 +24,8 @@ const ProductListItemsHeader = ({ onSearch }: ProductListItemsHeaderProps) => {
   const authClient = useClient();
   const { isOpen, open, close } = useDialogHandler();
 
-  const createProduct = async (data: IProduct) => {
-    return await authClient("products", { body: data })
+  const createProduct = (data: IProduct) => {
+    return authClient("products", { body: data })
       .then(({ id }: IProduct) => {
         mutate("products");
         mutate("last");

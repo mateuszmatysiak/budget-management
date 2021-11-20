@@ -2,17 +2,21 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
 import React from "react";
+import { useApi } from "../../hooks/useApi";
 import { CategoryIcon } from "../../icons/category";
 import { PriceIcon } from "../../icons/price";
 import { TitleIcon } from "../../icons/title";
 import { TypeIcon } from "../../icons/type";
 import {
   IProduct,
+  IProductCategoriesAndTypes,
   ProductCategoryType,
   ProductType,
 } from "../../types/product";
 import { Button } from "../Button";
+import { FullPageError } from "../Error";
 import { Input, Select } from "../Input";
+import { Loader } from "../Loader";
 
 const DEFAULT_PRODUCT: IProduct = {
   name: "",
@@ -23,23 +27,32 @@ const DEFAULT_PRODUCT: IProduct = {
 
 interface ProductFormProps {
   product?: IProduct;
-  onSubmit: (data: IProduct) => void;
+  onSubmit: (data: IProduct) => Promise<any>;
   noPadding?: boolean;
 }
 
 const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
   const [data, setData] = React.useState(product ?? DEFAULT_PRODUCT);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     if (product) setData(product);
   }, [product]);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const { data: items, error } = useApi<IProductCategoriesAndTypes>(
+    "products/categoriesAndTypes"
+  );
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit?.(data);
+
+    setLoading(true);
+    await onSubmit?.(data).then(() => setLoading(false));
   };
 
   const preId = product?.id ? "edit" : "new";
+
+  if (error) return <FullPageError error={error} />;
 
   return (
     <form
@@ -63,9 +76,11 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
         icon={<CategoryIcon />}
         required
       >
-        <option value="ECONOMIC">Gospodarcze</option>
-        <option value="ELECTRONIC">Elektroniczne</option>
-        <option value="HOMEMADE">Domowe</option>
+        {items?.categories?.map(({ name, label }) => (
+          <option key={name} value={name}>
+            {label}
+          </option>
+        ))}
       </Select>
 
       <Input
@@ -89,8 +104,11 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
         icon={<TypeIcon />}
         required
       >
-        <option value="KG">Kg</option>
-        <option value="PIECE">Sztuka</option>
+        {items?.types?.map(({ name, label }) => (
+          <option key={name} value={name}>
+            {label}
+          </option>
+        ))}
       </Select>
 
       <Input
@@ -99,15 +117,22 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
         name={`${preId}-price`}
         placeholder="Cena produktu"
         value={data.price}
-        onChange={(event) =>
-          setData({ ...data, price: Number(event.target.value).toFixed(2) })
-        }
+        onChange={(event) => {
+          setData({ ...data, price: event.target.value });
+        }}
+        onBlur={(event) => {
+          setData({ ...data, price: Number(event.target.value).toFixed(2) });
+        }}
         icon={<PriceIcon />}
         required
       />
 
-      <Button type="submit" fullWidth>
-        Zapisz
+      <Button type="submit" disabled={loading} fullWidth>
+        {!loading ? (
+          "Zapisz"
+        ) : (
+          <Loader width="12px" height="12px" borderWidth="2px" />
+        )}
       </Button>
     </form>
   );

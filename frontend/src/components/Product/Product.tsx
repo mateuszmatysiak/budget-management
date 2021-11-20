@@ -1,6 +1,6 @@
+/** @jsxFrag React.Fragment */
 /** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from "@emotion/react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
@@ -10,6 +10,8 @@ import { HistoryIcon } from "../../icons/history";
 import { LineChartIcon } from "../../icons/linechart";
 import { IProduct } from "../../types/product";
 import { Divider } from "../Divider";
+import { FullPageError } from "../Error";
+import { FullPageLoader } from "../Loader";
 import { Section } from "../Section";
 import { ProductChart } from "./ProductChart";
 import { ProductForm } from "./ProductForm";
@@ -26,8 +28,8 @@ const Product = ({ products }: ProductProps) => {
 
   const product = products?.find((item) => String(item.id) === productId);
 
-  const editProduct = async (data: IProduct) => {
-    return await authClient(`products/${productId}`, {
+  const editProduct = (data: IProduct) => {
+    return authClient(`products/${productId}`, {
       method: "PATCH",
       body: data,
     })
@@ -41,19 +43,27 @@ const Product = ({ products }: ProductProps) => {
 
   return (
     <Section aria-label="Sekcja wybranego produktu">
-      <ProductHeader product={product} />
+      {!product && !products ? <FullPageLoader /> : null}
 
-      <Divider icon={<FormIcon />} />
+      {product ? (
+        <>
+          <ProductHeader product={product} />
 
-      <ProductForm product={product} onSubmit={editProduct} />
+          <Divider icon={<FormIcon />} />
 
-      <Divider icon={<HistoryIcon />} />
+          <ProductForm product={product} onSubmit={editProduct} />
 
-      <ProductHistory history={product?.history} />
+          <Divider icon={<HistoryIcon />} />
 
-      <Divider icon={<LineChartIcon />} />
+          <ProductHistory history={product?.history} />
 
-      <ProductChart history={product?.history} />
+          <Divider icon={<LineChartIcon />} />
+
+          <ProductChart history={product?.history} />
+        </>
+      ) : (
+        <FullPageError error={`Nie znaleziono produktu o id: ${productId}`} />
+      )}
     </Section>
   );
 };

@@ -27,8 +27,8 @@ const ShoppingListItemsHeader = ({
   const authClient = useClient();
   const { isOpen, open, close } = useDialogHandler();
 
-  const createShoppingItem = async (data: IShopping) => {
-    return await authClient("shopping", { body: formatShoppingData(data) })
+  const createShoppingItem = (data: IShopping) => {
+    return authClient("shopping", { body: formatShoppingData(data) })
       .then(({ id }: IShopping) => {
         mutate("shopping");
         mutate("last");

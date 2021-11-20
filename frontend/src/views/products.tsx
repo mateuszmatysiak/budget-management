@@ -16,13 +16,15 @@ const ProductsView = () => {
 
   const { data: products, error } = useApi<IProduct[]>("products");
 
+  const isParamExist = Object.values(params)[0]?.length;
+
   if (error) return <FullPageError error={error} />;
 
   return (
     <>
       <ProductListItems products={products} isLoading={!products} />
 
-      {!Object.values(params)[0]?.length ? (
+      {!isParamExist ? (
         <Section />
       ) : (
         <Routes>

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Route, Routes } from "react-router-dom";
-import { ErrorMessage, FullPageError } from "./components/Error";
+import { FullPageError } from "./components/Error";
 import { Sidebar } from "./components/Sidebar";
 import CalendarView from "./views/calendar";
 import NotFoundView from "./views/not-found";
@@ -31,7 +31,7 @@ function AuthenticatedApp() {
         <Sidebar />
 
         <StyledContent>
-          <ErrorBoundary FallbackComponent={ErrorMessage}>
+          <ErrorBoundary FallbackComponent={FullPageError}>
             <Routes>
               <Route path="kalendarz" element={<CalendarView />} />
               <Route path="statystyki" element={<StatisticsView />} />

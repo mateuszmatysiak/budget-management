@@ -63,13 +63,22 @@ const StyledCalendarLoader = styled.div`
   }
 `;
 
-const Loader = ({ width, height }: { width?: string; height?: string }) => {
+const Loader = ({
+  width,
+  height,
+  borderWidth,
+}: {
+  width?: string;
+  height?: string;
+  borderWidth?: string;
+}) => {
   return (
     <StyledLoaderWrapper>
       <StyledSpinner
         css={css`
           width: ${width};
           height: ${height};
+          border-width: ${borderWidth};
         `}
       />
     </StyledLoaderWrapper>

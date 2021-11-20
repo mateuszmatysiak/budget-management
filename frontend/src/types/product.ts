@@ -21,3 +21,14 @@ export interface IProduct {
   userUsername?: number;
   history?: IProductHistory[];
 }
+
+export interface IProductCategoriesAndTypes {
+  categories: {
+    name: string;
+    label: string;
+  }[];
+  types: {
+    name: string;
+    label: string;
+  }[];
+}
