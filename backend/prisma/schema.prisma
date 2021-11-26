@@ -12,7 +12,7 @@ datasource db {
 
 model Product {
   id           Int              @id @default(autoincrement())
-  name         String           @unique
+  name         String
   price        String
   category     String
   type         String
@@ -48,7 +48,7 @@ model ProductType {
 
 model Shopping {
   id           Int       @id @default(autoincrement())
-  name         String    @unique
+  name         String
   products     Product[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt

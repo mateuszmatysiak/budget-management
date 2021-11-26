@@ -22,15 +22,12 @@
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
-    "@nestjs/config": "^1.1.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.0.0",
     "@prisma/client": "^3.4.2",
     "cache-manager": "^3.6.0",
     "date-fns": "^2.25.0",
-    "express-jwt": "^6.1.0",
-    "jwks-rsa": "^2.0.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.4.0"
