@@ -5,12 +5,17 @@ import styled from "@emotion/styled";
 import { ArrowLeft } from "../../icons/arrowLeft";
 import { ArrowRight } from "../../icons/arrowRight";
 import { ButtonIcon } from "../ButtonIcon";
+import * as mq from "../../styles/media-query";
 
 const StyledContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 32px;
+
+  ${mq.mobile} {
+    margin-bottom: 16px;
+  }
 `;
 
 const StyledButtonWrapper = styled.div`
@@ -43,17 +48,11 @@ const CalendarHeader = ({
           onClick={onBack}
           css={css`
             margin-right: 16px;
-            padding: 8px;
           `}
         >
           <ArrowLeft />
         </ButtonIcon>
-        <ButtonIcon
-          onClick={onNext}
-          css={css`
-            padding: 8px;
-          `}
-        >
+        <ButtonIcon onClick={onNext}>
           <ArrowRight />
         </ButtonIcon>
       </StyledButtonWrapper>

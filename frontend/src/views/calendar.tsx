@@ -15,6 +15,8 @@ import { FullPageError } from "../components/Error";
 import { StyledCalendarLoader, StyledSpinner } from "../components/Loader";
 import { useApi } from "../hooks/useApi";
 import { useCalendarDate } from "../hooks/useCalendarDate";
+import { useMedia } from "../hooks/useMedia";
+import * as mq from "../styles/media-query";
 import { IShopping } from "../types/shopping";
 
 const StyledWrapper = styled.div`
@@ -25,9 +27,19 @@ const StyledWrapper = styled.div`
   overflow-y: scroll;
   color: ${({ theme }) => theme.color.primary};
   padding: 36px 96px;
+
+  ${mq.laptop} {
+    padding: 82px 36px 36px 36px;
+  }
+
+  ${mq.mobile} {
+    padding: 64px 12px 12px 12px;
+  }
 `;
 
 const CalendarView = () => {
+  const { mobile } = useMedia();
+
   const [navId, setNavId] = React.useState(0);
   const [calendarDayId, setCalendarDayId] = React.useState<number | null>(null);
 
@@ -51,7 +63,7 @@ const CalendarView = () => {
         onNext={() => setNavId(navId + 1)}
         onBack={() => setNavId(navId - 1)}
       />
-      <CalendarHeaderWeekdays />
+      {!mobile ? <CalendarHeaderWeekdays /> : null}
 
       <CalendarDays days={daysWithEvents} openCalendarDay={setCalendarDayId} />
 

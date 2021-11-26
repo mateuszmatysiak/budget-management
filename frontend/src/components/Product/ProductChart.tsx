@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
 import { Line } from "react-chartjs-2";
+import * as mq from "../../styles/media-query";
 import { IProductHistory } from "../../types/product";
 import { EmptyState } from "../EmptyState";
 import { getProductChartData, productChartOptions } from "./utils";
@@ -17,6 +18,14 @@ const ProductChart = ({ history }: ProductChartProps) => {
     <div
       css={css`
         padding: 32px 112px;
+
+        ${mq.laptop} {
+          padding: 32px;
+        }
+
+        ${mq.mobile} {
+          padding: 32px 12px;
+        }
       `}
     >
       <div

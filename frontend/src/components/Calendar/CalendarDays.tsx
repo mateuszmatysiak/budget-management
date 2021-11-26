@@ -5,6 +5,8 @@ import styled from "@emotion/styled";
 import React from "react";
 import { IDay } from "../../types/day";
 import { CalendarDayTag } from "./CalendarDayTag";
+import * as mq from "../../styles/media-query";
+import { useMedia } from "../../hooks/useMedia";
 
 const getBackgroundColorDay = ({
   theme,
@@ -33,6 +35,11 @@ const StyledDays = styled.div<{ rows: number }>`
   grid-template-rows: ${({ rows }) => `repeat(${rows}, 1fr);`};
   gap: 8px;
   height: 100%;
+
+  ${mq.mobile} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const StyledDay = styled.button<StyledDayProps>`
@@ -65,6 +72,7 @@ const Day = ({ day, openCalendarDay }: CalendarDayProps) => {
 };
 
 const CalendarDays = ({ days = [], openCalendarDay }: CalendarDaysProps) => {
+  const { mobile } = useMedia();
   const rows = days.length > 35 ? 6 : 5;
 
   return (
@@ -74,7 +82,7 @@ const CalendarDays = ({ days = [], openCalendarDay }: CalendarDaysProps) => {
           <React.Fragment key={index}>
             {day.value !== "empty" ? (
               <Day day={day} openCalendarDay={openCalendarDay} />
-            ) : (
+            ) : mobile ? null : (
               <div />
             )}
           </React.Fragment>

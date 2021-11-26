@@ -14,6 +14,7 @@ import { LoadingButton } from "../Button";
 import { ButtonIcon } from "../ButtonIcon";
 import { Dialog, DialogContent, DialogFooter, DialogHeader } from "../Dialog";
 import { getProductColor, getProductIcon } from "./utils";
+import * as mq from "../../styles/media-query";
 
 interface ProductHeaderProps {
   product?: IProduct;
@@ -51,6 +52,14 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
         justify-content: space-between;
         align-items: center;
         padding: 32px 112px;
+
+        ${mq.laptop} {
+          padding: 32px;
+        }
+
+        ${mq.mobile} {
+          padding: 32px 12px;
+        }
       `}
     >
       <div
@@ -125,12 +134,7 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
       >
         <DialogHeader>
           <span>Usunięcie produktu</span>
-          <ButtonIcon
-            onClick={close}
-            css={css`
-              padding: 8px;
-            `}
-          >
+          <ButtonIcon onClick={close}>
             <CloseIcon />
           </ButtonIcon>
         </DialogHeader>

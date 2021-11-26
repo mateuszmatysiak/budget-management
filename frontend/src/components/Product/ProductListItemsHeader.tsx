@@ -97,12 +97,7 @@ const ProductListItemsHeader = ({ onSearch }: ProductListItemsHeaderProps) => {
         >
           <DialogHeader>
             <span>Dodanie produktu</span>
-            <ButtonIcon
-              css={css`
-                padding: 8px;
-              `}
-              onClick={close}
-            >
+            <ButtonIcon onClick={close}>
               <CloseIcon />
             </ButtonIcon>
           </DialogHeader>

@@ -4,13 +4,17 @@ import { Bar, Doughnut } from "react-chartjs-2";
 import { FullPageError } from "../components/Error";
 import { FullPageLoader } from "../components/Loader";
 import { useApi } from "../hooks/useApi";
+import { useMedia } from "../hooks/useMedia";
+import * as mq from "../styles/media-query";
 import { IStatistics } from "../types/statistics";
 import {
   getCategoryData,
   getProductsAndShoppingData,
   getTodayWeekMonthData,
   getWeekdaysData,
+  mobileWeekdays,
   options,
+  weekdays,
 } from "../utils/chart";
 
 const StyledWrapper = styled.div`
@@ -19,8 +23,18 @@ const StyledWrapper = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   width: 100%;
-  padding: 72px 96px;
+  padding: 36px 96px;
   color: ${({ theme }) => theme.color.primary};
+
+  ${mq.laptop} {
+    padding: 82px 36px 36px 36px;
+  }
+
+  ${mq.mobile} {
+    display: flex;
+    flex-direction: column;
+    padding: 64px 12px 12px 12px;
+  }
 `;
 
 const StyledChartContainer = styled.div`
@@ -54,6 +68,8 @@ const StyledChartContent = styled.div`
 `;
 
 const StatisticsView = () => {
+  const { mobile } = useMedia();
+
   const { data: statistics, error } = useApi<IStatistics>("statistics");
 
   if (!statistics) return <FullPageLoader />;
@@ -68,7 +84,10 @@ const StatisticsView = () => {
         </StyledChartHeader>
         <StyledChartContent>
           <Bar
-            data={getTodayWeekMonthData(statistics.todayWeekMonth)}
+            data={getTodayWeekMonthData({
+              data: statistics.todayWeekMonth,
+              barThickness: mobile ? 50 : 100,
+            })}
             options={options}
           />
         </StyledChartContent>
@@ -78,7 +97,11 @@ const StatisticsView = () => {
         <StyledChartHeader>Wydatki w każdym dniu tygodnia</StyledChartHeader>
         <StyledChartContent>
           <Bar
-            data={getWeekdaysData(statistics.allWeekdays)}
+            data={getWeekdaysData({
+              data: statistics.allWeekdays,
+              labels: mobile ? mobileWeekdays : weekdays,
+              barThickness: mobile ? 25 : 50,
+            })}
             options={options}
           />
         </StyledChartContent>
@@ -88,7 +111,10 @@ const StatisticsView = () => {
         <StyledChartHeader>Wydatki dla kategorii</StyledChartHeader>
         <StyledChartContent>
           <Bar
-            data={getCategoryData(statistics.categories)}
+            data={getCategoryData({
+              data: statistics.categories,
+              barThickness: mobile ? 50 : 100,
+            })}
             options={options}
           />
         </StyledChartContent>

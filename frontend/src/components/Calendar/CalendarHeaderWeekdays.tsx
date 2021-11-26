@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
+import { weekdays } from "../../utils/chart";
 
 const StyledContainer = styled.div`
   width: 100%;
@@ -19,13 +20,9 @@ const StyledWeekDay = styled.div`
 const CalendarHeaderWeekdays = () => {
   return (
     <StyledContainer>
-      <StyledWeekDay>Poniedziałek</StyledWeekDay>
-      <StyledWeekDay>Wtorek</StyledWeekDay>
-      <StyledWeekDay>Środa</StyledWeekDay>
-      <StyledWeekDay>Czwartek</StyledWeekDay>
-      <StyledWeekDay>Piątek</StyledWeekDay>
-      <StyledWeekDay>Sobota</StyledWeekDay>
-      <StyledWeekDay>Niedziela</StyledWeekDay>
+      {weekdays.map((day) => (
+        <StyledWeekDay key={day}>{day}</StyledWeekDay>
+      ))}
     </StyledContainer>
   );
 };

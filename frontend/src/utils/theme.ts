@@ -4,6 +4,10 @@ import emotionReset from "emotion-reset";
 const GlobalStyles = css`
   ${emotionReset}
 
+  body {
+    background-color: #050505;
+  }
+
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;

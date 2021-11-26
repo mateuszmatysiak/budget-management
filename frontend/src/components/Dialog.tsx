@@ -8,6 +8,7 @@ import {
   DialogProps as ReachDialogProps,
 } from "@reach/dialog";
 import "@reach/dialog/styles.css";
+import * as mq from "../styles/media-query";
 
 export interface DialogProps extends ReachDialogProps {
   ariaLabel: string;
@@ -37,6 +38,15 @@ const StyledDialog = styled(ReachDialogContent)`
   color: ${({ theme }) => theme.color.white};
   background-color: ${({ theme }) =>
     `${theme.backgroundColor.tertiary} !important`};
+
+  ${mq.laptop} {
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+    min-height: 100vh;
+    margin: 0 !important;
+    border-radius: 0;
+  }
 `;
 
 const DialogContent = styled.div`
@@ -55,7 +65,6 @@ const Dialog = ({
   children,
   ariaLabel,
   width = "600px",
-  height,
   ...props
 }: DialogProps) => {
   return (
@@ -64,7 +73,6 @@ const Dialog = ({
         aria-label={ariaLabel}
         css={css`
           width: ${width} !important;
-          height: ${height} !important;
         `}
       >
         {children}

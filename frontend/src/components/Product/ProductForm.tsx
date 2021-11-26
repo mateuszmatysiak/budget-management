@@ -7,6 +7,7 @@ import { CategoryIcon } from "../../icons/category";
 import { PriceIcon } from "../../icons/price";
 import { TitleIcon } from "../../icons/title";
 import { TypeIcon } from "../../icons/type";
+import * as mq from "../../styles/media-query";
 import {
   IProduct,
   IProductCategoriesAndTypes,
@@ -62,6 +63,14 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
         grid-template-columns: 1fr;
         gap: 24px;
         padding: ${noPadding ? 0 : "32px 112px"};
+
+        ${mq.laptop} {
+          padding: ${noPadding ? 0 : "32px"};
+        }
+
+        ${mq.mobile} {
+          padding: ${noPadding ? 0 : "32px 12px"};
+        }
       `}
     >
       <Select

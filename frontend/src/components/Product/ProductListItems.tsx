@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
 import { useSearchHandler } from "../../hooks/useSearchHandler";
+import * as mq from "../../styles/media-query";
 import { IProduct } from "../../types/product";
 import { EmptyState } from "../EmptyState";
 import { ProductListItem } from "./ProductListItem";
@@ -20,10 +21,13 @@ const ProductListItems = ({ products = [] }: ProductListItemsProps) => {
       css={css`
         position: relative;
         flex: 1 1;
-        height: 100vh;
         border-right: 1px solid rgba(38, 38, 38, 1);
         background-color: #171717;
         font-size: 14px;
+
+        ${mq.laptop} {
+          padding-top: 49px;
+        }
       `}
     >
       <ProductListItemsHeader onSearch={handleSearch} />

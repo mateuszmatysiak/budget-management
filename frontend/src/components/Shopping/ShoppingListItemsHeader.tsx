@@ -100,12 +100,7 @@ const ShoppingListItemsHeader = ({
         >
           <DialogHeader>
             <span>Dodanie listy zakupowej</span>
-            <ButtonIcon
-              css={css`
-                padding: 8px;
-              `}
-              onClick={close}
-            >
+            <ButtonIcon onClick={close}>
               <CloseIcon />
             </ButtonIcon>
           </DialogHeader>

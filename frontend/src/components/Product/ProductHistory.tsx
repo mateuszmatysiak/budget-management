@@ -3,6 +3,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
 import React from "react";
+import * as mq from "../../styles/media-query";
 import { IProductHistory } from "../../types/product";
 import { EmptyState } from "../EmptyState";
 
@@ -15,6 +16,14 @@ const ProductHistory = ({ history }: ProductHistory) => {
     <div
       css={css`
         padding: 32px 112px;
+
+        ${mq.laptop} {
+          padding: 32px;
+        }
+
+        ${mq.mobile} {
+          padding: 32px 12px;
+        }
       `}
     >
       <div

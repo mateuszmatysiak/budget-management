@@ -10,10 +10,12 @@ import { Product } from "../components/Product/Product";
 import { ProductListItems } from "../components/Product/ProductListItems";
 import { Section } from "../components/Section";
 import { useApi } from "../hooks/useApi";
+import { useMedia } from "../hooks/useMedia";
 import { IProduct } from "../types/product";
 
 const ProductsView = () => {
   const params = useParams();
+  const { mobile } = useMedia();
 
   const { data: products, error } = useApi<IProduct[]>("products");
 
@@ -25,10 +27,14 @@ const ProductsView = () => {
 
   return (
     <>
-      <ProductListItems products={products} />
+      {!mobile || !isParamExist ? (
+        <ProductListItems products={products} />
+      ) : null}
 
       {!isParamExist ? (
-        <Section />
+        !mobile ? (
+          <Section />
+        ) : null
       ) : (
         <Routes>
           <Route path="/:productId" element={<Product products={products} />} />

@@ -9,6 +9,7 @@ import { useClient } from "../../hooks/useApi";
 import { useDialogHandler } from "../../hooks/useDialogHandler";
 import { CloseIcon } from "../../icons/close";
 import { DeleteIcon } from "../../icons/delete";
+import * as mq from "../../styles/media-query";
 import { IShopping } from "../../types/shopping";
 import { LoadingButton } from "../Button";
 import { ButtonIcon } from "../ButtonIcon";
@@ -52,6 +53,14 @@ const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
         justify-content: space-between;
         align-items: center;
         padding: 32px 112px;
+
+        ${mq.laptop} {
+          padding: 32px;
+        }
+
+        ${mq.mobile} {
+          padding: 12px;
+        }
       `}
     >
       <div
@@ -109,12 +118,7 @@ const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
       >
         <DialogHeader>
           <span>Usunięcie listy zakupowej</span>
-          <ButtonIcon
-            onClick={close}
-            css={css`
-              padding: 8px;
-            `}
-          >
+          <ButtonIcon onClick={close}>
             <CloseIcon />
           </ButtonIcon>
         </DialogHeader>

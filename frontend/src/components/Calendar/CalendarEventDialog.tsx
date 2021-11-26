@@ -45,12 +45,7 @@ const CalendarEventDialog = (props: CalendarEventDialogProps) => {
     >
       <DialogHeader>
         Dzień {day?.date ?? "-"}
-        <ButtonIcon
-          css={css`
-            padding: 8px;
-          `}
-          onClick={() => openCalendarDay(null)}
-        >
+        <ButtonIcon onClick={() => openCalendarDay(null)}>
           <CloseIcon />
         </ButtonIcon>
       </DialogHeader>
@@ -58,6 +53,9 @@ const CalendarEventDialog = (props: CalendarEventDialogProps) => {
         <>
           <DialogContent
             css={css`
+              flex: 1 1;
+              display: flex;
+              flex-direction: column;
               padding: 0;
             `}
           >
@@ -94,11 +92,11 @@ const CalendarEventDialog = (props: CalendarEventDialogProps) => {
             </div>
             <div
               css={css`
+                flex: 1 1 400px;
                 display: flex;
                 flex-direction: column;
                 padding: 16px;
                 overflow-y: scroll;
-                max-height: 400px;
                 border-top: 1px solid rgba(229, 229, 229, 0.15);
                 background-color: #232323;
               `}

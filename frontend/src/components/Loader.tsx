@@ -1,7 +1,12 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx } from "@emotion/react";
+import { css, jsx, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+
+const spin = keyframes({
+  "0%": { transform: "rotate(0deg)" },
+  "100%": { transform: "rotate(360deg)" },
+});
 
 const StyledMain = styled.main`
   display: flex;
@@ -22,25 +27,7 @@ const StyledSpinner = styled.span`
   width: 40px;
   height: 40px;
   -webkit-animation: spin 1s linear infinite;
-  animation: spin 1s linear infinite;
-
-  @-webkit-keyframes spin {
-    0% {
-      -webkit-transform: rotate(0deg);
-    }
-    100% {
-      -webkit-transform: rotate(360deg);
-    }
-  }
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
+  animation: ${spin} 1s linear infinite;
 `;
 
 const StyledLoaderWrapper = styled.div`

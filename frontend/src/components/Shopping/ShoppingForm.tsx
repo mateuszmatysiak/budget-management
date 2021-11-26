@@ -6,6 +6,7 @@ import { useApi } from "../../hooks/useApi";
 import { useSearchHandler } from "../../hooks/useSearchHandler";
 import { SearchIcon } from "../../icons/search";
 import { TitleIcon } from "../../icons/title";
+import * as mq from "../../styles/media-query";
 import { IProduct } from "../../types/product";
 import { IShopping } from "../../types/shopping";
 import { LoadingButton } from "../Button";
@@ -72,6 +73,14 @@ const ShoppingForm = ({
         grid-template-columns: 1fr;
         gap: 24px;
         padding: ${noPadding ? 0 : "32px 112px"};
+
+        ${mq.laptop} {
+          padding: ${noPadding ? 0 : "32px"};
+        }
+
+        ${mq.mobile} {
+          padding: ${noPadding ? 0 : "32px 12px"};
+        }
       `}
     >
       <Input

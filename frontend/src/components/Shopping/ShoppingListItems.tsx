@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
 import { useSearchHandler } from "../../hooks/useSearchHandler";
+import * as mq from "../../styles/media-query";
 import { IShopping } from "../../types/shopping";
 import { EmptyState } from "../EmptyState";
 import { ShoppingListItem } from "./ShoppingListItem";
@@ -24,6 +25,10 @@ const ShoppingListItems = ({ shopping = [] }: ShoppingListItemsProps) => {
         border-right: 1px solid rgba(38, 38, 38, 1);
         background-color: #171717;
         font-size: 14px;
+
+        ${mq.laptop} {
+          padding-top: 49px;
+        }
       `}
     >
       <ShoppingListItemsHeader onSearch={handleSearch} />

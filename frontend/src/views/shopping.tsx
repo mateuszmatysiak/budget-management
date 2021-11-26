@@ -8,10 +8,12 @@ import { Section } from "../components/Section";
 import { Shopping } from "../components/Shopping/Shopping";
 import { ShoppingListItems } from "../components/Shopping/ShoppingListItems";
 import { useApi } from "../hooks/useApi";
+import { useMedia } from "../hooks/useMedia";
 import { IShopping } from "../types/shopping";
 
 const ShoppingView = () => {
   const params = useParams();
+  const { mobile } = useMedia();
 
   const { data: shopping, error } = useApi<IShopping[]>("shopping");
 
@@ -23,10 +25,14 @@ const ShoppingView = () => {
 
   return (
     <>
-      <ShoppingListItems shopping={shopping} />
+      {!mobile || !isParamExist ? (
+        <ShoppingListItems shopping={shopping} />
+      ) : null}
 
       {!isParamExist ? (
-        <Section />
+        !mobile ? (
+          <Section />
+        ) : null
       ) : (
         <Routes>
           <Route

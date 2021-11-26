@@ -1,12 +1,21 @@
 import type { ChartProps } from "react-chartjs-2";
 
-const getTodayWeekMonthData = (data: number[]): ChartProps<"bar">["data"] => ({
+interface CustomChartProps {
+  data: number[];
+  labels?: string[];
+  barThickness: number;
+}
+
+const getTodayWeekMonthData = ({
+  data,
+  barThickness,
+}: CustomChartProps): ChartProps<"bar">["data"] => ({
   labels: ["Dzisiaj", "Tydzień", "Miesiąc"],
   datasets: [
     {
       data,
       label: "Wydatki w złotówkach",
-      barThickness: 75,
+      barThickness,
       hoverBackgroundColor: [
         "rgba(255, 99, 133, 0.4)",
         "rgba(54, 163, 235, 0.4)",
@@ -27,21 +36,17 @@ const getTodayWeekMonthData = (data: number[]): ChartProps<"bar">["data"] => ({
   ],
 });
 
-const getWeekdaysData = (data: number[]): ChartProps<"bar">["data"] => ({
-  labels: [
-    "Poniedziałek",
-    "Wtorek",
-    "Środa",
-    "Czwartek",
-    "Piątek",
-    "Sobota",
-    "Niedziela",
-  ],
+const getWeekdaysData = ({
+  data,
+  labels,
+  barThickness,
+}: CustomChartProps): ChartProps<"bar">["data"] => ({
+  labels,
   datasets: [
     {
       data,
       label: "Wydatki w złotówkach",
-      barThickness: 50,
+      barThickness,
       hoverBackgroundColor: [
         "rgba(255, 99, 133, 0.4)",
         "rgba(54, 163, 235, 0.4)",
@@ -74,13 +79,16 @@ const getWeekdaysData = (data: number[]): ChartProps<"bar">["data"] => ({
   ],
 });
 
-const getCategoryData = (data: number[]): ChartProps<"bar">["data"] => ({
+const getCategoryData = ({
+  data,
+  barThickness,
+}: CustomChartProps): ChartProps<"bar">["data"] => ({
   labels: ["Gospodarcze", "Elektroniczne", "Domowe"],
   datasets: [
     {
       data,
       label: "Wydatki w złotówkach",
-      barThickness: 75,
+      barThickness,
       hoverBackgroundColor: [
         "rgba(20, 25, 255, 0.4)",
         "rgba(20, 255, 25, 0.4)",
@@ -133,10 +141,23 @@ const options: ChartProps<"bar">["options"] = {
   },
 };
 
+const weekdays = [
+  "Poniedziałek",
+  "Wtorek",
+  "Środa",
+  "Czwartek",
+  "Piątek",
+  "Sobota",
+  "Niedziela",
+];
+const mobileWeekdays = ["Pn", "Wt", "Śr", "Czw", "Pt", "Sb", "Ndz"];
+
 export {
   getTodayWeekMonthData,
   getWeekdaysData,
   getCategoryData,
   getProductsAndShoppingData,
   options,
+  weekdays,
+  mobileWeekdays,
 };

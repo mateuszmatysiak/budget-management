@@ -8,6 +8,7 @@ const ButtonIcon = styled.button`
   border: unset;
   border-radius: ${({ theme }) => theme.borderRadius.primary};
   background-color: unset;
+  padding: 8px;
   cursor: pointer;
   z-index: 1;
 
