@@ -10,6 +10,7 @@ const StyledMain = styled.main`
   align-items: center;
   height: 100vh;
   width: 100%;
+  padding: 16px;
   text-align: center;
   background-color: ${({ theme }) => theme.backgroundColor.primary};
   background-image: radial-gradient(rgba(38, 38, 38, 0.75) 1px, transparent 0);
@@ -23,7 +24,7 @@ const StyledTextPrimary = styled.p`
   letter-spacing: 1px;
 `;
 
-const StyledTextSecondary = styled.pre`
+const StyledTextSecondary = styled.p`
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 24px;

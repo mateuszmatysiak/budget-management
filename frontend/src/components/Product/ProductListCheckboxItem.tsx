@@ -17,7 +17,7 @@ const ProductListCheckboxItem = ({
   setFormData,
   product,
 }: ProductListCheckboxItemProps) => {
-  const checked = formData.products.some((item) => item.id === product.id);
+  const checked = formData.products?.some((item) => item.id === product.id);
 
   const add = (product: IProduct) => () =>
     setFormData({
@@ -28,7 +28,7 @@ const ProductListCheckboxItem = ({
   const remove = (product: IProduct) => () =>
     setFormData({
       ...formData,
-      products: formData.products.filter((item) => item.id !== product.id),
+      products: formData.products?.filter((item) => item.id !== product.id),
     });
 
   const toggle = checked ? remove(product) : add(product);

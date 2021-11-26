@@ -36,7 +36,7 @@ const ShoppingListItemsHeader = ({
         close();
         toast.success("Utworzono liste zakupową");
       })
-      .catch((err) => toast.error(err?.error));
+      .catch((err) => toast.error(err.message));
   };
 
   return (

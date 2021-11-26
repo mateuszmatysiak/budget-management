@@ -4,28 +4,25 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
-import { useClient } from "../../hooks/useApi";
+import { useApi, useClient } from "../../hooks/useApi";
 import { FormIcon } from "../../icons/form";
 import { HistoryIcon } from "../../icons/history";
 import { LineChartIcon } from "../../icons/linechart";
 import { IProduct } from "../../types/product";
 import { Divider } from "../Divider";
 import { FullPageError } from "../Error";
+import { FullPageLoader } from "../Loader";
 import { Section } from "../Section";
 import { ProductChart } from "./ProductChart";
 import { ProductForm } from "./ProductForm";
 import { ProductHeader } from "./ProductHeader";
 import { ProductHistory } from "./ProductHistory";
 
-interface ProductProps {
-  products?: IProduct[];
-}
-
-const Product = ({ products }: ProductProps) => {
+const Product = () => {
   const { productId } = useParams();
   const authClient = useClient();
 
-  const product = products?.find((item) => String(item.id) === productId);
+  const { data: product, error } = useApi<IProduct>(`products/${productId}`);
 
   const editProduct = (data: IProduct) => {
     return authClient(`products/${productId}`, {
@@ -37,11 +34,15 @@ const Product = ({ products }: ProductProps) => {
         mutate("last");
         toast.success("Edytowano produkt");
       })
-      .catch((err) => toast.error(err?.error));
+      .catch((err) => toast.error(err.message));
   };
 
   return (
     <Section aria-label="Sekcja wybranego produktu">
+      {error ? <FullPageError error={error.message} /> : null}
+
+      {!product ? <FullPageLoader /> : null}
+
       {product ? (
         <>
           <ProductHeader product={product} />
@@ -58,9 +59,7 @@ const Product = ({ products }: ProductProps) => {
 
           <ProductChart history={product?.history} />
         </>
-      ) : (
-        <FullPageError error={`Nie znaleziono produktu o id: ${productId}`} />
-      )}
+      ) : null}
     </Section>
   );
 };

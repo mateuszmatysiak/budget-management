@@ -42,7 +42,7 @@ const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
         navigate("/zakupy");
         toast.success("Usunięto liste zakupową");
       })
-      .catch((err) => toast.error(err?.error))
+      .catch((err) => toast.error(err.message))
       .then(() => setLoading(false));
   };
 

@@ -41,7 +41,7 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
         navigate("/produkty");
         toast.success("Usunięto produkt");
       })
-      .catch((err) => toast.error(err?.error))
+      .catch((err) => toast.error(err.message))
       .then(() => setLoading(false));
   };
 

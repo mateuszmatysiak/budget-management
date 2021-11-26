@@ -33,7 +33,7 @@ const ProductListItemsHeader = ({ onSearch }: ProductListItemsHeaderProps) => {
         close();
         toast.success("Utworzono produkt");
       })
-      .catch((err) => toast.error(err?.error));
+      .catch((err) => toast.error(err.message));
   };
 
   return (

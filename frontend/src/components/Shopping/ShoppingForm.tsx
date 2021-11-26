@@ -42,7 +42,7 @@ const ShoppingForm = ({
     return products
       ?.map((product) => ({
         ...product,
-        isChecked: formData.products.some((item) => item.id === product.id),
+        isChecked: formData.products?.some((item) => item.id === product.id),
       }))
       .sort((product) => (product.isChecked ? -1 : 1));
   }, [products, formData.products]);

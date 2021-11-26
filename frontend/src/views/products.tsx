@@ -21,6 +21,8 @@ const ProductsView = () => {
 
   const isParamExist = Object.values(params)[0]?.length;
 
+  const emptySection = !mobile ? <Section /> : null;
+
   if (error) return <FullPageError error={error} />;
 
   if (!products) return <FullPageLoader />;
@@ -32,12 +34,10 @@ const ProductsView = () => {
       ) : null}
 
       {!isParamExist ? (
-        !mobile ? (
-          <Section />
-        ) : null
+        emptySection
       ) : (
         <Routes>
-          <Route path="/:productId" element={<Product products={products} />} />
+          <Route path="/:productId" element={<Product />} />
         </Routes>
       )}
     </>

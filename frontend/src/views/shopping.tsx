@@ -19,6 +19,8 @@ const ShoppingView = () => {
 
   const isParamExist = Object.values(params)[0]?.length;
 
+  const emptySection = !mobile ? <Section /> : null;
+
   if (error) return <FullPageError error={error} />;
 
   if (!shopping) return <FullPageLoader />;
@@ -30,15 +32,10 @@ const ShoppingView = () => {
       ) : null}
 
       {!isParamExist ? (
-        !mobile ? (
-          <Section />
-        ) : null
+        emptySection
       ) : (
         <Routes>
-          <Route
-            path="/:shoppingId"
-            element={<Shopping shopping={shopping} />}
-          />
+          <Route path="/:shoppingId" element={<Shopping />} />
         </Routes>
       )}
     </>

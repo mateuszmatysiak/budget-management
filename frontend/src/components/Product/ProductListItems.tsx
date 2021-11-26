@@ -21,6 +21,7 @@ const ProductListItems = ({ products = [] }: ProductListItemsProps) => {
       css={css`
         position: relative;
         flex: 1 1;
+        height: 100vh;
         border-right: 1px solid rgba(38, 38, 38, 1);
         background-color: #171717;
         font-size: 14px;

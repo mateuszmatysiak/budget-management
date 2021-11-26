@@ -23,6 +23,7 @@ const StyledSidebar = styled.div<{ showMenu: boolean }>`
   flex-direction: column;
   width: 17.5%;
   min-width: 315px;
+  height: 100vh;
   border-right: ${({ theme }) => `1px solid ${theme.borderColor.primary}`};
   background-color: ${({ theme }) => theme.backgroundColor.secondary};
   font-size: 14px;
