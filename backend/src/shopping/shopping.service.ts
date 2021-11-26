@@ -46,6 +46,9 @@ export class ShoppingService {
       where: {
         id,
       },
+      include: {
+        products: true,
+      },
     });
   }
 
