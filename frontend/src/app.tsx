@@ -11,9 +11,9 @@ const UnauthenticatedApp = React.lazy(() => import("./unauthenticated-app"));
 function App() {
   const { isAuthenticated, isLoading, error } = useAuth0();
 
-  if (isLoading) return <FullPageLoader />;
-
   if (error) return <FullPageError error={error} />;
+
+  if (isLoading) return <FullPageLoader />;
 
   return (
     <React.Suspense fallback={<FullPageLoader />}>

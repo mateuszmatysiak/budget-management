@@ -15,7 +15,7 @@ const Auth0ProviderWithHistory = ({
   const navigate = useNavigate();
 
   const onRedirectCallback = (appState: AppState) => {
-    navigate(appState?.returnTo ?? "kalendarz" ?? window.location.pathname);
+    navigate(appState?.returnTo ?? window.location.pathname);
   };
 
   if (!domain || !clientId) return null;

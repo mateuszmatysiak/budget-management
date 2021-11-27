@@ -50,7 +50,15 @@ const UnauthenticatedApp = () => {
       <StyledWrapper>
         <StyledHeader>Aplikacja do zarządzania budżetem domowym</StyledHeader>
         <StyledContent>
-          <Button onClick={() => loginWithRedirect()}>
+          <Button
+            onClick={() =>
+              loginWithRedirect({
+                appState: {
+                  returnTo: "kalendarz",
+                },
+              })
+            }
+          >
             Przejdź do panelu logowania
           </Button>
         </StyledContent>
