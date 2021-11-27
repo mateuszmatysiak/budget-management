@@ -22,16 +22,21 @@ const Product = () => {
   const { productId } = useParams();
   const authClient = useClient();
 
-  const { data: product, error } = useApi<IProduct>(`products/${productId}`);
+  const {
+    data: product,
+    error,
+    mutate: productMutate,
+  } = useApi<IProduct>(`products/${productId}`);
 
   const editProduct = (data: IProduct) => {
     return authClient(`products/${productId}`, {
       method: "PATCH",
       body: data,
     })
-      .then(() => {
+      .then((product: IProduct) => {
         mutate("products");
         mutate("last");
+        productMutate(product);
         toast.success("Edytowano produkt");
       })
       .catch((err) => toast.error(err.message));

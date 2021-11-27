@@ -29,9 +29,9 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
 
   const { isOpen, open, close } = useDialogHandler();
 
-  const removeProduct = async () => {
+  const removeProduct = () => {
     setLoading(true);
-    return await authClient(`products/${productId}`, {
+    return authClient(`products/${productId}`, {
       method: "DELETE",
     })
       .then(() => {

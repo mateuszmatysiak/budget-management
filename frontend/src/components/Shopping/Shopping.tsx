@@ -19,18 +19,21 @@ const Shopping = () => {
   const { shoppingId } = useParams();
   const authClient = useClient();
 
-  const { data: shoppingItem, error } = useApi<IShopping>(
-    `shopping/${shoppingId}`
-  );
+  const {
+    data: shoppingItem,
+    error,
+    mutate: shoppingItemMutate,
+  } = useApi<IShopping>(`shopping/${shoppingId}`);
 
   const editShopping = (data: IShopping) => {
     return authClient(`shopping/${shoppingId}`, {
       method: "PATCH",
       body: formatShoppingData(data),
     })
-      .then(() => {
+      .then((shoppingItem: IShopping) => {
         mutate("shopping");
         mutate("last");
+        shoppingItemMutate(shoppingItem);
         toast.success("Edytowano liste zakupową");
       })
       .catch((err) => toast.error(err.message));

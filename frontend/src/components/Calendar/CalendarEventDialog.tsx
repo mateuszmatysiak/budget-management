@@ -92,7 +92,7 @@ const CalendarEventDialog = (props: CalendarEventDialogProps) => {
             </div>
             <div
               css={css`
-                flex: 1 1 400px;
+                flex: 1 1 300px;
                 display: flex;
                 flex-direction: column;
                 padding: 16px;

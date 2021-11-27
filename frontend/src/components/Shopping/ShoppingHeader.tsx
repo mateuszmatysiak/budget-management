@@ -29,10 +29,9 @@ const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
 
   const { isOpen, open, close } = useDialogHandler();
 
-  const removeShoppingItem = async () => {
+  const removeShoppingItem = () => {
     setLoading(true);
-
-    return await authClient(`shopping/${shoppingId}`, {
+    return authClient(`shopping/${shoppingId}`, {
       method: "DELETE",
     })
       .then(() => {

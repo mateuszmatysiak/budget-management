@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { Bar, Doughnut } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import { FullPageError } from "../components/Error";
 import { FullPageLoader } from "../components/Loader";
 import { useApi } from "../hooks/useApi";
@@ -72,9 +72,9 @@ const StatisticsView = () => {
 
   const { data: statistics, error } = useApi<IStatistics>("statistics");
 
-  if (!statistics) return <FullPageLoader />;
-
   if (error) return <FullPageError error={error} />;
+
+  if (!statistics) return <FullPageLoader />;
 
   return (
     <StyledWrapper>
@@ -86,7 +86,7 @@ const StatisticsView = () => {
           <Bar
             data={getTodayWeekMonthData({
               data: statistics.todayWeekMonth,
-              barThickness: mobile ? 50 : 100,
+              barThickness: mobile ? 50 : 75,
             })}
             options={options}
           />
@@ -100,7 +100,7 @@ const StatisticsView = () => {
             data={getWeekdaysData({
               data: statistics.allWeekdays,
               labels: mobile ? mobileWeekdays : weekdays,
-              barThickness: mobile ? 25 : 50,
+              barThickness: mobile ? 25 : 35,
             })}
             options={options}
           />
@@ -113,7 +113,7 @@ const StatisticsView = () => {
           <Bar
             data={getCategoryData({
               data: statistics.categories,
-              barThickness: mobile ? 50 : 100,
+              barThickness: mobile ? 50 : 75,
             })}
             options={options}
           />
@@ -123,7 +123,7 @@ const StatisticsView = () => {
       <StyledChartContainer>
         <StyledChartHeader>Utworzone produkty oraz zakupy</StyledChartHeader>
         <StyledChartContent>
-          <Doughnut
+          <Pie
             data={getProductsAndShoppingData(statistics.productsAndShopping)}
             options={{
               plugins: {

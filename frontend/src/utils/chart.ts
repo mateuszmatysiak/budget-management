@@ -111,7 +111,7 @@ const getCategoryData = ({
 
 const getProductsAndShoppingData = (
   data: number[]
-): ChartProps<"doughnut">["data"] => ({
+): ChartProps<"pie">["data"] => ({
   labels: ["Produkty", "Zakupy"],
   datasets: [
     {
