@@ -14,7 +14,7 @@ export class AppController {
 
   @Get("last")
   async getLastItems(@Response() res) {
-    const last = await this.appService.getLastItems(res.locals.username);
+    const last = await this.appService.getLastFiveItems(res.locals.username);
     return res.status(HttpStatus.OK).json(last);
   }
 
