@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpStatus,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -43,8 +44,13 @@ export class ProductsController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.productsService.findOne(+id);
+  async findOne(@Param("id") id: string) {
+    const product = await this.productsService.findOne(+id);
+
+    if (!product)
+      throw new NotFoundException(`Nie znaleziono produktu o id: ${id}`);
+
+    return product;
   }
 
   @Patch(":id")

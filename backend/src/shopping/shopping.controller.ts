@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpStatus,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -35,8 +36,13 @@ export class ShoppingController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.shoppingService.findOne(+id);
+  async findOne(@Param("id") id: string) {
+    const shoppingItem = await this.shoppingService.findOne(+id);
+
+    if (!shoppingItem)
+      throw new NotFoundException(`Nie znaleziono listy zakupowej o id: ${id}`);
+
+    return shoppingItem;
   }
 
   @Patch(":id")
