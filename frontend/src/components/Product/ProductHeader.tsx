@@ -38,11 +38,13 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
         close();
         mutate("products");
         mutate("last");
-        navigate("/produkty");
         toast.success("Usunięto produkt");
       })
       .catch((err) => toast.error(err.message))
-      .then(() => setLoading(false));
+      .then(() => {
+        setLoading(false);
+        navigate("/produkty");
+      });
   };
 
   return (

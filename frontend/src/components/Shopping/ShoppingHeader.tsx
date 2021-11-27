@@ -38,11 +38,13 @@ const ShoppingHeader = ({ shoppingItem }: ShoppingHeaderProps) => {
         close();
         mutate("shopping");
         mutate("last");
-        navigate("/zakupy");
         toast.success("Usunięto liste zakupową");
       })
       .catch((err) => toast.error(err.message))
-      .then(() => setLoading(false));
+      .then(() => {
+        setLoading(false);
+        navigate("/zakupy");
+      });
   };
 
   return (

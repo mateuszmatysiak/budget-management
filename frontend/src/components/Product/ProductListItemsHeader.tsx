@@ -1,7 +1,8 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
-import { useNavigate } from "react-router";
+import React from "react";
+import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { useClient } from "../../hooks/useApi";
@@ -21,6 +22,7 @@ interface ProductListItemsHeaderProps {
 
 const ProductListItemsHeader = ({ onSearch }: ProductListItemsHeaderProps) => {
   const navigate = useNavigate();
+  const { key } = useLocation();
   const authClient = useClient();
   const { isOpen, open, close } = useDialogHandler();
 
@@ -30,11 +32,12 @@ const ProductListItemsHeader = ({ onSearch }: ProductListItemsHeaderProps) => {
         mutate("products");
         mutate("last");
         navigate(`/produkty/${id}`);
-        close();
         toast.success("Utworzono produkt");
       })
       .catch((err) => toast.error(err.message));
   };
+
+  React.useEffect(() => close(), [key]);
 
   return (
     <div

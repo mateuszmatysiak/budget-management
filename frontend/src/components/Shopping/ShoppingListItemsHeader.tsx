@@ -1,7 +1,9 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
+import React from "react";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { useClient } from "../../hooks/useApi";
@@ -24,6 +26,7 @@ const ShoppingListItemsHeader = ({
   onSearch,
 }: ShoppingListItemsHeaderProps) => {
   const navigate = useNavigate();
+  const { key } = useLocation();
   const authClient = useClient();
   const { isOpen, open, close } = useDialogHandler();
 
@@ -33,11 +36,12 @@ const ShoppingListItemsHeader = ({
         mutate("shopping");
         mutate("last");
         navigate(`/zakupy/${id}`);
-        close();
         toast.success("Utworzono liste zakupową");
       })
       .catch((err) => toast.error(err.message));
   };
+
+  React.useEffect(() => close(), [key]);
 
   return (
     <div
