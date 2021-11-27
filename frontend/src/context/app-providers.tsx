@@ -4,7 +4,7 @@ import React, { ReactNode } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { SWRConfig } from "swr";
-import { GlobalStyles, theme } from "../utils/theme";
+import { GlobalStyles, theme } from "../styles/theme";
 import Auth0ProviderWithHistory from "./auth0-provider-with-history";
 
 interface AppProviders {
