@@ -1,3 +1,5 @@
+import { padDate } from "./date";
+
 function findLastFiveItems(username: string): any {
   return {
     take: 5,
@@ -21,11 +23,13 @@ function findItemsByFromToDate({
   to?: string;
   username: string;
 }) {
+  const gt = padDate(from);
+  const lt = to ? padDate(to) : gt;
   return {
     where: {
       createdAt: {
-        gt: `${from}T00:00:00.001Z`,
-        lt: `${to ?? from}T23:59:59.591Z`,
+        gt: `${gt}T00:00:00.001Z`,
+        lt: `${lt}T23:59:59.591Z`,
       },
       User: {
         username,
