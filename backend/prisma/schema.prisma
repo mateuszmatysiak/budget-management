@@ -16,7 +16,6 @@ model Product {
   price        String
   category     String
   type         String
-  shopping     Shopping[]
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
   history      ProductHistory[]
@@ -47,13 +46,26 @@ model ProductType {
 }
 
 model Shopping {
-  id           Int       @id @default(autoincrement())
+  id           Int               @id @default(autoincrement())
   name         String
-  products     Product[]
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  User         User?     @relation(fields: [userUsername], references: [username])
+  products     ShoppingProduct[]
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  User         User?             @relation(fields: [userUsername], references: [username])
   userUsername String?
+}
+
+model ShoppingProduct {
+  id         Int       @id @default(autoincrement())
+  name       String
+  price      String
+  category   String
+  type       String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Shopping   Shopping? @relation(fields: [shoppingId], references: [id])
+  shoppingId Int?
+  productId  Int?
 }
 
 model User {

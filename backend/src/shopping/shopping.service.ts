@@ -1,4 +1,3 @@
-import { Shopping } from ".prisma/client";
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { CreateShoppingDto } from "./dto/create-shopping.dto";
@@ -8,15 +7,15 @@ import { UpdateShoppingDto } from "./dto/update-shopping.dto";
 export class ShoppingService {
   constructor(private prisma: PrismaService) {}
 
-  create(createdShopping: CreateShoppingDto) {
+  create(data: CreateShoppingDto) {
     return this.prisma.shopping.create({
       data: {
-        name: createdShopping.name,
+        name: data.name,
         products: {
-          connect: createdShopping.products,
+          create: data.products,
         },
         User: {
-          connect: createdShopping.User,
+          connect: data.User,
         },
       },
       include: {
@@ -52,15 +51,19 @@ export class ShoppingService {
     });
   }
 
-  update(id: number, data: UpdateShoppingDto) {
-    return this.prisma.shopping.update({
+  async update(id: number, data: UpdateShoppingDto) {
+    const existingProducts = data.products.filter((item) => !item.productId);
+    const newProducts = data.products.filter((item) => item.productId);
+
+    return await this.prisma.shopping.update({
       where: {
         id,
       },
       data: {
         name: data.name,
         products: {
-          set: data.products,
+          set: existingProducts,
+          create: newProducts,
         },
       },
       include: {

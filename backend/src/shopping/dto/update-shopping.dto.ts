@@ -1,6 +1,6 @@
-import { Product } from "@prisma/client";
+import { ShoppingProduct } from "@prisma/client";
 
 export class UpdateShoppingDto {
   name: string;
-  products: Product[];
+  products: ShoppingProduct[];
 }

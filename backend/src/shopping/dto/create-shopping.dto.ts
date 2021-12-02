@@ -1,8 +1,8 @@
-import { Product } from ".prisma/client";
+import { ShoppingProduct } from ".prisma/client";
 
 export class CreateShoppingDto {
   name: string;
-  products: Product[];
+  products: ShoppingProduct[];
   User?: {
     username: string;
   };
