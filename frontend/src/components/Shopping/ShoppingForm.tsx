@@ -15,7 +15,7 @@ import { FullPageError } from "../Error";
 import { Input } from "../Input";
 import { Loader } from "../Loader";
 import { ProductListCheckboxItem } from "../Product/ProductListCheckboxItem";
-import { formatShoppingProducts, isShoppingProduct } from "./utils";
+import { formatShoppingProducts } from "./utils";
 
 const DEFAULT_SHOPPING_ITEM: IShopping = {
   name: "",
@@ -38,20 +38,20 @@ const ShoppingForm = ({
 
   const [formData, setFormData] = React.useState<IShopping>(shoppingItem);
 
-  const productsByChecked = React.useMemo(() => {
+  const sortedProductsByIsChecked = React.useMemo(() => {
     return formatShoppingProducts(products, shoppingItem)
       ?.map((product) => ({
         ...product,
         isChecked: formData.products?.some((item) => {
-          if (isShoppingProduct(item)) {
-            return item.productId === product.id;
-          }
+          return item.id === product.id;
         }),
       }))
       .sort((product) => (product.isChecked ? -1 : 1));
   }, [products, formData.products]);
 
-  const { searchData, handleSearch } = useSearchHandler(productsByChecked);
+  const { searchData, handleSearch } = useSearchHandler(
+    sortedProductsByIsChecked
+  );
 
   React.useEffect(() => {
     if (shoppingItem) setFormData(shoppingItem);
