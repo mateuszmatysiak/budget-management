@@ -51,7 +51,7 @@ const ShoppingListItemsHeader = ({
         background-color: rgba(23, 23, 23, 0.85);
         box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px;
         backdrop-filter: saturate(180%) blur(20px);
-        z-index: 1;
+        z-index: 2;
       `}
     >
       <Input
@@ -109,7 +109,7 @@ const ShoppingListItemsHeader = ({
             </ButtonIcon>
           </DialogHeader>
           <DialogContent>
-            <ShoppingForm noPadding onSubmit={createShoppingItem} />
+            <ShoppingForm onSubmit={createShoppingItem} />
           </DialogContent>
         </Dialog>
       </div>

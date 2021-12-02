@@ -15,7 +15,7 @@ import {
   ProductType,
 } from "../../types/product";
 import { LoadingButton } from "../Button";
-import { FullPageError } from "../Error";
+import { ErrorMessage, FullPageError } from "../Error";
 import { Input, Select } from "../Input";
 
 const DEFAULT_PRODUCT: IProduct = {
@@ -28,10 +28,9 @@ const DEFAULT_PRODUCT: IProduct = {
 interface ProductFormProps {
   product?: IProduct;
   onSubmit: (data: IProduct) => Promise<any>;
-  noPadding?: boolean;
 }
 
-const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
+const ProductForm = ({ product, onSubmit }: ProductFormProps) => {
   const [data, setData] = React.useState(product ?? DEFAULT_PRODUCT);
   const [loading, setLoading] = React.useState(false);
 
@@ -52,7 +51,12 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
 
   const preId = product?.id ? "edit" : "new";
 
-  if (error) return <FullPageError error={error} />;
+  if (error)
+    return preId === "new" ? (
+      <ErrorMessage error={error} />
+    ) : (
+      <FullPageError error={error} />
+    );
 
   return (
     <form
@@ -62,14 +66,14 @@ const ProductForm = ({ product, noPadding, onSubmit }: ProductFormProps) => {
         display: grid;
         grid-template-columns: 1fr;
         gap: 24px;
-        padding: ${noPadding ? 0 : "32px 112px"};
+        padding: ${preId === "new" ? 0 : "32px 112px"};
 
         ${mq.laptop} {
-          padding: ${noPadding ? 0 : "32px"};
+          padding: ${preId === "new" ? 0 : "32px"};
         }
 
         ${mq.mobile} {
-          padding: ${noPadding ? 0 : "32px 12px"};
+          padding: ${preId === "new" ? 0 : "32px 12px"};
         }
       `}
     >

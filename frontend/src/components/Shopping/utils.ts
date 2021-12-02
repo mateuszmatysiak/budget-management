@@ -46,13 +46,28 @@ const formatShoppingProducts = (
   products: IProduct[] = [],
   shoppingItem: IShopping
 ) => {
-  return products.map(
-    (product) =>
-      shoppingItem.products.find((item) => {
-        if (isShoppingProduct(item)) return item.productId === product.id;
-      }) || product
+  const filteredProducts = products.filter(
+    (item) =>
+      !shoppingItem.products.some((p) => {
+        if (isShoppingProduct(p)) return p.productId === item.id;
+      })
   );
+
+  return [...filteredProducts, ...shoppingItem.products];
 };
+
+const sortShoppingProductsByIsChecked = (
+  shoppingProducts: (IShoppingProduct | IProduct)[],
+  formData: IShopping
+) =>
+  shoppingProducts
+    ?.map((product) => ({
+      ...product,
+      isChecked: formData.products?.some((item) => {
+        return item.id === product.id;
+      }),
+    }))
+    .sort((product) => (product.isChecked ? -1 : 1));
 
 const dateFormatDistance = (date: string) =>
   formatDistance(new Date(date), new Date(), {
@@ -66,4 +81,5 @@ export {
   formatShoppingProducts,
   isShoppingProduct,
   dateFormatDistance,
+  sortShoppingProductsByIsChecked,
 };

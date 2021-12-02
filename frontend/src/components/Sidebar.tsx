@@ -28,14 +28,13 @@ const StyledSidebar = styled.div<{ showMenu: boolean }>`
   background-color: ${({ theme }) => theme.backgroundColor.secondary};
   font-size: 14px;
   transition: left 0.25s;
-  z-index: 2;
+  z-index: 3;
 
   ${mq.laptop} {
     position: absolute;
     top: 0;
     left: ${({ showMenu }) => (showMenu ? 0 : "-100%")};
     min-height: 100vh;
-    z-index: 2;
   }
 
   ${mq.mobile} {

@@ -47,7 +47,7 @@ const ProductListItemsHeader = ({ onSearch }: ProductListItemsHeaderProps) => {
         background-color: rgba(23, 23, 23, 0.85);
         box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px;
         backdrop-filter: saturate(180%) blur(20px);
-        z-index: 1;
+        z-index: 2;
       `}
     >
       <Input
@@ -105,7 +105,7 @@ const ProductListItemsHeader = ({ onSearch }: ProductListItemsHeaderProps) => {
             </ButtonIcon>
           </DialogHeader>
           <DialogContent>
-            <ProductForm noPadding onSubmit={createProduct} />
+            <ProductForm onSubmit={createProduct} />
           </DialogContent>
         </Dialog>
       </div>

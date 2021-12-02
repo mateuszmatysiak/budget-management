@@ -1,7 +1,9 @@
+/** @jsxFrag React.Fragment */
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
+import React from "react";
 
 const StyledMain = styled.main`
   display: flex;
@@ -11,7 +13,6 @@ const StyledMain = styled.main`
   height: 100vh;
   width: 100%;
   padding: 16px;
-  text-align: center;
   background-color: ${({ theme }) => theme.backgroundColor.primary};
   background-image: radial-gradient(rgba(38, 38, 38, 0.75) 1px, transparent 0);
   background-size: 16px 16px;
@@ -22,6 +23,7 @@ const StyledTextPrimary = styled.p`
   margin-bottom: 16px;
   color: ${({ theme }) => theme.color.primary};
   letter-spacing: 1px;
+  text-align: center;
 `;
 
 const StyledTextSecondary = styled.p`
@@ -30,22 +32,31 @@ const StyledTextSecondary = styled.p`
   margin-bottom: 24px;
   color: ${({ theme }) => theme.color.primary};
   letter-spacing: 1px;
+  text-align: center;
 `;
 
 interface ErrorProps {
   error?: Error | string;
 }
 
-const FullPageError = ({ error }: ErrorProps) => {
+const ErrorMessage = ({ error }: ErrorProps) => {
   const errorMessage = typeof error === "string" ? error : error?.message;
   return (
-    <StyledMain role="alert">
+    <>
       <StyledTextPrimary>Wystąpił błąd</StyledTextPrimary>
       <StyledTextSecondary>
         {errorMessage ?? "Wystąpił błąd"}
       </StyledTextSecondary>
+    </>
+  );
+};
+
+const FullPageError = ({ error }: ErrorProps) => {
+  return (
+    <StyledMain role="alert">
+      <ErrorMessage error={error} />
     </StyledMain>
   );
 };
 
-export { FullPageError };
+export { FullPageError, ErrorMessage };

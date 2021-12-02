@@ -11,11 +11,14 @@ import { IProduct } from "../../types/product";
 import { IShopping } from "../../types/shopping";
 import { LoadingButton } from "../Button";
 import { EmptyState } from "../EmptyState";
-import { FullPageError } from "../Error";
+import { ErrorMessage, FullPageError } from "../Error";
 import { Input } from "../Input";
 import { Loader } from "../Loader";
 import { ProductListCheckboxItem } from "../Product/ProductListCheckboxItem";
-import { formatShoppingProducts } from "./utils";
+import {
+  formatShoppingProducts,
+  sortShoppingProductsByIsChecked,
+} from "./utils";
 
 const DEFAULT_SHOPPING_ITEM: IShopping = {
   name: "",
@@ -25,12 +28,10 @@ const DEFAULT_SHOPPING_ITEM: IShopping = {
 interface ShoppingFormProps {
   shoppingItem?: IShopping;
   onSubmit: (data: IShopping) => Promise<any>;
-  noPadding?: boolean;
 }
 
 const ShoppingForm = ({
   shoppingItem = DEFAULT_SHOPPING_ITEM,
-  noPadding,
   onSubmit,
 }: ShoppingFormProps) => {
   const { data: products, error } = useApi<IProduct[]>("products");
@@ -38,15 +39,10 @@ const ShoppingForm = ({
 
   const [formData, setFormData] = React.useState<IShopping>(shoppingItem);
 
+  const shoppingProducts = formatShoppingProducts(products, shoppingItem);
+
   const sortedProductsByIsChecked = React.useMemo(() => {
-    return formatShoppingProducts(products, shoppingItem)
-      ?.map((product) => ({
-        ...product,
-        isChecked: formData.products?.some((item) => {
-          return item.id === product.id;
-        }),
-      }))
-      .sort((product) => (product.isChecked ? -1 : 1));
+    return sortShoppingProductsByIsChecked(shoppingProducts, formData);
   }, [products, formData.products]);
 
   const { searchData, handleSearch } = useSearchHandler(
@@ -66,7 +62,12 @@ const ShoppingForm = ({
 
   const preId = shoppingItem?.id ? "edit" : "new";
 
-  if (error) return <FullPageError error={error} />;
+  if (error)
+    return preId === "new" ? (
+      <ErrorMessage error={error} />
+    ) : (
+      <FullPageError error={error} />
+    );
 
   return (
     <form
@@ -76,14 +77,14 @@ const ShoppingForm = ({
         display: grid;
         grid-template-columns: 1fr;
         gap: 24px;
-        padding: ${noPadding ? 0 : "32px 112px"};
+        padding: ${preId === "new" ? 0 : "32px 112px"};
 
         ${mq.laptop} {
-          padding: ${noPadding ? 0 : "32px"};
+          padding: ${preId === "new" ? 0 : "32px"};
         }
 
         ${mq.mobile} {
-          padding: ${noPadding ? 0 : "32px 12px"};
+          padding: ${preId === "new" ? 0 : "32px 12px"};
         }
       `}
     >
