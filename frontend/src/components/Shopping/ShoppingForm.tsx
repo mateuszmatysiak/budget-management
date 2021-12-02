@@ -15,6 +15,7 @@ import { FullPageError } from "../Error";
 import { Input } from "../Input";
 import { Loader } from "../Loader";
 import { ProductListCheckboxItem } from "../Product/ProductListCheckboxItem";
+import { formatShoppingProducts, isShoppingProduct } from "./utils";
 
 const DEFAULT_SHOPPING_ITEM: IShopping = {
   name: "",
@@ -28,21 +29,24 @@ interface ShoppingFormProps {
 }
 
 const ShoppingForm = ({
-  shoppingItem,
+  shoppingItem = DEFAULT_SHOPPING_ITEM,
   noPadding,
   onSubmit,
 }: ShoppingFormProps) => {
   const { data: products, error } = useApi<IProduct[]>("products");
   const [loading, setLoading] = React.useState(false);
 
-  const [formData, setFormData] = React.useState<IShopping>(
-    () => shoppingItem ?? DEFAULT_SHOPPING_ITEM
-  );
+  const [formData, setFormData] = React.useState<IShopping>(shoppingItem);
+
   const productsByChecked = React.useMemo(() => {
-    return products
+    return formatShoppingProducts(products, shoppingItem)
       ?.map((product) => ({
         ...product,
-        isChecked: formData.products?.some((item) => item.id === product.id),
+        isChecked: formData.products?.some((item) => {
+          if (isShoppingProduct(item)) {
+            return item.productId === product.id;
+          }
+        }),
       }))
       .sort((product) => (product.isChecked ? -1 : 1));
   }, [products, formData.products]);

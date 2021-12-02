@@ -4,13 +4,13 @@ export type ProductCategoryType = "ECONOMIC" | "ELECTRONIC" | "HOMEMADE";
 export type ProductType = "KG" | "PIECE";
 
 export interface IProductHistory {
-  id?: string;
+  id?: number;
   price: string;
   productId: string;
   createdAt?: string;
 }
 export interface IProduct {
-  id?: string;
+  id?: number;
   name: string;
   price: string;
   category: ProductCategoryType;

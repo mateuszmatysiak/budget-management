@@ -13,7 +13,7 @@ import { FullPageLoader } from "../Loader";
 import { Section } from "../Section";
 import { ShoppingForm } from "./ShoppingForm";
 import { ShoppingHeader } from "./ShoppingHeader";
-import { formatShoppingData } from "./utils";
+import { formatEditShoppingData } from "./utils";
 
 const Shopping = () => {
   const { shoppingId } = useParams();
@@ -28,7 +28,7 @@ const Shopping = () => {
   const editShopping = (data: IShopping) => {
     return authClient(`shopping/${shoppingId}`, {
       method: "PATCH",
-      body: formatShoppingData(data),
+      body: formatEditShoppingData(data),
     })
       .then((shoppingItem: IShopping) => {
         mutate("shopping");

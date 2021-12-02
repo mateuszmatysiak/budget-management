@@ -16,7 +16,7 @@ import { ButtonIcon } from "../ButtonIcon";
 import { Dialog, DialogContent, DialogHeader } from "../Dialog";
 import { Input } from "../Input";
 import { ShoppingForm } from "./ShoppingForm";
-import { formatShoppingData } from "./utils";
+import { formatAddShoppingData } from "./utils";
 
 interface ShoppingListItemsHeaderProps {
   onSearch: (value: string) => void;
@@ -31,7 +31,7 @@ const ShoppingListItemsHeader = ({
   const { isOpen, open, close } = useDialogHandler();
 
   const createShoppingItem = (data: IShopping) => {
-    return authClient("shopping", { body: formatShoppingData(data) })
+    return authClient("shopping", { body: formatAddShoppingData(data) })
       .then(({ id }: IShopping) => {
         mutate("shopping");
         mutate("last");
