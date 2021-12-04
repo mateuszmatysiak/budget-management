@@ -26,8 +26,8 @@ function padDate(date: string | Date) {
   const dt = typeof date === "string" ? new Date(date) : date;
   const [year, month, day] = formatDate(dt).split("-");
 
-  const d = day.length === 1 ? `0${day}` : day;
-  const m = month.length === 1 ? `0${month}` : month;
+  const d = day?.length === 1 ? `0${day}` : day;
+  const m = month?.length === 1 ? `0${month}` : month;
 
   return `${year}-${m}-${d}`;
 }
@@ -39,7 +39,7 @@ function getCurrentDate() {
 }
 
 function formatDate(date: Date) {
-  return date.toLocaleDateString().split(".").reverse().join("-");
+  return date.toLocaleDateString("pl-PL").split(".").reverse().join("-");
 }
 
 export {
