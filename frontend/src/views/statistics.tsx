@@ -1,8 +1,11 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
-import React from "react";
 import { Bar, Pie } from "react-chartjs-2";
 import { FullPageError } from "../components/Error";
 import { FullPageLoader } from "../components/Loader";
+import { ReportDialog } from "../components/Statistics/ReportDialog";
 import { useApi } from "../hooks/useApi";
 import { useMedia } from "../hooks/useMedia";
 import * as mq from "../styles/media-query";
@@ -18,13 +21,10 @@ import {
 } from "../utils/chart";
 
 const StyledWrapper = styled.div`
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 36px 96px;
-  color: ${({ theme }) => theme.color.primary};
 
   ${mq.laptop} {
     padding: 82px 36px 36px 36px;
@@ -34,6 +34,25 @@ const StyledWrapper = styled.div`
     display: flex;
     flex-direction: column;
     padding: 64px 12px 12px 12px;
+  }
+`;
+
+const StyledRaportWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+`;
+
+const StyledChartsWrapper = styled.div`
+  flex: 1 1;
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  color: ${({ theme }) => theme.color.primary};
+
+  ${mq.mobile} {
+    grid-template-columns: auto;
   }
 `;
 
@@ -78,64 +97,70 @@ const StatisticsView = () => {
 
   return (
     <StyledWrapper>
-      <StyledChartContainer>
-        <StyledChartHeader>
-          Wydatki dzisiejsze, tygodniowe, miesięczne
-        </StyledChartHeader>
-        <StyledChartContent>
-          <Bar
-            data={getTodayWeekMonthData({
-              data: statistics.todayWeekMonth,
-              barThickness: mobile ? 50 : 75,
-            })}
-            options={options}
-          />
-        </StyledChartContent>
-      </StyledChartContainer>
+      <StyledRaportWrapper>
+        <ReportDialog />
+      </StyledRaportWrapper>
 
-      <StyledChartContainer>
-        <StyledChartHeader>Wydatki w każdym dniu tygodnia</StyledChartHeader>
-        <StyledChartContent>
-          <Bar
-            data={getWeekdaysData({
-              data: statistics.allWeekdays,
-              labels: mobile ? mobileWeekdays : weekdays,
-              barThickness: mobile ? 25 : 35,
-            })}
-            options={options}
-          />
-        </StyledChartContent>
-      </StyledChartContainer>
+      <StyledChartsWrapper>
+        <StyledChartContainer>
+          <StyledChartHeader>
+            Wydatki dzisiejsze, tygodniowe, miesięczne
+          </StyledChartHeader>
+          <StyledChartContent>
+            <Bar
+              data={getTodayWeekMonthData({
+                data: statistics.todayWeekMonth,
+                barThickness: mobile ? 50 : 75,
+              })}
+              options={options}
+            />
+          </StyledChartContent>
+        </StyledChartContainer>
 
-      <StyledChartContainer>
-        <StyledChartHeader>Wydatki dla kategorii</StyledChartHeader>
-        <StyledChartContent>
-          <Bar
-            data={getCategoryData({
-              data: statistics.categories,
-              barThickness: mobile ? 50 : 75,
-            })}
-            options={options}
-          />
-        </StyledChartContent>
-      </StyledChartContainer>
+        <StyledChartContainer>
+          <StyledChartHeader>Wydatki w każdym dniu tygodnia</StyledChartHeader>
+          <StyledChartContent>
+            <Bar
+              data={getWeekdaysData({
+                data: statistics.allWeekdays,
+                labels: mobile ? mobileWeekdays : weekdays,
+                barThickness: mobile ? 25 : 35,
+              })}
+              options={options}
+            />
+          </StyledChartContent>
+        </StyledChartContainer>
 
-      <StyledChartContainer>
-        <StyledChartHeader>Utworzone produkty oraz zakupy</StyledChartHeader>
-        <StyledChartContent>
-          <Pie
-            data={getProductsAndShoppingData(statistics.productsAndShopping)}
-            options={{
-              plugins: {
-                title: {
-                  display: false,
+        <StyledChartContainer>
+          <StyledChartHeader>Wydatki dla kategorii</StyledChartHeader>
+          <StyledChartContent>
+            <Bar
+              data={getCategoryData({
+                data: statistics.categories,
+                barThickness: mobile ? 50 : 75,
+              })}
+              options={options}
+            />
+          </StyledChartContent>
+        </StyledChartContainer>
+
+        <StyledChartContainer>
+          <StyledChartHeader>Utworzone produkty oraz zakupy</StyledChartHeader>
+          <StyledChartContent>
+            <Pie
+              data={getProductsAndShoppingData(statistics.productsAndShopping)}
+              options={{
+                plugins: {
+                  title: {
+                    display: false,
+                  },
                 },
-              },
-              maintainAspectRatio: false,
-            }}
-          />
-        </StyledChartContent>
-      </StyledChartContainer>
+                maintainAspectRatio: false,
+              }}
+            />
+          </StyledChartContent>
+        </StyledChartContainer>
+      </StyledChartsWrapper>
     </StyledWrapper>
   );
 };
