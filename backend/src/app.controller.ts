@@ -24,6 +24,12 @@ export class AppController {
     return res.status(HttpStatus.OK).json(statistics);
   }
 
+  @Get("report")
+  async getReport(@Response() res) {
+    const report = await this.appService.getReport(res.locals.username);
+    return res.status(HttpStatus.OK).json(report);
+  }
+
   @Get("cache")
   async getUserFromMemoryCache() {
     return await this.appService.getUserFromMemoryCache;

@@ -13,4 +13,13 @@ function sumProductsByCategory(arr: CreateShoppingDto[], category: string) {
     .reduce((sum, product) => sum + parseFloat(product.price), 0);
 }
 
-export { sumProductsOfShopping, sumProductsByCategory };
+function formatReportData(shopping: CreateShoppingDto[]) {
+  return shopping.flatMap((shoppingItem) =>
+    shoppingItem.products.map((item) => ({
+      ...item,
+      shoppingName: shoppingItem.name,
+    }))
+  );
+}
+
+export { sumProductsOfShopping, sumProductsByCategory, formatReportData };

@@ -23,7 +23,7 @@ export class AppMiddleware implements NestMiddleware {
     let cachedUser: any = await this.appService.getUserFromMemoryCache();
 
     if (!cachedUser) {
-      cachedUser = await fetch("https://dev-vux0ddpk.eu.auth0.com/userinfo", {
+      cachedUser = await fetch(`https://${process.env.AUTH0_DOMAIN}/userinfo`, {
         headers: {
           Authorization: req.headers.authorization,
         },

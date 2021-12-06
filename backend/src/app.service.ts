@@ -6,8 +6,12 @@ import {
   getCurrentDate,
   getCurrentMonth,
 } from "./utils/date";
+import {
+  formatReportData,
+  sumProductsByCategory,
+  sumProductsOfShopping,
+} from "./utils/helpers";
 import { findItemsByFromToDate, findLastFiveItems } from "./utils/selectors";
-import { sumProductsByCategory, sumProductsOfShopping } from "./utils/sum";
 
 @Injectable()
 export class AppService {
@@ -92,6 +96,15 @@ export class AppService {
     });
 
     return [products.length, shopping.length];
+  }
+
+  async getReport(username: string) {
+    const shopping = await this.prisma.shopping.findMany({
+      where: { User: { username } },
+      include: { products: true },
+    });
+
+    return formatReportData(shopping);
   }
 
   async getStatistics(username: string) {
