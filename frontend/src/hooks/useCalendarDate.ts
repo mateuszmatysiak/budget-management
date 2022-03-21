@@ -40,7 +40,7 @@ export const useCalendarDate = (navId: number) => {
     const daysArr: IDay[] = [];
 
     for (let i = 1; i <= paddingDays + daysInMonth; i++) {
-      const dayString = `${i - paddingDays}.${month + 1}.${year}`;
+      const dayString = `${i - paddingDays}.${`${month}`.length === 1 ? "0" : ""}${month + 1}.${year}`;
 
       if (i > paddingDays) {
         daysArr.push({
