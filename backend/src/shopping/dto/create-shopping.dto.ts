@@ -1,4 +1,4 @@
-import { ShoppingProduct } from ".prisma/client";
+import { ShoppingProduct } from "@prisma/client";
 
 export class CreateShoppingDto {
   name: string;
